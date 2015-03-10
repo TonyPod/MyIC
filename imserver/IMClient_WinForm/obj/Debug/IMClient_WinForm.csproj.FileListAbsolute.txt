@@ -1,0 +1,15 @@
+C:\Users\Tony\Desktop\imserver\IMClient_WinForm\bin\Debug\IMClient_WinForm.exe.config
+C:\Users\Tony\Desktop\imserver\IMClient_WinForm\bin\Debug\IMClient_WinForm.exe
+C:\Users\Tony\Desktop\imserver\IMClient_WinForm\bin\Debug\IMClient_WinForm.pdb
+C:\Users\Tony\Desktop\imserver\IMClient_WinForm\bin\Debug\Model.dll
+C:\Users\Tony\Desktop\imserver\IMClient_WinForm\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Tony\Desktop\imserver\IMClient_WinForm\bin\Debug\Model.pdb
+C:\Users\Tony\Desktop\imserver\IMClient_WinForm\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Tony\Desktop\imserver\IMClient_WinForm\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Tony\Desktop\imserver\IMClient_WinForm\obj\Debug\IMClient_WinForm.csprojResolveAssemblyReference.cache
+C:\Users\Tony\Desktop\imserver\IMClient_WinForm\obj\Debug\IMClient_WinForm.Properties.Resources.resources
+C:\Users\Tony\Desktop\imserver\IMClient_WinForm\obj\Debug\IMClient_WinForm.csproj.GenerateResource.Cache
+C:\Users\Tony\Desktop\imserver\IMClient_WinForm\obj\Debug\IMClient_WinForm.exe
+C:\Users\Tony\Desktop\imserver\IMClient_WinForm\obj\Debug\IMClient_WinForm.pdb
+C:\Users\Tony\Desktop\imserver\IMClient_WinForm\obj\Debug\IMClient_WinForm.IMForm.resources
+C:\Users\Tony\Desktop\imserver\IMClient_WinForm\obj\Debug\IMClient_WinForm.LoginForm.resources

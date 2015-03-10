@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMServer", "imserver\IMServer.csproj", "{6E197905-9ED0-4B10-A63F-C494DD9079CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{54BBF93E-B361-4914-ADF9-4FDED9BCB743}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMClient_WinForm", "IMClient_WinForm\IMClient_WinForm.csproj", "{795E62CE-C2E4-4D37-83E0-5F924B9D52E9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6E197905-9ED0-4B10-A63F-C494DD9079CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E197905-9ED0-4B10-A63F-C494DD9079CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E197905-9ED0-4B10-A63F-C494DD9079CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E197905-9ED0-4B10-A63F-C494DD9079CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54BBF93E-B361-4914-ADF9-4FDED9BCB743}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54BBF93E-B361-4914-ADF9-4FDED9BCB743}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54BBF93E-B361-4914-ADF9-4FDED9BCB743}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54BBF93E-B361-4914-ADF9-4FDED9BCB743}.Release|Any CPU.Build.0 = Release|Any CPU
+		{795E62CE-C2E4-4D37-83E0-5F924B9D52E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{795E62CE-C2E4-4D37-83E0-5F924B9D52E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{795E62CE-C2E4-4D37-83E0-5F924B9D52E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{795E62CE-C2E4-4D37-83E0-5F924B9D52E9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
