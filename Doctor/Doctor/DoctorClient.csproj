@@ -49,14 +49,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassEx.cs" />
+    <Compile Include="ContactsEventArgs.cs" />
     <Compile Include="GeneralHelper.cs" />
     <Compile Include="HttpHelper.cs" />
     <Compile Include="LoginStatus.cs" />
+    <Compile Include="MyIMClient.cs" />
+    <Compile Include="OfflineMsgEventArgs.cs" />
     <Compile Include="UI\Forms\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Forms\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\AddContactForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\AddContactForm.Designer.cs">
+      <DependentUpon>AddContactForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\InstantMessageForm.cs">
       <SubType>Form</SubType>
@@ -122,6 +131,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="UI\Forms\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\AddContactForm.resx">
+      <DependentUpon>AddContactForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\InstantMessageForm.resx">
       <DependentUpon>InstantMessageForm.cs</DependentUpon>

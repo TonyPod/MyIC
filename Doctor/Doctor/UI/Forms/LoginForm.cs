@@ -1,6 +1,7 @@
 ﻿using Doctor.Model;
 using Doctor.Properties;
 using Doctor.Util;
+using DoctorClient;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -84,8 +85,9 @@ namespace Doctor.Forms
                     DoctorModel doctorModel = JsonConvert.DeserializeObject<DoctorModel>(content);
 
                     //保存到全局数据
-                    LoginStatus.UserInfo = doctorModel;
+                    LoginStatus.SaveLoginStatus(doctorModel);
                     this.Close();
+
                     break;
                 case "password error":
                     MessageBox.Show("密码不正确");

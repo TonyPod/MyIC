@@ -152,3 +152,4 @@ C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\DoctorClient.csproj.
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\Doctor.exe
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\Doctor.pdb
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\Doctor.UI.Forms.PicLargeForm.resources
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\Doctor.UI.Forms.AddContactForm.resources

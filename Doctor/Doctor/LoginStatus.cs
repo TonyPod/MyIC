@@ -1,4 +1,5 @@
 ﻿using Doctor.Model;
+using DoctorClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -119,6 +120,17 @@ namespace Doctor
                     return result.ElementAt(0).AreaID;
                 }
             }
+        }
+
+        internal static void SaveLoginStatus(DoctorModel doctorModel)
+        {
+            UserInfo = doctorModel;
+
+            //加载联系人
+            MyIMClient.LoadContacts();
+
+            //加载本地消息
+            MyIMClient.LoadMsgs();
         }
     }
 }

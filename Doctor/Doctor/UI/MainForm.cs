@@ -2,11 +2,13 @@
 using Doctor.Panels;
 using Doctor.Properties;
 using Doctor.Util;
+using DoctorClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -103,6 +105,7 @@ namespace Doctor
 
             picBox_check.Image = Resources.查看自检_灰_;
             picBox_message.Image = Resources.联系人_灰_;
+            //LoginStatus.UserInfo = new Model.DoctorModel() { Name = "tony" };
             picBox_selfInfo.Image = Resources.个人信息_灰_;
             picBox_logout.Image = Resources.注销_灰_; 
 
@@ -225,7 +228,7 @@ namespace Doctor
         }
 
         /// <summary>
-        /// 窗体关闭触发事件
+        /// 窗体将要关闭时触发事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -235,6 +238,23 @@ namespace Doctor
             {
                 e.Cancel = true;
             } 
+        }
+
+        /// <summary>
+        /// 窗体关闭时触发事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //缓存联系人
+            MyIMClient.SaveContacts();
+            
+            //缓存消息
+            MyIMClient.SaveMsgs();
+
+            //停止即时通讯服务
+            MyIMClient.Close();
         }
     }
 }

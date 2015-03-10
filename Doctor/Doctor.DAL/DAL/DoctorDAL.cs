@@ -125,13 +125,14 @@ namespace Doctor.DAL
         }
 
         /// <summary>
-        /// 检查医生用户名是否存在
+        /// 检查用户名是否存在：要在User和Doctor两张表中查询
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         public static bool CheckDoctorExist(string name)
         {
-            DataTable table = SqlHelper.ExecuteDataTable("select * from Doctor where name = @name",
+            DataTable table = SqlHelper.ExecuteDataTable(@"select name from Doctor where name = @name union
+                                                        select name from [User] where name = @name",
                 new SqlParameter("@name", name));
             if (table.Rows.Count <= 0)
             {
@@ -139,7 +140,7 @@ namespace Doctor.DAL
             }
             else if (table.Rows.Count > 1)
             {
-                throw new Exception("数据库异常：存在相同用户名的医生");
+                throw new Exception("数据库异常：存在相同用户名的用户");
             }
             else
             {

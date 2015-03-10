@@ -40,6 +40,47 @@ namespace Doctor.Forms
             cb_province.DisplayMember = "province";
 
             lbl_usernameExist.Visible = false;
+
+            //获取焦点时删除“用户名已存在”
+            tb_username.GotFocus += tb_username_GotFocus;
+
+            tb_username.LostFocus += tb_username_LostFocus;
+        }
+
+        void tb_username_LostFocus(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(tb_username.Text.Trim()))
+            {
+                return;
+            }
+
+            //检查用户名是否存在
+            string result = null;
+            bgWorker_username.DoWork += (a, b) =>
+            {
+                JObject jObj = new JObject();
+                jObj.Add("username", tb_username.Text.Trim());
+                result = HttpHelper.ConnectionForResult("CheckUsernameExistHandler.ashx", jObj.ToString());
+            };
+            bgWorker_username.RunWorkerCompleted += (a, b) =>
+            {
+                JObject jObj = JObject.Parse(result);
+                string state = (string)jObj["state"];
+                if ("exist".Equals(state))
+                {
+                    lbl_usernameExist.Visible = true;
+                }
+                else
+                {
+                    lbl_usernameExist.Visible = false;
+                }
+            };
+            bgWorker_username.RunWorkerAsync();
+        }
+
+        void tb_username_GotFocus(object sender, EventArgs e)
+        {
+            lbl_usernameExist.Visible = false;
         }
 
         /// <summary>
@@ -319,42 +360,5 @@ namespace Doctor.Forms
                 bgWorker.RunWorkerAsync();
             }
         }
-
-        /// <summary>
-        /// 离开用户名控件时检查用户名是否存在
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void tb_username_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(tb_username.Text.Trim()))
-	        {
-		        return;
-        	}
-
-            //检查用户名是否存在
-            string result = null;
-            bgWorker_username.DoWork += (a, b) =>
-            {
-                JObject jObj = new JObject();
-                jObj.Add("username", tb_username.Text.Trim());
-                result = HttpHelper.ConnectionForResult("CheckUsernameExistHandler.ashx", jObj.ToString());
-            };
-            bgWorker_username.RunWorkerCompleted += (a, b) =>
-            {
-                JObject jObj = JObject.Parse(result);
-                string state = (string)jObj["state"];
-                if ("exist".Equals(state))
-                {
-                    lbl_usernameExist.Visible = true;
-                }
-                else
-                {
-                    lbl_usernameExist.Visible = false;
-                }
-            };
-            bgWorker_username.RunWorkerAsync();
-        }
-     
     }
 }

@@ -72,7 +72,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "InstantMessageForm";
-            this.Text = "对方账户名称填此";
+            this.Load += new System.EventHandler(this.InstantMessageForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

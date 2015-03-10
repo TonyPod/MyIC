@@ -99,7 +99,6 @@
             this.tb_username.Name = "tb_username";
             this.tb_username.Size = new System.Drawing.Size(132, 21);
             this.tb_username.TabIndex = 1;
-            this.tb_username.Leave += new System.EventHandler(this.tb_username_Leave);
             // 
             // tb_password
             // 

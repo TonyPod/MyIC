@@ -43,5 +43,23 @@ namespace Doctor.Properties {
                 this["LastUserName"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.191.4")]
+        public string ServerIP {
+            get {
+                return ((string)(this["ServerIP"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("6789")]
+        public string ServerPort {
+            get {
+                return ((string)(this["ServerPort"]));
+            }
+        }
     }
 }

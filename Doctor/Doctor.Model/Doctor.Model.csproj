@@ -51,6 +51,7 @@
     <Compile Include="Model\Hat_provinceModel.cs" />
     <Compile Include="Model\HospitalModel.cs" />
     <Compile Include="Model\IPRecord.cs" />
+    <Compile Include="Model\Msg.cs" />
     <Compile Include="Model\PhotoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\RecordModel.cs" />
