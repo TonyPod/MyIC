@@ -32,7 +32,8 @@ namespace imserver
         public void handle(string rcvStr)
         {
             var rcvJson = JObject.Parse(rcvStr);
-            string instruction = (string)rcvJson["type"];
+            //使用ToString()或强制转换区别：如果rcvJson["type"]的类型是int，强制转换成string就会出错
+            string instruction = rcvJson["type"].ToString();
 
             if ("1".Equals(instruction))
             {

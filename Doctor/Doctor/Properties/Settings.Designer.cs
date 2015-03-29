@@ -46,7 +46,7 @@ namespace Doctor.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192.168.191.4")]
+        [global::System.Configuration.DefaultSettingValueAttribute("121.42.136.178")]
         public string ServerIP {
             get {
                 return ((string)(this["ServerIP"]));
@@ -59,6 +59,30 @@ namespace Doctor.Properties {
         public string ServerPort {
             get {
                 return ((string)(this["ServerPort"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CtrlSendMsg {
+            get {
+                return ((bool)(this["CtrlSendMsg"]));
+            }
+            set {
+                this["CtrlSendMsg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("zh-CN")]
+        public string Language {
+            get {
+                return ((string)(this["Language"]));
+            }
+            set {
+                this["Language"] = value;
             }
         }
     }

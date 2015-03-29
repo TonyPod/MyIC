@@ -13,12 +13,6 @@ namespace Doctor.Forms
         public AboutBox()
         {
             InitializeComponent();
-            this.Text = String.Format("关于 {0}", AssemblyTitle);
-            this.labelProductName.Text = AssemblyProduct;
-            this.labelVersion.Text = String.Format("版本 {0}", AssemblyVersion);
-            this.labelCopyright.Text = AssemblyCopyright;
-            this.labelCompanyName.Text = AssemblyCompany;
-            this.textBoxDescription.Text = AssemblyDescription;
         }
 
         #region 程序集特性访问器
@@ -100,5 +94,17 @@ namespace Doctor.Forms
             }
         }
         #endregion
+
+        private void AboutBox_Load(object sender, EventArgs e)
+        {
+            this.Text = String.Format("{0} {1}", ResourceCulture.GetString("about"), AssemblyTitle);
+            this.labelProductName.Text = AssemblyProduct;
+            this.labelVersion.Text = String.Format("{0} {1}", ResourceCulture.GetString("version"), AssemblyVersion);
+            this.labelCopyright.Text = AssemblyCopyright;
+            this.labelCompanyName.Text = AssemblyCompany;
+            this.textBoxDescription.Text = AssemblyDescription;
+
+            this.okButton.Text = ResourceCulture.GetString("btn_ok");
+        }
     }
 }

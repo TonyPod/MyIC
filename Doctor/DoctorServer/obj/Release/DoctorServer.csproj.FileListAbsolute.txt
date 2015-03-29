@@ -1,0 +1,12 @@
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\bin\DoctorServer.dll.config
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\bin\DoctorServer.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\bin\DoctorServer.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\bin\Doctor.DAL.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\bin\Doctor.Model.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\bin\Doctor.Util.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\bin\Doctor.DAL.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\bin\Doctor.Model.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\bin\Doctor.Util.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\obj\Release\DoctorServer.csprojResolveAssemblyReference.cache
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\obj\Release\DoctorServer.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\obj\Release\DoctorServer.pdb

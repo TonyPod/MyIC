@@ -10,17 +10,8 @@ namespace MyServer
 {
     class Program
     {
-        //文件序号
-        private static int indexFile;   
-        //文件保存路径
-        private const string PATHNAME = "C:\\Received\\";
-        //文件后缀名
-        private const string POSTFIX = ".bmp";
-
-        private const string IPADDR = "121.42.136.178";
-        //private const string IPADDR = "192.168.1.208";
-        //private const string IPADDR = "127.0.0.1";
-        private const int PORT = 10000;
+        private static string IPADDR = Settings1.Default["IPADDR"].ToString();
+        private static int PORT = int.Parse(Settings1.Default["PORT"].ToString());
 
         public static void Main()
         {
@@ -31,12 +22,12 @@ namespace MyServer
             IPAddress ip = IPAddress.Parse(IPADDR); //把ip地址字符串转换为IPAddress              
             IPEndPoint ipep = new IPEndPoint(ip, PORT);//用指定的端口和ip  
 
-            if (!Directory.Exists(PATHNAME))
-            {
-                Directory.CreateDirectory(PATHNAME);
-            }
+            //if (!Directory.Exists(PATHNAME))
+            //{
+            //    Directory.CreateDirectory(PATHNAME);
+            //}
 
-            indexFile = 1;
+            //indexFile = 1;
 
             try
             {
@@ -46,13 +37,14 @@ namespace MyServer
                 {
                     //当有可用的客户端连接尝试时执行，并返回一个新的socket                  
                     TcpClient tcpClient = listener.AcceptTcpClient();
-                    Console.WriteLine("New Client Connected: {0}", indexFile);
 
                     //分配文件名称
-                    string fileName = PATHNAME + indexFile++ + POSTFIX;
+                    //string fileName = PATHNAME + indexFile++ + POSTFIX;
+
+                    Console.WriteLine("{0} New Client Connected", DateTime.Now.ToString());
 
                     //创建消息服务线程对象，并把连接socket赋于ClientThread                     
-                    ClientThread newclient = new ClientThread(tcpClient, fileName);    
+                    ClientThread newclient = new ClientThread(tcpClient);    
                  
                     //把ClientThread 类的ClientService方法委托给线程 
                     Thread newthread = new Thread(new ThreadStart(newclient.StartReceive));   

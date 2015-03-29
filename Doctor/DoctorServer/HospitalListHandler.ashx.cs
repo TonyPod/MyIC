@@ -23,12 +23,16 @@ namespace DoctorServer
             StreamReader reader = new StreamReader(context.Request.InputStream, Encoding.UTF8);
             string requestStr = reader.ReadToEnd();
 
-            int id = int.Parse(requestStr);
-            HospitalModel[] hospitals = HospitalDAL.GetAllByAreaId(id);
+            int id;
+            List<HospitalModel> hospitals = new List<HospitalModel>();
+            if(int.TryParse(requestStr, out id))
+            {
+                hospitals.AddRange(HospitalDAL.GetAllByAreaId(id));
+            }
 
             //组装医院集合的JSON数组（只有医院id和医院名称）
             JObject jObj = new JObject();
-            jObj.Add("count", hospitals.Length);
+            jObj.Add("count", hospitals.Count);
             JArray jArr = new JArray();
             foreach (var hospital in hospitals)
             {

@@ -16,6 +16,20 @@ namespace DoctorServer
     /// </summary>
     public class SelfCheckHandler : IHttpHandler
     {
+        private class ExRecordModel : RecordModel
+        {
+            public ExRecordModel(RecordModel record)
+            {
+                this.Answers = record.Answers;
+                this.Citycode = record.Citycode;
+                this.Description = record.Description;
+                this.Record_id = record.Record_id;
+                this.Time = record.Time;
+                this.User_id = record.User_id;
+                this.Username = UserDAL.GetById(record.User_id).Name;
+            }
+            public string Username { get; set; }
+        }
 
         public void ProcessRequest(HttpContext context)
         {
@@ -53,6 +67,24 @@ namespace DoctorServer
                 //}
 
                 RecordModel[] recordModels = RecordDAL.GetAll();
+                JObject jObj = new JObject();
+                jObj.Add("count", recordModels.Length);
+                JArray jArr = new JArray();
+                foreach (RecordModel recordModel in recordModels)
+                {
+                    jArr.Add(JsonConvert.SerializeObject(new ExRecordModel(recordModel)));
+                }
+                jObj.Add("content", jArr);
+
+                byte[] bytes = Encoding.UTF8.GetBytes(jObj.ToString());
+                context.Response.OutputStream.Write(bytes, 0, bytes.Length);
+            }
+            else if (requestStr.StartsWith("Patient: "))
+            {
+                //返回指定用户的自检信息
+                string username = requestStr.Substring("Patient: ".Length);
+                RecordModel[] recordModels = RecordDAL.GetByUsername(username);
+                
                 JObject jObj = new JObject();
                 jObj.Add("count", recordModels.Length);
                 JArray jArr = new JArray();

@@ -85,6 +85,46 @@ namespace Doctor.DAL
             string result = fatherProvince.Province + "_" + fatherCity.City + "_" + area.Area;
             return result;
         }
+
+        /// <summary>
+        /// 通过名字来找到主键(e.g: 青羊区->2262)
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static Hat_areaModel GetByName(string name)
+        {
+            //注意保存在数据库的是“郫 县”而不是“郫县”
+            if (name.Length == 2)
+            {
+                name = name.Insert(1, " ");
+            }
+            DataTable table = SqlHelper.ExecuteDataTable(@"select * from hat_area where area = @name",
+                new SqlParameter("@name", name));
+            if (table.Rows.Count <= 0)
+            {
+                return null;
+            }
+            else
+            {
+                DataRow row = table.Rows[0];
+                return ToModel(row);
+            }
+        }
+
+        public static Hat_areaModel GetByAreaId(string areaId)
+        {
+            DataTable table = SqlHelper.ExecuteDataTable(@"select * from hat_area where areaID = @areaId",
+                new SqlParameter("@areaId", areaId));
+            if (table.Rows.Count <= 0)
+            {
+                return null;
+            }
+            else
+            {
+                DataRow row = table.Rows[0];
+                return ToModel(row);
+            }
+        }
     }
 
 }

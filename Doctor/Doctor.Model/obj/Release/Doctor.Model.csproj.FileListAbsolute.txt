@@ -1,0 +1,5 @@
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Model\bin\Release\Doctor.Model.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Model\bin\Release\Doctor.Model.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Model\bin\Release\Newtonsoft.Json.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Model\obj\Release\Doctor.Model.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Model\obj\Release\Doctor.Model.pdb

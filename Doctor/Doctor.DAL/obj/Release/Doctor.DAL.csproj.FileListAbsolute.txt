@@ -1,0 +1,9 @@
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.DAL\bin\Release\Doctor.DAL.dll.config
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.DAL\bin\Release\Doctor.DAL.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.DAL\bin\Release\Doctor.DAL.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.DAL\bin\Release\Doctor.Model.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.DAL\bin\Release\Newtonsoft.Json.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.DAL\bin\Release\Doctor.Model.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.DAL\obj\Release\Doctor.DAL.csprojResolveAssemblyReference.cache
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.DAL\obj\Release\Doctor.DAL.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.DAL\obj\Release\Doctor.DAL.pdb

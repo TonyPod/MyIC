@@ -51,7 +51,6 @@
             this.menuItem_unfamilar = new System.Windows.Forms.ToolStripMenuItem();
             this.lvContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuItem_addContact = new System.Windows.Forms.ToolStripMenuItem();
-            this.添加组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.itemContextMenuStrip.SuspendLayout();
             this.lvContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -83,7 +82,7 @@
             this.lv_contacts.Location = new System.Drawing.Point(0, 0);
             this.lv_contacts.MultiSelect = false;
             this.lv_contacts.Name = "lv_contacts";
-            this.lv_contacts.Size = new System.Drawing.Size(437, 297);
+            this.lv_contacts.Size = new System.Drawing.Size(803, 460);
             this.lv_contacts.TabIndex = 0;
             this.lv_contacts.UseCompatibleStateImageBehavior = false;
             this.lv_contacts.View = System.Windows.Forms.View.Details;
@@ -144,10 +143,9 @@
             // lvContextMenuStrip
             // 
             this.lvContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuItem_addContact,
-            this.添加组ToolStripMenuItem});
+            this.menuItem_addContact});
             this.lvContextMenuStrip.Name = "lvContextMenuStrip";
-            this.lvContextMenuStrip.Size = new System.Drawing.Size(137, 48);
+            this.lvContextMenuStrip.Size = new System.Drawing.Size(137, 26);
             this.lvContextMenuStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.lvContextMenuStrip_ItemClicked);
             // 
             // menuItem_addContact
@@ -156,20 +154,17 @@
             this.menuItem_addContact.Size = new System.Drawing.Size(136, 22);
             this.menuItem_addContact.Text = "添加联系人";
             // 
-            // 添加组ToolStripMenuItem
-            // 
-            this.添加组ToolStripMenuItem.Name = "添加组ToolStripMenuItem";
-            this.添加组ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-            this.添加组ToolStripMenuItem.Text = "添加组";
-            // 
             // ContactsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(437, 297);
+            this.ClientSize = new System.Drawing.Size(803, 460);
             this.Controls.Add(this.lv_contacts);
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ContactsForm";
             this.Text = "联系人";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ContactsForm_FormClosed);
             this.Load += new System.EventHandler(this.ContactsForm_Load);
             this.itemContextMenuStrip.ResumeLayout(false);
             this.lvContextMenuStrip.ResumeLayout(false);
@@ -189,7 +184,6 @@
         private System.Windows.Forms.ToolStripMenuItem menuItem_unfamilar;
         private System.Windows.Forms.ContextMenuStrip lvContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem menuItem_addContact;
-        private System.Windows.Forms.ToolStripMenuItem 添加组ToolStripMenuItem;
 
 
     }

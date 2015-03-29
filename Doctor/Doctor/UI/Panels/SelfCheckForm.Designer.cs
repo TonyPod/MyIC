@@ -29,10 +29,9 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Record_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Area = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.User_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Username = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -44,10 +43,9 @@
             this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Record_id,
             this.Area,
             this.Time,
-            this.User_id,
+            this.Username,
             this.Description});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
@@ -55,18 +53,9 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(475, 297);
+            this.dataGridView1.Size = new System.Drawing.Size(803, 460);
             this.dataGridView1.TabIndex = 4;
             this.dataGridView1.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDoubleClick);
-            // 
-            // Record_id
-            // 
-            this.Record_id.DataPropertyName = "Record_id";
-            this.Record_id.HeaderText = "编号";
-            this.Record_id.Name = "Record_id";
-            this.Record_id.ReadOnly = true;
-            this.Record_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Record_id.Width = 60;
             // 
             // Area
             // 
@@ -82,15 +71,16 @@
             this.Time.HeaderText = "提交日期";
             this.Time.Name = "Time";
             this.Time.ReadOnly = true;
-            this.Time.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Time.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Time.Width = 150;
             // 
-            // User_id
+            // Username
             // 
-            this.User_id.DataPropertyName = "User_id";
-            this.User_id.HeaderText = "用户编号";
-            this.User_id.Name = "User_id";
-            this.User_id.ReadOnly = true;
-            this.User_id.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Username.DataPropertyName = "Username";
+            this.Username.HeaderText = "用户名";
+            this.Username.Name = "Username";
+            this.Username.ReadOnly = true;
+            this.Username.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // Description
             // 
@@ -98,15 +88,17 @@
             this.Description.HeaderText = "描述";
             this.Description.Name = "Description";
             this.Description.ReadOnly = true;
-            this.Description.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Description.Width = 150;
+            this.Description.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Description.Width = 450;
             // 
             // SelfCheckForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(475, 297);
+            this.ClientSize = new System.Drawing.Size(803, 460);
             this.Controls.Add(this.dataGridView1);
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "SelfCheckForm";
             this.Text = "自检查看";
             this.Load += new System.EventHandler(this.SelfCheckForm_Load);
@@ -118,10 +110,9 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Record_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn Area;
         private System.Windows.Forms.DataGridViewTextBoxColumn Time;
-        private System.Windows.Forms.DataGridViewTextBoxColumn User_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Username;
         private System.Windows.Forms.DataGridViewTextBoxColumn Description;
 
 

@@ -31,3 +31,9 @@ D:\MyServer\MyServer\obj\Debug\MyServer.csprojResolveAssemblyReference.cache
 C:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\bin\Debug\MyServer.exe.config
 C:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\obj\Debug\MyServer.exe
 C:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\obj\Debug\MyServer.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\bin\Debug\MyServer.exe
+C:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\bin\Debug\MyServer.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\obj\Debug\MyServer.csprojResolveAssemblyReference.cache

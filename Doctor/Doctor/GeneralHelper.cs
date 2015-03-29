@@ -8,16 +8,18 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Doctor
 {
     class GeneralHelper
     {
         public static string DownloadPicFolder = Environment.CurrentDirectory + "\\DownloadFiles\\";
-        public static string SelfCheckCache = Environment.CurrentDirectory + "\\SelfCheck.json";
-        public static string ProvincesFileName = Environment.CurrentDirectory + "\\Provinces.json";
-        public static string CitiesFileName = Environment.CurrentDirectory + "\\Cities.json";
-        public static string AreasFileName = Environment.CurrentDirectory + "\\Areas.json";
+        public static string SelfCheckCache = Environment.CurrentDirectory + "\\Data\\SelfCheck.json";
+
+        public static string ProvincesFileName = Environment.CurrentDirectory + "\\Data\\Provinces.json";
+        public static string CitiesFileName = Environment.CurrentDirectory + "\\Data\\Cities.json";
+        public static string AreasFileName = Environment.CurrentDirectory + "\\Data\\Areas.json";
 
         private static Hat_provinceModel[] provinces;
         private static Hat_cityModel[] cities;
@@ -96,16 +98,51 @@ namespace Doctor
             return fatherProvince.ElementAt(0).Province + fatherCity.ElementAt(0).City + areas[id - 1].Area;
         }
 
+        /// <summary>
+        /// 根据510100的编码返回地址字符串
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static string GetAreaName(string code)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("中国");
+            var province = from prov in provinces
+                           where prov.ProvinceID.Substring(0, 2).Equals(code.Substring(0, 2))
+                           select prov;
+            if (province.Count() == 1)
+            {
+                builder.Append(((Hat_provinceModel)province.ElementAt(0)).Province);
+            }
+
+            var city = from c in cities
+                       where c.CityID.Substring(0, 4).Equals(code.Substring(0, 4))
+                       select c;
+            if (city.Count() == 1)
+            {
+                builder.Append(((Hat_cityModel)city.ElementAt(0)).City);
+            }
+
+            var area = from a in areas
+                       where a.AreaID.Substring(0, 6).Equals(code.Substring(0, 6))
+                       select a;
+            if (area.Count() == 1)
+            {
+                builder.Append(((Hat_areaModel)area.ElementAt(0)).Area);
+            }
+
+            return builder.ToString();
+        }
 
         /// <summary>
         /// 加载省市区数据
         /// </summary>
-        public static void LoadLocationData()
+        public static bool LoadLocationData()
         {
             //如果已经加载则不加载
             if (null != provinces)
             {
-                return;
+                return true;
             }
 
             //优先从文件中读取
@@ -147,6 +184,12 @@ namespace Doctor
                         areas[i] = JsonConvert.DeserializeObject<Hat_areaModel>(jArr[i].ToString());
                     }
                 }
+
+                return true;
+            }
+            else
+            {
+                return false;
             }
             //else
             //{

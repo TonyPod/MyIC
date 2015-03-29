@@ -1,9 +1,12 @@
-﻿生成启动时间为 2015/1/28 15:35:01。
-     1>项目“D:\MyServer\ToolKit\ConsoleApplication1.vcxproj”在节点 3 上(Build 个目标)。
+﻿生成启动时间为 2015/3/19 11:43:34。
+     1>项目“C:\Users\Tony\Documents\GitHub\MyIC\MyServer\ToolKit\ConsoleApplication1.vcxproj”在节点 2 上(Build 个目标)。
      1>Link:
-         ConsoleApplication1.vcxproj -> D:\MyServer\Debug\ToolKit.dll
-     1>已完成生成项目“D:\MyServer\ToolKit\ConsoleApplication1.vcxproj”(Build 个目标)的操作。
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Tony\Documents\GitHub\MyIC\MyServer\Debug\ToolKit.dll" /INCREMENTAL /NOLOGO opencv_core249d.lib opencv_imgproc249d.lib opencv_highgui249d.lib opencv_objdetect249d.lib opencv_ml249d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Tony\Documents\GitHub\MyIC\MyServer\Debug\ToolKit.pdb" /SUBSYSTEM:WINDOWS,"5.01" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Tony\Documents\GitHub\MyIC\MyServer\Debug\ToolKit.lib" /MACHINE:X86 /DLL Debug\illnessAnalysis.obj
+         Debug\SingleTooth.obj
+            正在创建库 C:\Users\Tony\Documents\GitHub\MyIC\MyServer\Debug\ToolKit.lib 和对象 C:\Users\Tony\Documents\GitHub\MyIC\MyServer\Debug\ToolKit.exp
+         ConsoleApplication1.vcxproj -> C:\Users\Tony\Documents\GitHub\MyIC\MyServer\Debug\ToolKit.dll
+     1>已完成生成项目“C:\Users\Tony\Documents\GitHub\MyIC\MyServer\ToolKit\ConsoleApplication1.vcxproj”(Build 个目标)的操作。
 
 生成成功。
 
-已用时间 00:00:00.66
+已用时间 00:00:04.81

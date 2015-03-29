@@ -40,7 +40,11 @@ namespace Doctor
             //异步刷新IP
             Task.Factory.StartNew(() =>
             {
-                UserIP = HttpHelper.GetIPRecord();
+                IPRecord ipRecord = HttpHelper.GetIPRecord();
+                if (ipRecord != null)
+                {
+                    UserIP = ipRecord;
+                }
             });
         }
 
@@ -101,7 +105,10 @@ namespace Doctor
                     var result = from province in GeneralHelper.Provinces
                                  where province.Province.Contains(UserIP.Province)
                                  select province;
-                    return result.ElementAt(0).ProvinceID;
+                    if (result.Count() > 0)
+                    {
+                        return result.ElementAt(0).ProvinceID;
+                    }
                 }
                 else if (string.IsNullOrEmpty(UserIP.District))
                 {
@@ -109,7 +116,10 @@ namespace Doctor
                     var result = from city in GeneralHelper.Cities
                                  where city.City.Contains(UserIP.City)
                                  select city;
-                    return result.ElementAt(0).CityID;
+                    if (result.Count() > 0)
+                    {
+                        return result.ElementAt(0).CityID;
+                    }
                 }
                 else
                 {
@@ -117,20 +127,18 @@ namespace Doctor
                     var result = from area in GeneralHelper.Areas
                                  where area.Area.Contains(UserIP.District)
                                  select area;
-                    return result.ElementAt(0).AreaID;
+                    if (result.Count() > 0)
+                    {
+                        return result.ElementAt(0).AreaID;
+                    }
                 }
+                return "000000";
             }
         }
 
         internal static void SaveLoginStatus(DoctorModel doctorModel)
         {
             UserInfo = doctorModel;
-
-            //加载联系人
-            MyIMClient.LoadContacts();
-
-            //加载本地消息
-            MyIMClient.LoadMsgs();
         }
     }
 }

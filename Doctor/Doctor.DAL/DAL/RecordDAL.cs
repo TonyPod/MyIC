@@ -10,22 +10,25 @@ namespace Doctor.DAL
 {
     public class RecordDAL
     {
-        public static bool Insert(RecordModel record)
+        public static long Insert(RecordModel record)
         {
             try
             {
-                SqlHelper.ExecuteNonQuery(@"insert into Record(user_id, description, time, hat_area_id)
-				values(@user_id, @description, @time, @hat_area_id)",
+                //这里的result居然是decimal类型
+                decimal result = (decimal)SqlHelper.ExecuteScalar(@"insert into Record(user_id, description, answers, time, citycode)
+				values(@user_id, @description, @answers, @time, @citycode) select @@identity",
                     new SqlParameter("@user_id", record.User_id),
-                    new SqlParameter("@description", record.Description),
+                    new SqlParameter("@description", SqlHelper.ToDBValue(record.Description)),
+                    new SqlParameter("@answers", SqlHelper.ToDBValue(record.Answers)),
                     new SqlParameter("@time", record.Time),
-                    new SqlParameter("@hat_area_id", record.Hat_area_id)
+                    new SqlParameter("@citycode", SqlHelper.ToDBValue(record.Citycode))
                 );
-                return true;
+                
+                return decimal.ToInt64(result);
             }
-            catch (SqlException)
+            catch (Exception)
             {
-                return false;
+                return -1;
             }
         }
 
@@ -50,13 +53,15 @@ namespace Doctor.DAL
                 SqlHelper.ExecuteNonQuery(@"update Record set
 				user_id = @user_id,
 				description = @description,
+                answers = @answers
 				time = @time,
-				hat_area_id = @hat_area_id
+                citycode = @citycode
 				where record_id = @record_id",
                     new SqlParameter("@user_id", record.User_id),
-                    new SqlParameter("@description", record.Description),
+                    new SqlParameter("@description", SqlHelper.ToDBValue(record.Description)),
+                    new SqlParameter("@answers", SqlHelper.ToDBValue(record.Answers)),
                     new SqlParameter("@time", record.Time),
-                    new SqlParameter("@hat_area_id", record.Hat_area_id),
+                    new SqlParameter("@citycode", SqlHelper.ToDBValue(record.Citycode)),
                     new SqlParameter("@record_id", record.Record_id)
                 );
                 return true;
@@ -102,9 +107,10 @@ namespace Doctor.DAL
             RecordModel record = new RecordModel();
             record.Record_id = (System.Int64)row["record_id"];
             record.User_id = (System.Int64)row["user_id"];
-            record.Description = (System.String)row["description"];
+            record.Description = (System.String)SqlHelper.FromDBValue(row["description"]);
+            record.Answers = (System.String)SqlHelper.FromDBValue(row["answers"]);
             record.Time = (System.DateTime)row["time"];
-            record.Hat_area_id = (System.Int32)row["hat_area_id"];
+            record.Citycode = (System.String)SqlHelper.FromDBValue(row["citycode"]);
             return record;
         }
 
@@ -182,6 +188,21 @@ namespace Doctor.DAL
 //                return null;
 //            }
 //        }
+
+        public static RecordModel[] GetByUsername(string username)
+        {
+            UserModel user = UserDAL.GetByUsername(username);
+            long user_id = user.User_id;
+
+            DataTable table = SqlHelper.ExecuteDataTable(@"select * from Record where user_id = @user_id",
+                new SqlParameter("@user_id", user_id));
+            RecordModel[] records = new RecordModel[table.Rows.Count];
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                records[i] = ToModel(table.Rows[i]);
+            }
+            return records;
+        }
     }
 
 }

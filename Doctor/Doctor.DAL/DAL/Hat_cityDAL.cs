@@ -67,5 +67,20 @@ namespace Doctor.DAL
 
             return Hat_provinceDAL.GetById(id);
         }
+
+        public static Hat_cityModel GetByName(string name)
+        {
+            DataTable table = SqlHelper.ExecuteDataTable(@"select * from hat_city where city = @name",
+                new SqlParameter("@name", name));
+            if (table.Rows.Count <= 0)
+            {
+                return null;
+            }
+            else
+            {
+                DataRow row = table.Rows[0];
+                return ToModel(row);
+            }
+        }
     }
 }

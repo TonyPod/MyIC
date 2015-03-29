@@ -26,7 +26,7 @@ namespace DoctorServer
             {
 
                 string username = (string)jObj["username"];
-                if(DoctorDAL.CheckDoctorExist(username))
+                if(DoctorDAL.CheckUsernameExist(username))
                 {
                     jObjResponse.Add("state", "exist");
                 }

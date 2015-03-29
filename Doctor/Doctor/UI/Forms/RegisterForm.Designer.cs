@@ -51,15 +51,13 @@
             this.cb_city = new System.Windows.Forms.ComboBox();
             this.cb_hospital = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lbl_usernameExist = new System.Windows.Forms.Label();
             this.lbl_photo = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lbl_license = new System.Windows.Forms.Label();
             this.cb_area = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.tb_realname = new System.Windows.Forms.TextBox();
-            this.bgWorker = new System.ComponentModel.BackgroundWorker();
-            this.bgWorker_username = new System.ComponentModel.BackgroundWorker();
-            this.lbl_usernameExist = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picBox_license)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBox_photo)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -99,6 +97,7 @@
             this.tb_username.Name = "tb_username";
             this.tb_username.Size = new System.Drawing.Size(132, 21);
             this.tb_username.TabIndex = 1;
+            this.tb_username.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             // 
             // tb_password
             // 
@@ -107,6 +106,7 @@
             this.tb_password.PasswordChar = '*';
             this.tb_password.Size = new System.Drawing.Size(132, 21);
             this.tb_password.TabIndex = 2;
+            this.tb_password.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             // 
             // tb_passwordAgain
             // 
@@ -115,6 +115,7 @@
             this.tb_passwordAgain.PasswordChar = '*';
             this.tb_passwordAgain.Size = new System.Drawing.Size(131, 21);
             this.tb_passwordAgain.TabIndex = 3;
+            this.tb_passwordAgain.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             // 
             // label4
             // 
@@ -169,6 +170,7 @@
             this.tb_license.Name = "tb_license";
             this.tb_license.Size = new System.Drawing.Size(132, 21);
             this.tb_license.TabIndex = 10;
+            this.tb_license.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             // 
             // label7
             // 
@@ -277,6 +279,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "基本信息";
             // 
+            // lbl_usernameExist
+            // 
+            this.lbl_usernameExist.AutoSize = true;
+            this.lbl_usernameExist.ForeColor = System.Drawing.Color.Red;
+            this.lbl_usernameExist.Location = new System.Drawing.Point(107, 9);
+            this.lbl_usernameExist.Name = "lbl_usernameExist";
+            this.lbl_usernameExist.Size = new System.Drawing.Size(77, 12);
+            this.lbl_usernameExist.TabIndex = 12;
+            this.lbl_usernameExist.Text = "用户名已存在";
+            // 
             // lbl_photo
             // 
             this.lbl_photo.AutoSize = true;
@@ -344,16 +356,7 @@
             this.tb_realname.Name = "tb_realname";
             this.tb_realname.Size = new System.Drawing.Size(132, 21);
             this.tb_realname.TabIndex = 5;
-            // 
-            // lbl_usernameExist
-            // 
-            this.lbl_usernameExist.AutoSize = true;
-            this.lbl_usernameExist.ForeColor = System.Drawing.Color.Red;
-            this.lbl_usernameExist.Location = new System.Drawing.Point(107, 9);
-            this.lbl_usernameExist.Name = "lbl_usernameExist";
-            this.lbl_usernameExist.Size = new System.Drawing.Size(77, 12);
-            this.lbl_usernameExist.TabIndex = 12;
-            this.lbl_usernameExist.Text = "用户名已存在";
+            this.tb_realname.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
             // 
             // RegisterForm
             // 
@@ -412,8 +415,6 @@
         private System.Windows.Forms.ComboBox cb_area;
         private System.Windows.Forms.Label lbl_photo;
         private System.Windows.Forms.Label lbl_license;
-        private System.ComponentModel.BackgroundWorker bgWorker;
-        private System.ComponentModel.BackgroundWorker bgWorker_username;
         private System.Windows.Forms.Label lbl_usernameExist;
     }
 }

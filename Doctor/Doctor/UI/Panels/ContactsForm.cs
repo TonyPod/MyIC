@@ -23,12 +23,12 @@ namespace Doctor.Panels
     /// </summary>
     public partial class ContactsForm : Form
     {
+        //子聊天窗体
+        private Dictionary<string, InstantMessageForm> imForms = new Dictionary<string,InstantMessageForm>();
 
         public ContactsForm()
         {
             InitializeComponent();
-            LoginForm form = new LoginForm();
-            form.TopLevel = false;
         }
 
         /// <summary>
@@ -38,10 +38,37 @@ namespace Doctor.Panels
         /// <param name="e"></param>
         private void lv_contacts_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            if (!MyIMClient.Connected)
+            {
+                if (MessageBox.Show("即时通讯服务器未连接，是否需要重连", "未连接", MessageBoxButtons.YesNo) 
+                    == System.Windows.Forms.DialogResult.Yes)
+                {
+                    ConnectIMServerAsync();
+                }
+                return;
+            }
+
             ListView listView = sender as ListView;
             System.Windows.Forms.ListView.SelectedListViewItemCollection collection = listView.SelectedItems;
             string patientName = collection[0].Text;
-            new InstantMessageForm(patientName).Show();
+
+            if (imForms.ContainsKey(patientName))
+            {
+                imForms[patientName].BringToFront();
+            }
+            else
+            {
+                var imForm = new InstantMessageForm(patientName);
+                imForms.Add(patientName, imForm);
+                imForm.Show();
+                imForm.FormClosed += imForm_FormClosed;
+            }
+        }
+
+        void imForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            InstantMessageForm imForm = sender as InstantMessageForm;
+            imForms.Remove(imForm.PatientName);
         }
 
         /// <summary>
@@ -51,30 +78,57 @@ namespace Doctor.Panels
         /// <param name="e"></param>
         private void ContactsForm_Load(object sender, EventArgs e)
         {
+            //加载缓存
+            MyIMClient.LoadCache();
+            
             //初始化通讯录列表显示
             InitListView();
 
-            //即时通讯登录
-            if (MyIMClient.Connect())
-            {
-                MyIMClient.Login(LoginStatus.UserInfo.Name);
+            //连接成功则注册事件
+            MyIMClient.ConnectionEstablished += MyIMClient_ConnectionEstablished;
+            
+            //关闭连接注销事件
+            MyIMClient.ConnectionClosed += MyIMClient_ConnectionClosed;
 
-                //离线推送信息查询
-                MyIMClient.OfflineMsgChanged += (a) => { RefreshListView(a); };
+            //尝试连接
+            ConnectIMServerAsync();
+        }
 
-                //联系人改变时
-                MyIMClient.ContactsChanged += (a) => { RefreshContacts(a); };
-            }
-            else
-            {
-                MessageBox.Show("登录失败");
-            }
+        void MyIMClient_ConnectionClosed()
+        {
+            //离线推送信息查询
+            MyIMClient.OfflineMsgChanged -= MyIMClient_OfflineMsgChanged;
 
-            //添加修改分组的点击事件
-            foreach (ToolStripMenuItem item in dropDown_groups.DropDownItems)
-            {
-                item.Click += item_Click;
-            }
+            //联系人改变时
+            MyIMClient.ContactsChanged -= MyIMClient_ContactsChanged;
+        }
+
+        void MyIMClient_ConnectionEstablished()
+        {
+            //离线推送信息查询
+            MyIMClient.OfflineMsgChanged += MyIMClient_OfflineMsgChanged;
+
+            //联系人改变时
+            MyIMClient.ContactsChanged += MyIMClient_ContactsChanged;
+        }
+
+        /// <summary>
+        /// 尝试连接即时通讯服务器
+        /// </summary>
+        /// <param name="maxAttempts"></param>
+        private void ConnectIMServerAsync()
+        {
+            MyIMClient.ConnectAsync();
+        }
+
+        void MyIMClient_ContactsChanged(ContactsEventArgs e)
+        {
+            RefreshContacts(e);
+        }
+
+        void MyIMClient_OfflineMsgChanged(OfflineMsgEventArgs e)
+        {
+            RefreshListView(e);
         }
 
         private void RefreshContacts(ContactsEventArgs e)
@@ -137,6 +191,12 @@ namespace Doctor.Panels
 	        {
                 SetNumMsgs(g.Key, g.NumMsgs);
 	        }
+
+            //添加修改分组的点击事件
+            foreach (ToolStripMenuItem item in dropDown_groups.DropDownItems)
+            {
+                item.Click += item_Click;
+            }
         }
 
         /// <summary>
@@ -210,7 +270,16 @@ namespace Doctor.Panels
 
                         foreach (var g in groupedCount)
                         {
-                            SetNumMsgs(g.Key, g.NumMsgs, MyIMClient.UNFAMILIAR);
+                            //如果打开有聊天窗口，就不更新离线信息条数了
+                            //直接把信息放进已读信息
+                            if (!imForms.ContainsKey(g.Key))
+                            {
+                                SetNumMsgs(g.Key, g.NumMsgs, MyIMClient.UNFAMILIAR);
+                            }
+                            else
+                            {
+                                MyIMClient.RemoveAllMsgs(g.Key);
+                            }
                         }
                         break;
                     case OfflineMsgEventArgs.EnumReason.MsgRead:
@@ -337,6 +406,25 @@ namespace Doctor.Panels
                     break;
                 default:
                     break;
+            }
+        }
+
+        /// <summary>
+        /// 关闭窗体触发
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ContactsForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            MyIMClient.ContactsChanged -= MyIMClient_ContactsChanged;
+
+            MyIMClient.OfflineMsgChanged -= MyIMClient_OfflineMsgChanged;
+
+            //关闭所有的子聊天窗体
+            var forms = imForms.Values.ToArray();
+            for (int i = forms.Length - 1; i >= 0; i--)
+            {
+                forms[i].Close();
             }
         }
     }

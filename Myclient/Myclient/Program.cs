@@ -12,16 +12,14 @@ namespace MyClient
 {
     class Program
     {
+        private static string serverIP = Settings1.Default["serverIP"].ToString();
+        private static int serverPort = int.Parse(Settings1.Default["serverPort"].ToString());
         static void Main(string[] args)
         {
             try
             {
-                int port = 10000;
-                //string host = "127.0.0.1";
-                string host = "121.42.136.178";
-                //string host = "192.168.1.208";
-                IPAddress ipa = IPAddress.Parse(host);
-                IPEndPoint ipe = new IPEndPoint(ipa, port);//把ip和端口转化为ipendpoint实例
+                IPAddress ipa = IPAddress.Parse(serverIP);
+                IPEndPoint ipe = new IPEndPoint(ipa, serverPort);//把ip和端口转化为ipendpoint实例
                 //Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);//创建一个socket
                 //Console.WriteLine("connecting.....");
                 //s.Connect(ipe);//连接到服务器
@@ -34,10 +32,13 @@ namespace MyClient
                     //Console.WriteLine("SendMessage");
                     //s.Send(bs, bs.Length, 0);//发送测试信息
 
-                for (int i = 0; i < 1; i++)
-                {
-                    SendImg.SendImage("2.bmp", ipe);
-                }
+                //不同的TCP连接
+                //for (int i = 0; i < 10; i++)
+                //{
+                //    SendImg.SendImage("2.bmp", ipe);
+                //}
+                //SendImg.SendImage("2.bmp", ipe, 10);
+                SendImg.SendImage("2.bmp", ipe);
 
                 Console.WriteLine("GOOD");
                 Thread.Sleep(1000);

@@ -35,7 +35,6 @@ namespace DoctorServer
             {
                 jObjResponse.Add("content", JsonConvert.SerializeObject(doctorModel));
             }
-            
 
             byte[] buf = Encoding.UTF8.GetBytes(jObjResponse.ToString());
             context.Response.OutputStream.Write(buf, 0, buf.Length);

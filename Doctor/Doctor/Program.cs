@@ -18,7 +18,24 @@ namespace Doctor
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.ApplicationExit += Application_ApplicationExit;
+
+            //加载省市县数据
+            if (!GeneralHelper.LoadLocationData())
+            {
+                MessageBox.Show("文件丢失，请重新安装程序");
+                Application.Exit();
+            }
+            else
+            {
+                Application.Run(new MainForm());
+            }
+        }
+
+        static void Application_ApplicationExit(object sender, EventArgs e)
+        {
+            //停止即时通讯服务
+            MyIMClient.Close();
         }
     }
 }

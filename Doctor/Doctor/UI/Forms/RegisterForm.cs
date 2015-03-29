@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -17,13 +18,93 @@ namespace Doctor.Forms
 {
     public partial class RegisterForm : Form
     {
+        private int LoadForTheFirstTime;
         private string photoPath;
         private string licensePath;
 
+        //异步检查用户名存在的线程
+        private Thread thread;
+        private CancellationTokenSource tokenSource;
+
+        //跨线程修改用户名存在Label的委托
+        private delegate void SafeChangeLabelVisibilityHandler(bool visibility);
+        private delegate void SafeCloseHandler();
+        private delegate void FlushHospitals(List<Hospital> hospitals);
+        private delegate void SafeChangeCursorHandler(Cursor cursor);
+
+        public const int MAX_HEIGHT = 768;
+        public const int MAX_WIDTH = 1024;
 
         public RegisterForm()
         {
             InitializeComponent();
+        }
+
+        private void ChangeUsernameExistVisibility(bool visibility)
+        {
+            if (lbl_usernameExist.InvokeRequired)
+            {
+                SafeChangeLabelVisibilityHandler client = new SafeChangeLabelVisibilityHandler(ChangeUsernameExistVisibility);
+                this.Invoke(client, visibility);
+            }
+            else
+            {
+                lbl_usernameExist.Visible = visibility;
+            }
+        }
+
+        private void SafeClose()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new SafeCloseHandler(SafeClose));
+            }
+            else
+            {
+                this.Close();
+            }
+        }
+
+        private void SafeChangeCursor(Cursor cursor)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new SafeChangeCursorHandler(SafeChangeCursor), cursor);
+            }
+            else
+            {
+                this.Cursor = cursor;
+            }
+        }
+        private void BindHospitals(List<Hospital> hospitals)
+        {
+            if (cb_hospital.InvokeRequired)
+            {
+                FlushHospitals client = new FlushHospitals(BindHospitals);
+                this.Invoke(client, hospitals);
+            }
+            else
+            {
+                if (hospitals.Count == 0)
+                {
+                    cb_hospital.Text = "";
+                }
+                else
+                {
+                    cb_hospital.DataSource = hospitals;
+                    cb_hospital.DisplayMember = "name";
+                    cb_hospital.ValueMember = "hospital_id";
+                }
+                if (LoadForTheFirstTime == 0)
+                {
+                    cb_hospital.Focus();
+                }
+                else
+                {
+                    tb_username.Focus();
+                    LoadForTheFirstTime--;
+                }
+            }
         }
 
         /// <summary>     
@@ -33,6 +114,12 @@ namespace Doctor.Forms
         /// <param name="e"></param>
         private void RegisterForm_Load(object sender, EventArgs e)
         {
+            //窗口标题栏
+            this.Text = ResourceCulture.GetString("RegisterForm_text");
+
+            //窗口启动时BindHospitals居然要执行4次（每次都会让cb_hospital获取焦点）
+            LoadForTheFirstTime = 4;
+
             //加载省市区数据
             GeneralHelper.LoadLocationData();
 
@@ -54,28 +141,21 @@ namespace Doctor.Forms
                 return;
             }
 
-            //检查用户名是否存在
-            string result = null;
-            bgWorker_username.DoWork += (a, b) =>
+            thread = new Thread(() =>
             {
+                string result = null;
                 JObject jObj = new JObject();
                 jObj.Add("username", tb_username.Text.Trim());
                 result = HttpHelper.ConnectionForResult("CheckUsernameExistHandler.ashx", jObj.ToString());
-            };
-            bgWorker_username.RunWorkerCompleted += (a, b) =>
-            {
-                JObject jObj = JObject.Parse(result);
-                string state = (string)jObj["state"];
-                if ("exist".Equals(state))
+                if (result != null)
                 {
-                    lbl_usernameExist.Visible = true;
+                    JObject jObjResponse = JObject.Parse(result);
+                    string state = (string)jObjResponse["state"];
+                    ChangeUsernameExistVisibility("exist".Equals(state));
                 }
-                else
-                {
-                    lbl_usernameExist.Visible = false;
-                }
-            };
-            bgWorker_username.RunWorkerAsync();
+            });
+            thread.Start();
+            //检查用户名是否存在
         }
 
         void tb_username_GotFocus(object sender, EventArgs e)
@@ -83,12 +163,7 @@ namespace Doctor.Forms
             lbl_usernameExist.Visible = false;
         }
 
-        /// <summary>
-        /// 点击事件：确认
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btn_confirm_Click(object sender, EventArgs e)
+        private void Confirm()
         {
             //基本信息
             //1.用户名
@@ -123,14 +198,14 @@ namespace Doctor.Forms
                 tb_passwordAgain.Focus();
                 return;
             }
-            
+
             //4.个人照片
             if (string.IsNullOrEmpty(photoPath))
             {
                 MessageBox.Show("请选择个人照片");
                 return;
             }
-            
+
             //认证信息
             //1.真实姓名
             string realName = tb_realname.Text.Trim();
@@ -178,6 +253,12 @@ namespace Doctor.Forms
                 tb_license.Focus();
                 return;
             }
+            if (licenseNo.Length != 24 && licenseNo.Length != 27)
+            {
+                MessageBox.Show("执业医师证编码不合法，请重新输入");
+                tb_license.Focus();
+                return;
+            }
 
             if (string.IsNullOrEmpty(licensePath))
             {
@@ -194,42 +275,102 @@ namespace Doctor.Forms
 
             //非必须信息（认证信息）
             this.Cursor = Cursors.WaitCursor;
-            string newPhotoPath = HttpHelper.UploadFile("PicUploadHandler.ashx", photoPath);
-            string newLicensePath = HttpHelper.UploadFile("PicUploadHandler.ashx", licensePath);
-            model.PhotoPath = newPhotoPath;
-            model.LicensePath = newLicensePath;
 
-            model.RealName = tb_realname.Text.Trim();
-            model.LicenseNo = tb_license.Text;
+            tokenSource = new CancellationTokenSource();
 
             Hospital selectedHospital = cb_hospital.SelectedItem as Hospital;
-            model.Hospital_id = selectedHospital.Hospital_id;
 
-            string result = HttpHelper.ConnectionForResult("RegisterHandler.ashx", JsonConvert.SerializeObject(model));
-            this.Cursor = Cursors.Default;
+            //先发送图片，保证图片上传完成再发送注册表单
+            Task<string> task1 = Task.Factory.StartNew(() => 
+            {
+                //图片直到发送成功为止，或点击取消取消发送
+                string result = null;
+                while (true)
+                {
+                    if (tokenSource.IsCancellationRequested)
+                    {
+                        return null;
+                    }
 
-            if (string.IsNullOrEmpty(result))
+                    result = HttpHelper.UploadFile("PicUploadHandler.ashx", photoPath);
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        return result;
+                    }
+                }
+            }, tokenSource.Token);
+
+            Task<string> task2 = Task.Factory.StartNew(() => 
             {
-                MessageBox.Show("网络异常");
-            }
-            else
+                string result = null;
+                while (true)
+                {
+                    if (tokenSource.IsCancellationRequested)
+                    {
+                        return null;
+                    }
+
+                    result = HttpHelper.UploadFile("PicUploadHandler.ashx", licensePath);
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        return result;
+                    }
+                }
+            }, tokenSource.Token);
+
+            Task.Factory.StartNew(() =>
             {
-                JObject jObj = JObject.Parse(result);
-                string state = (string)jObj["state"];
-                if ("username exist".Equals(state))
+                Task.WaitAll(task1, task2);
+                if (task1 == null || task2 == null || tokenSource.IsCancellationRequested)
                 {
-                    MessageBox.Show("用户名已存在");
+                    return;
                 }
-                else if ("failed".Equals(state))
+
+                model.PhotoPath = task1.Result;
+                model.LicensePath = task2.Result;
+
+                model.RealName = tb_realname.Text.Trim();
+                model.LicenseNo = tb_license.Text;
+
+                model.Hospital_id = selectedHospital.Hospital_id;
+
+
+                string result = HttpHelper.ConnectionForResult("RegisterHandler.ashx", JsonConvert.SerializeObject(model));
+
+                SafeChangeCursor(Cursors.Default);
+                if (string.IsNullOrEmpty(result))
                 {
-                    MessageBox.Show("注册失败，请重新尝试！");
+                    MessageBox.Show("网络异常");
                 }
-                else if ("success".Equals(state))
+                else
                 {
-                    MessageBox.Show("注册成功！");
-                    this.Close();
+                    JObject jObj = JObject.Parse(result);
+                    string state = (string)jObj["state"];
+                    if ("username exist".Equals(state))
+                    {
+                        MessageBox.Show("用户名已存在");
+                    }
+                    else if ("failed".Equals(state))
+                    {
+                        MessageBox.Show("注册失败，请重新尝试！");
+                    }
+                    else if ("success".Equals(state))
+                    {
+                        MessageBox.Show("注册成功，审核成功会在第一时间予以通知！");
+                        SafeClose();
+                    }
                 }
-            }
+            }, tokenSource.Token);
+        }
+
+        /// <summary>
+        /// 点击事件：确认
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_confirm_Click(object sender, EventArgs e)
+        {
+            Confirm();
         }
 
         /// <summary>
@@ -240,6 +381,11 @@ namespace Doctor.Forms
         private void btn_cancel_Click(object sender, EventArgs e)
         {
             this.Close();
+            if (tokenSource != null)
+            {
+                tokenSource.Cancel();
+                
+            }
         }
 
         /// <summary>
@@ -252,9 +398,26 @@ namespace Doctor.Forms
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 photoPath = openFileDialog.FileName;
+                //文件大小是否低于2M
+                FileInfo fileInfo = new FileInfo(photoPath);
+                if (fileInfo.Length > 2 * 1024 * 1024)
+                {
+                    MessageBox.Show("文件不能超过2M");
+                    return;
+                }
+
+                //图片是否低于1024*768
+                using (Image image = Image.FromFile(photoPath))
+                {
+                    if (image.Width > MAX_WIDTH || image.Height > MAX_HEIGHT)
+                    {
+                        MessageBox.Show("图片大小不能超过1024x768");
+                        return;
+                    }
+                }
                 
                 picBox_photo.Image = Image.FromFile(photoPath);
-                lbl_photo.Text = photoPath;
+                lbl_photo.Text = Path.GetFileName(photoPath);
                 lbl_photo.ForeColor = Color.Black;
             }
         }
@@ -269,8 +432,25 @@ namespace Doctor.Forms
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 licensePath = openFileDialog.FileName;
+                FileInfo fileInfo = new FileInfo(licensePath);
+                if (fileInfo.Length > 2 * 1024 * 1024)
+                {
+                    MessageBox.Show("文件不能超过2M");
+                    return;
+                }
+
+                //图片是否低于1024*768
+                using (Image image = Image.FromFile(licensePath))
+                {
+                    if (image.Width > MAX_WIDTH || image.Height > MAX_HEIGHT)
+                    {
+                        MessageBox.Show("图片大小不能超过1024x768");
+                        return;
+                    }
+                }
 
                 picBox_license.Image = Image.FromFile(licensePath);
+
                 lbl_license.Text = licensePath;
                 lbl_license.ForeColor = Color.Black;
             }
@@ -310,26 +490,15 @@ namespace Doctor.Forms
         {
             if (!string.IsNullOrEmpty(cb_area.Text))
             {
-                if (bgWorker.IsBusy)
-                {
-                    return;
-                }
-
                 Hat_areaModel area = cb_area.SelectedItem as Hat_areaModel;
                 int area_id = area.Id;
                 //string hospitalList = HttpHelper.ConnectionForResult("HospitalListHandler.ashx", 2262 + "");
                 
                 //异步操作
                 //清除原来的医院列表
-                cb_hospital.Cursor = Cursors.WaitCursor;
-                string hospitalList = null;
-                bgWorker.DoWork += (a, b) => 
+                new Thread(() =>
                 {
-                    hospitalList = HttpHelper.ConnectionForResult("HospitalListHandler.ashx", area_id.ToString()); 
-                };
-
-                bgWorker.RunWorkerCompleted += (a, b) =>
-                {
+                    string hospitalList = HttpHelper.ConnectionForResult("HospitalListHandler.ashx", area_id.ToString()); 
                     if (!string.IsNullOrEmpty(hospitalList))
                     {
                         JObject jObjResult = JObject.Parse(hospitalList);
@@ -346,18 +515,18 @@ namespace Doctor.Forms
                                 hospitals.Add(hospital);
                             }
                         }
-                        else
-                        {
-                            cb_hospital.Text = "";
-                        }
 
-                        cb_hospital.DataSource = hospitals;
-                        cb_hospital.DisplayMember = "name";
-                        cb_hospital.ValueMember = "hospital_id";
+                        BindHospitals(hospitals);
                     }
-                    cb_hospital.Cursor = Cursors.Default;
-                };
-                bgWorker.RunWorkerAsync();
+                }).Start();
+            }
+        }
+
+        private void tb_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Confirm();
             }
         }
     }

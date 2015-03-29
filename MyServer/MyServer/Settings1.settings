@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MyServer" GeneratedClassName="Settings1">
+  <Profiles />
+  <Settings>
+    <Setting Name="IPADDR" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="PORT" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10000</Value>
+    </Setting>
+    <Setting Name="logFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">log.txt</Value>
+    </Setting>
+    <Setting Name="IMPORT" Type="System.String" Scope="User">
+      <Value Profile="(Default)">6789</Value>
+    </Setting>
+    <Setting Name="RcvFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:/Received</Value>
+    </Setting>
+    <Setting Name="AnalyzedFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:/Analyzed</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

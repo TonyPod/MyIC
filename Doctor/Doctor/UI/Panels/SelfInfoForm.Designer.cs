@@ -30,6 +30,7 @@
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.link_modifyPassword = new System.Windows.Forms.LinkLabel();
+            this.label1 = new System.Windows.Forms.Label();
             this.lbl_username = new System.Windows.Forms.Label();
             this.picBox_photo = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -52,11 +53,12 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.link_modifyPassword);
+            this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.lbl_username);
             this.groupBox1.Controls.Add(this.picBox_photo);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(409, 223);
+            this.groupBox1.Size = new System.Drawing.Size(250, 436);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "基本信息";
@@ -64,7 +66,7 @@
             // link_modifyPassword
             // 
             this.link_modifyPassword.AutoSize = true;
-            this.link_modifyPassword.Location = new System.Drawing.Point(167, 43);
+            this.link_modifyPassword.Location = new System.Drawing.Point(15, 79);
             this.link_modifyPassword.Name = "link_modifyPassword";
             this.link_modifyPassword.Size = new System.Drawing.Size(53, 12);
             this.link_modifyPassword.TabIndex = 4;
@@ -72,10 +74,19 @@
             this.link_modifyPassword.Text = "修改密码";
             this.link_modifyPassword.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_modifyPassword_LinkClicked);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(15, 151);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "个人照片";
+            // 
             // lbl_username
             // 
             this.lbl_username.AutoSize = true;
-            this.lbl_username.Location = new System.Drawing.Point(167, 21);
+            this.lbl_username.Location = new System.Drawing.Point(15, 42);
             this.lbl_username.Name = "lbl_username";
             this.lbl_username.Size = new System.Drawing.Size(77, 12);
             this.lbl_username.TabIndex = 3;
@@ -84,7 +95,7 @@
             // picBox_photo
             // 
             this.picBox_photo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picBox_photo.Location = new System.Drawing.Point(17, 20);
+            this.picBox_photo.Location = new System.Drawing.Point(17, 189);
             this.picBox_photo.Name = "picBox_photo";
             this.picBox_photo.Size = new System.Drawing.Size(133, 187);
             this.picBox_photo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -102,9 +113,9 @@
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.lbl_license);
             this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Location = new System.Drawing.Point(12, 241);
+            this.groupBox2.Location = new System.Drawing.Point(268, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(409, 344);
+            this.groupBox2.Size = new System.Drawing.Size(523, 436);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "认证信息";
@@ -112,7 +123,7 @@
             // picBox_license
             // 
             this.picBox_license.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picBox_license.Location = new System.Drawing.Point(17, 142);
+            this.picBox_license.Location = new System.Drawing.Point(156, 189);
             this.picBox_license.Name = "picBox_license";
             this.picBox_license.Size = new System.Drawing.Size(133, 187);
             this.picBox_license.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -123,7 +134,7 @@
             // 
             this.lbl_ifAuth.AutoSize = true;
             this.lbl_ifAuth.ForeColor = System.Drawing.Color.Red;
-            this.lbl_ifAuth.Location = new System.Drawing.Point(15, 21);
+            this.lbl_ifAuth.Location = new System.Drawing.Point(41, 42);
             this.lbl_ifAuth.Name = "lbl_ifAuth";
             this.lbl_ifAuth.Size = new System.Drawing.Size(41, 12);
             this.lbl_ifAuth.TabIndex = 0;
@@ -132,7 +143,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 46);
+            this.label4.Location = new System.Drawing.Point(41, 79);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 12);
             this.label4.TabIndex = 0;
@@ -141,7 +152,8 @@
             // lbl_realname
             // 
             this.lbl_realname.AutoSize = true;
-            this.lbl_realname.Location = new System.Drawing.Point(128, 46);
+            this.lbl_realname.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lbl_realname.Location = new System.Drawing.Point(154, 79);
             this.lbl_realname.Name = "lbl_realname";
             this.lbl_realname.Size = new System.Drawing.Size(77, 12);
             this.lbl_realname.TabIndex = 0;
@@ -150,7 +162,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 69);
+            this.label3.Location = new System.Drawing.Point(41, 114);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 12);
             this.label3.TabIndex = 0;
@@ -159,7 +171,7 @@
             // lbl_hospital
             // 
             this.lbl_hospital.AutoSize = true;
-            this.lbl_hospital.Location = new System.Drawing.Point(128, 69);
+            this.lbl_hospital.Location = new System.Drawing.Point(154, 114);
             this.lbl_hospital.Name = "lbl_hospital";
             this.lbl_hospital.Size = new System.Drawing.Size(41, 12);
             this.lbl_hospital.TabIndex = 0;
@@ -168,7 +180,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 93);
+            this.label2.Location = new System.Drawing.Point(41, 151);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(101, 12);
             this.label2.TabIndex = 0;
@@ -177,7 +189,7 @@
             // lbl_license
             // 
             this.lbl_license.AutoSize = true;
-            this.lbl_license.Location = new System.Drawing.Point(128, 93);
+            this.lbl_license.Location = new System.Drawing.Point(154, 151);
             this.lbl_license.Name = "lbl_license";
             this.lbl_license.Size = new System.Drawing.Size(113, 12);
             this.lbl_license.TabIndex = 0;
@@ -186,7 +198,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(15, 117);
+            this.label6.Location = new System.Drawing.Point(41, 189);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(101, 12);
             this.label6.TabIndex = 0;
@@ -196,10 +208,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 594);
+            this.ClientSize = new System.Drawing.Size(803, 460);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "SelfInfoForm";
             this.Text = "个人信息";
             this.Load += new System.EventHandler(this.SelfInfoForm_Load);
@@ -230,6 +243,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.ComponentModel.BackgroundWorker bgWorker;
+        private System.Windows.Forms.Label label1;
 
     }
 }

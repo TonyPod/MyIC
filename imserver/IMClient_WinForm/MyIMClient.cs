@@ -95,7 +95,7 @@ namespace IMClient_WinForm
             string msgJson = JsonConvert.SerializeObject(msg);
 
             JObject jObj = new JObject();
-            jObj.Add("type", 1);
+            jObj.Add("type", "1");
             jObj.Add("data", msgJson);
 
             byte[] buf = Encoding.UTF8.GetBytes(jObj.ToString());

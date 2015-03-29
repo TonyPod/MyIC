@@ -19,6 +19,7 @@
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,25 +45,30 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <Content Include="DoctorInfoWebForm.aspx" />
+    <Content Include="Images\selfcheck.png" />
+    <Content Include="ImageWebForm.aspx" />
+    <Content Include="RecordWebForm.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CheckUsernameExistHandler.ashx.cs">
@@ -71,11 +77,31 @@
     <Compile Include="DiagnosisHandler.ashx.cs">
       <DependentUpon>DiagnosisHandler.ashx</DependentUpon>
     </Compile>
+    <Compile Include="DoctorInfoWebForm.aspx.cs">
+      <DependentUpon>DoctorInfoWebForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DoctorInfoWebForm.aspx.designer.cs">
+      <DependentUpon>DoctorInfoWebForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DoctorListHandler.ashx.cs">
+      <DependentUpon>DoctorListHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="FindDocHandler.ashx.cs">
+      <DependentUpon>FindDocHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="HospitalInfoHandler.ashx.cs">
       <DependentUpon>HospitalInfoHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="HospitalListHandler.ashx.cs">
       <DependentUpon>HospitalListHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ImageWebForm.aspx.cs">
+      <DependentUpon>ImageWebForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ImageWebForm.aspx.designer.cs">
+      <DependentUpon>ImageWebForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="LoginHandler.ashx.cs">
       <DependentUpon>LoginHandler.ashx</DependentUpon>
@@ -93,6 +119,16 @@
       <DependentUpon>PicUploadHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecordHandler.ashx.cs">
+      <DependentUpon>RecordHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="RecordWebForm.aspx.cs">
+      <DependentUpon>RecordWebForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RecordWebForm.aspx.designer.cs">
+      <DependentUpon>RecordWebForm.aspx</DependentUpon>
+    </Compile>
     <Compile Include="RegisterHandler.ashx.cs">
       <DependentUpon>RegisterHandler.ashx</DependentUpon>
     </Compile>
@@ -104,6 +140,12 @@
     </Compile>
     <Compile Include="SelfCheckPhotosHandler.ashx.cs">
       <DependentUpon>SelfCheckPhotosHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="UserLoginHandler.ashx.cs">
+      <DependentUpon>UserLoginHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="UserRegisterHandler.ashx.cs">
+      <DependentUpon>UserRegisterHandler.ashx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +162,11 @@
     <Content Include="SelfCheckPhotoDownloadHandler.ashx" />
     <Content Include="HospitalInfoHandler.ashx" />
     <Content Include="CheckUsernameExistHandler.ashx" />
+    <Content Include="DoctorListHandler.ashx" />
+    <Content Include="UserLoginHandler.ashx" />
+    <Content Include="UserRegisterHandler.ashx" />
+    <Content Include="RecordHandler.ashx" />
+    <Content Include="FindDocHandler.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -139,6 +186,13 @@
       <Project>{d6025d65-5ac6-41fd-bbd5-8f1a0cec000f}</Project>
       <Name>Doctor.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Doctor.Util\Doctor.Util.csproj">
+      <Project>{38d5c172-5bfe-4517-b8d6-de372232e0fb}</Project>
+      <Name>Doctor.Util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -153,3 +153,12 @@ C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\Doctor.exe
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\Doctor.pdb
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\Doctor.UI.Forms.PicLargeForm.resources
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\Doctor.UI.Forms.AddContactForm.resources
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\Doctor.UI.Forms.SelfCheckListForm.resources
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\bin\Debug\en-US\Doctor.resources.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\bin\Debug\zh-CN\Doctor.resources.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\Doctor.UI.Forms.SettingsForm.resources
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\Doctor.Resource.en-US.resources
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\Doctor.Resource.zh-CN.resources
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\en-US\Doctor.resources.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\zh-CN\Doctor.resources.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\Doctor.UI.Forms.NewRegisterForm.resources

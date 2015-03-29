@@ -9,10 +9,16 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ServerIP" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">192.168.191.4</Value>
+      <Value Profile="(Default)">121.42.136.178</Value>
     </Setting>
     <Setting Name="ServerPort" Type="System.String" Scope="Application">
       <Value Profile="(Default)">6789</Value>
+    </Setting>
+    <Setting Name="CtrlSendMsg" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Language" Type="System.String" Scope="User">
+      <Value Profile="(Default)">zh-CN</Value>
     </Setting>
   </Settings>
 </SettingsFile>

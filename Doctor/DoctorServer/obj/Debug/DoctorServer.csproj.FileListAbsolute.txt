@@ -10,3 +10,5 @@ C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\bin\Doctor.DAL.pdb
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\bin\Doctor.Model.pdb
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\obj\Debug\DoctorServer.dll
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\obj\Debug\DoctorServer.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\bin\Doctor.Util.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\DoctorServer\bin\Doctor.Util.pdb

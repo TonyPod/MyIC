@@ -1,6 +1,7 @@
 ﻿using Doctor.DAL;
 using Doctor.Model;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,8 +23,17 @@ namespace DoctorServer
             StreamReader reader = new StreamReader(context.Request.InputStream, Encoding.UTF8);
             string requestStr = reader.ReadToEnd();
 
-            long user_id = long.Parse(requestStr);
-            UserModel patient = UserDAL.GetById(user_id);
+            //使用long型主键或用string型的username解析
+            UserModel patient = null;
+            JObject jObj = JObject.Parse(requestStr);
+            if (jObj["username"] != null)
+            {
+                patient = UserDAL.GetByUsername(jObj["username"].ToString());
+            }
+            else
+            {
+                patient = UserDAL.GetById(long.Parse(jObj["user_id"].ToString()));
+            }
 
             byte[] buf = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(patient));
             context.Response.OutputStream.Write(buf, 0, buf.Length);

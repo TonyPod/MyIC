@@ -1,0 +1,137 @@
+发生时间：2015/3/19 19:18:42
+错误原因：Newtonsoft.Json.JsonReaderException: Additional text encountered after finished reading JSON content: B. Path '', line 5, position 2.
+   在 Newtonsoft.Json.JsonTextReader.ReadInternal() 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\JsonTextReader.cs:行号 503
+   在 Newtonsoft.Json.JsonTextReader.Read() 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\JsonTextReader.cs:行号 397
+   在 Newtonsoft.Json.Linq.JObject.Parse(String json) 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\Linq\JObject.cs:行号 332
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 93
+
+发生时间：2015/3/19 19:19:16
+错误原因：Newtonsoft.Json.JsonReaderException: Additional text encountered after finished reading JSON content: B. Path '', line 5, position 2.
+   在 Newtonsoft.Json.JsonTextReader.ReadInternal() 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\JsonTextReader.cs:行号 503
+   在 Newtonsoft.Json.JsonTextReader.Read() 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\JsonTextReader.cs:行号 397
+   在 Newtonsoft.Json.Linq.JObject.Parse(String json) 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\Linq\JObject.cs:行号 332
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 93
+
+发生时间：2015/3/19 19:20:49
+错误原因：Newtonsoft.Json.JsonReaderException: Additional text encountered after finished reading JSON content: B. Path '', line 5, position 2.
+   在 Newtonsoft.Json.JsonTextReader.ReadInternal() 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\JsonTextReader.cs:行号 503
+   在 Newtonsoft.Json.JsonTextReader.Read() 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\JsonTextReader.cs:行号 397
+   在 Newtonsoft.Json.Linq.JObject.Parse(String json) 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\Linq\JObject.cs:行号 332
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 92
+
+发生时间：2015/3/20 15:59:28
+错误原因：Newtonsoft.Json.JsonReaderException: Additional text encountered after finished reading JSON content: B. Path '', line 5, position 2.
+   在 Newtonsoft.Json.JsonTextReader.ReadInternal() 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\JsonTextReader.cs:行号 503
+   在 Newtonsoft.Json.JsonTextReader.Read() 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\JsonTextReader.cs:行号 397
+   在 Newtonsoft.Json.Linq.JObject.Parse(String json) 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\Linq\JObject.cs:行号 332
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 92
+
+发生时间：2015/3/20 16:06:13
+错误原因：Newtonsoft.Json.JsonReaderException: Additional text encountered after finished reading JSON content: B. Path '', line 5, position 2.
+   在 Newtonsoft.Json.JsonTextReader.ReadInternal() 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\JsonTextReader.cs:行号 503
+   在 Newtonsoft.Json.JsonTextReader.Read() 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\JsonTextReader.cs:行号 397
+   在 Newtonsoft.Json.Linq.JObject.Parse(String json) 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\Linq\JObject.cs:行号 332
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 92
+
+发生时间：2015/3/22 18:21:53
+错误原因：Newtonsoft.Json.JsonReaderException: Additional text encountered after finished reading JSON content: �. Path '', line 5, position 2.
+   在 Newtonsoft.Json.JsonTextReader.ReadInternal() 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\JsonTextReader.cs:行号 506
+   在 Newtonsoft.Json.JsonTextReader.Read() 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\JsonTextReader.cs:行号 397
+   在 Newtonsoft.Json.Linq.JObject.Parse(String json) 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\Linq\JObject.cs:行号 332
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 92
+
+发生时间：2015/3/22 18:21:53
+错误原因：Newtonsoft.Json.JsonReaderException: Additional text encountered after finished reading JSON content: �. Path '', line 5, position 2.
+   在 Newtonsoft.Json.JsonTextReader.ReadInternal() 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\JsonTextReader.cs:行号 506
+   在 Newtonsoft.Json.JsonTextReader.Read() 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\JsonTextReader.cs:行号 397
+   在 Newtonsoft.Json.Linq.JObject.Parse(String json) 位置 c:\Temp\Json\Working\Newtonsoft.Json\Src\Newtonsoft.Json\Linq\JObject.cs:行号 332
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 92
+
+发生时间：2015/3/23 10:18:33
+错误原因：System.IO.IOException: 无法从传输连接中读取数据: 远程主机强迫关闭了一个现有的连接。。 ---> System.Net.Sockets.SocketException: 远程主机强迫关闭了一个现有的连接。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 132
+
+发生时间：2015/3/23 10:22:04
+错误原因：System.IO.IOException: 无法从传输连接中读取数据: 远程主机强迫关闭了一个现有的连接。。 ---> System.Net.Sockets.SocketException: 远程主机强迫关闭了一个现有的连接。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 132
+
+发生时间：2015/3/23 10:22:04
+错误原因：System.IO.IOException: 无法从传输连接中读取数据: 远程主机强迫关闭了一个现有的连接。。 ---> System.Net.Sockets.SocketException: 远程主机强迫关闭了一个现有的连接。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 132
+
+发生时间：2015/3/23 10:22:04
+错误原因：System.IO.IOException: 无法从传输连接中读取数据: 远程主机强迫关闭了一个现有的连接。。 ---> System.Net.Sockets.SocketException: 远程主机强迫关闭了一个现有的连接。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 132
+
+发生时间：2015/3/23 10:22:38
+错误原因：System.IO.IOException: 无法从传输连接中读取数据: 远程主机强迫关闭了一个现有的连接。。 ---> System.Net.Sockets.SocketException: 远程主机强迫关闭了一个现有的连接。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 132
+
+发生时间：2015/3/23 10:22:38
+错误原因：System.IO.IOException: 无法从传输连接中读取数据: 远程主机强迫关闭了一个现有的连接。。 ---> System.Net.Sockets.SocketException: 远程主机强迫关闭了一个现有的连接。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 132
+
+发生时间：2015/3/23 10:22:38
+错误原因：System.IO.IOException: 无法从传输连接中读取数据: 远程主机强迫关闭了一个现有的连接。。 ---> System.Net.Sockets.SocketException: 远程主机强迫关闭了一个现有的连接。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 132
+
+发生时间：2015/3/23 10:22:38
+错误原因：System.IO.IOException: 无法从传输连接中读取数据: 远程主机强迫关闭了一个现有的连接。。 ---> System.Net.Sockets.SocketException: 远程主机强迫关闭了一个现有的连接。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 132
+
+发生时间：2015/3/23 10:22:59
+错误原因：System.IO.IOException: 无法从传输连接中读取数据: 远程主机强迫关闭了一个现有的连接。。 ---> System.Net.Sockets.SocketException: 远程主机强迫关闭了一个现有的连接。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 132
+
+发生时间：2015/3/23 10:24:22
+错误原因：System.IO.IOException: 无法从传输连接中读取数据: 远程主机强迫关闭了一个现有的连接。。 ---> System.Net.Sockets.SocketException: 远程主机强迫关闭了一个现有的连接。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 132
+
+发生时间：2015/3/23 10:24:22
+错误原因：System.IO.IOException: 无法从传输连接中读取数据: 远程主机强迫关闭了一个现有的连接。。 ---> System.Net.Sockets.SocketException: 远程主机强迫关闭了一个现有的连接。
+   在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 132
+

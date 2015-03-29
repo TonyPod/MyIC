@@ -55,6 +55,7 @@
     <Compile Include="DAL\Hat_cityDAL.cs" />
     <Compile Include="DAL\Hat_provinceDAL.cs" />
     <Compile Include="DAL\HospitalDAL.cs" />
+    <Compile Include="DAL\LocationDAL.cs" />
     <Compile Include="DAL\PhotoDAL.cs" />
     <Compile Include="DAL\RecordDAL.cs" />
     <Compile Include="DAL\SqlHelper.cs" />

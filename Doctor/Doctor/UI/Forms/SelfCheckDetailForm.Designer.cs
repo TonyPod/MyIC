@@ -32,15 +32,15 @@
             this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
             this.tb_description = new System.Windows.Forms.TextBox();
-            this.lbl_patientName = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lbl_age = new System.Windows.Forms.Label();
             this.tb_comment = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lbl_ifAuth = new System.Windows.Forms.Label();
             this.tb_prevComment = new System.Windows.Forms.TextBox();
             this.btn_submit = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
+            this.btn_username = new System.Windows.Forms.LinkLabel();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -48,7 +48,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 41);
+            this.label2.Location = new System.Drawing.Point(13, 21);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 1;
@@ -56,7 +56,7 @@
             // 
             // flowLayoutPanel
             // 
-            this.flowLayoutPanel.Location = new System.Drawing.Point(13, 133);
+            this.flowLayoutPanel.Location = new System.Drawing.Point(15, 114);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
             this.flowLayoutPanel.Size = new System.Drawing.Size(474, 122);
             this.flowLayoutPanel.TabIndex = 2;
@@ -64,7 +64,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(11, 118);
+            this.label3.Location = new System.Drawing.Point(13, 99);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 1;
@@ -72,45 +72,25 @@
             // 
             // tb_description
             // 
-            this.tb_description.Location = new System.Drawing.Point(13, 56);
+            this.tb_description.Location = new System.Drawing.Point(13, 37);
             this.tb_description.Multiline = true;
             this.tb_description.Name = "tb_description";
             this.tb_description.ReadOnly = true;
             this.tb_description.Size = new System.Drawing.Size(474, 50);
             this.tb_description.TabIndex = 3;
             // 
-            // lbl_patientName
-            // 
-            this.lbl_patientName.AutoSize = true;
-            this.lbl_patientName.Location = new System.Drawing.Point(13, 19);
-            this.lbl_patientName.Name = "lbl_patientName";
-            this.lbl_patientName.Size = new System.Drawing.Size(23, 12);
-            this.lbl_patientName.TabIndex = 0;
-            this.lbl_patientName.Text = "XXX";
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.tb_description);
             this.groupBox1.Controls.Add(this.flowLayoutPanel);
-            this.groupBox1.Controls.Add(this.lbl_age);
-            this.groupBox1.Controls.Add(this.lbl_patientName);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(15, 12);
+            this.groupBox1.Location = new System.Drawing.Point(15, 36);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(499, 272);
+            this.groupBox1.Size = new System.Drawing.Size(499, 248);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "自检信息";
-            // 
-            // lbl_age
-            // 
-            this.lbl_age.AutoSize = true;
-            this.lbl_age.Location = new System.Drawing.Point(78, 19);
-            this.lbl_age.Name = "lbl_age";
-            this.lbl_age.Size = new System.Drawing.Size(29, 12);
-            this.lbl_age.TabIndex = 0;
-            this.lbl_age.Text = "20岁";
             // 
             // tb_comment
             // 
@@ -119,6 +99,7 @@
             this.tb_comment.Name = "tb_comment";
             this.tb_comment.Size = new System.Drawing.Size(474, 91);
             this.tb_comment.TabIndex = 5;
+            this.tb_comment.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_comment_KeyDown);
             // 
             // groupBox2
             // 
@@ -171,11 +152,33 @@
             this.btn_cancel.UseVisualStyleBackColor = true;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
+            // btn_username
+            // 
+            this.btn_username.AutoSize = true;
+            this.btn_username.Location = new System.Drawing.Point(81, 14);
+            this.btn_username.Name = "btn_username";
+            this.btn_username.Size = new System.Drawing.Size(23, 12);
+            this.btn_username.TabIndex = 4;
+            this.btn_username.TabStop = true;
+            this.btn_username.Text = "xxx";
+            this.btn_username.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.btn_username_LinkClicked);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(22, 14);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "用户名：";
+            // 
             // SelfCheckDetailForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(526, 557);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btn_username);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_submit);
             this.Controls.Add(this.tb_comment);
@@ -202,14 +205,14 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tb_description;
-        private System.Windows.Forms.Label lbl_patientName;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox tb_comment;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label lbl_ifAuth;
         private System.Windows.Forms.Button btn_submit;
         private System.Windows.Forms.Button btn_cancel;
-        private System.Windows.Forms.Label lbl_age;
         private System.Windows.Forms.TextBox tb_prevComment;
+        private System.Windows.Forms.LinkLabel btn_username;
+        private System.Windows.Forms.Label label1;
     }
 }

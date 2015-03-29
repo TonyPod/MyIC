@@ -24,8 +24,8 @@ namespace DoctorServer
             DoctorModel userModel = JsonConvert.DeserializeObject<DoctorModel>(jObjStr);
 
             JObject jObj = new JObject();
-            //检查医生的用户名是否存在
-            if(DoctorDAL.CheckDoctorExist(userModel.Name))
+            //检查用户名是否存在
+            if(DoctorDAL.CheckUsernameExist(userModel.Name))
             {
                 jObj.Add("state", "username exist");
             }

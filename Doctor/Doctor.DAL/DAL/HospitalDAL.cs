@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -117,16 +118,48 @@ namespace Doctor.DAL
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static HospitalModel[] GetAllByAreaId(int id)
+        public static List<HospitalModel> GetAllByAreaId(int id)
         {
             DataTable table = SqlHelper.ExecuteDataTable("select * from Hospital where area_id = @id",
                 new SqlParameter("@id", id));
-            HospitalModel[] hospitals = new HospitalModel[table.Rows.Count];
+            List<HospitalModel> hospitals = new List<HospitalModel>();
             for (int i = 0; i < table.Rows.Count; i++)
             {
-                hospitals[i] = ToModel(table.Rows[i]);
+                hospitals.Add(ToModel(table.Rows[i]));
             }
             return hospitals;
+        }
+
+        /// <summary>
+        /// 通过城市编号和医院名寻找医院
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="citycode"></param>
+        /// <returns></returns>
+        public static bool Find(string name, string citycode, out long hospital_id)
+        {
+            //select * 
+            //from (Hospital join hat_area on Hospital.area_id = hat_area.id)
+            //where substring(areaID, 1, 4) = '5101'
+
+            DataTable table = SqlHelper.ExecuteDataTable(@"select hospital_id from 
+                (Hospital join hat_area on Hospital.area_id = hat_area.id)
+                where substring(areaID, 1, 4) = @citycode and Hospital.name = @name", 
+                new SqlParameter("@citycode", citycode.Substring(0, 4)),
+                new SqlParameter("@name", name));
+
+            Debug.Assert(table.Rows.Count == 0 || table.Rows.Count == 1);
+
+            if (table.Rows.Count >= 1)
+            {
+                hospital_id = (System.Int64)table.Rows[0]["hospital_id"];
+                return true;
+            }
+            else
+            {
+                hospital_id = -1;
+                return false;
+            }
         }
     }
 }

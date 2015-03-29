@@ -9,3 +9,13 @@ C:\Users\Tony\Desktop\imserver\imserver\obj\Debug\imserver.exe
 C:\Users\Tony\Desktop\imserver\imserver\obj\Debug\imserver.pdb
 C:\Users\Tony\Desktop\imserver\imserver\bin\Debug\Model.dll
 C:\Users\Tony\Desktop\imserver\imserver\bin\Debug\Model.pdb
+C:\Users\Tony\Desktop\imserver\imserver\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\imserver\imserver\bin\Debug\imserver.exe.config
+C:\Users\Tony\Documents\GitHub\MyIC\imserver\imserver\obj\Debug\imserver.exe
+C:\Users\Tony\Documents\GitHub\MyIC\imserver\imserver\obj\Debug\imserver.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\imserver\imserver\bin\Debug\imserver.exe
+C:\Users\Tony\Documents\GitHub\MyIC\imserver\imserver\bin\Debug\imserver.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\imserver\imserver\bin\Debug\Model.dll
+C:\Users\Tony\Documents\GitHub\MyIC\imserver\imserver\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Tony\Documents\GitHub\MyIC\imserver\imserver\bin\Debug\Model.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\imserver\imserver\obj\Debug\IMServer.csprojResolveAssemblyReference.cache

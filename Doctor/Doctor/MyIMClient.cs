@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace DoctorClient 
 {
@@ -33,6 +34,7 @@ namespace DoctorClient
             }
         }
 
+        //联系人更改事件
         public delegate void ContactsChangedHandler(ContactsEventArgs e);
         public static event ContactsChangedHandler ContactsChanged;
         protected static void OnContactsChanged(ContactsEventArgs e)
@@ -43,107 +45,229 @@ namespace DoctorClient
             }
         }
 
+        //private static Timer timer;
+
+        //即时通讯服务器连接成功事件
+        public delegate void ConnectionEstablishedHandler();
+        public static event ConnectionEstablishedHandler ConnectionEstablished;
+        protected static void OnConnectionEstablished()
+        {
+            //TCP连接建立自动登录
+            Login(LoginStatus.UserInfo.Name);
+
+            ////定时发送空消息监测网络状态
+            //timer = new Timer(new TimerCallback((obj) =>
+            //{
+            //    SendEmptyMsg();
+            //}), null, 0, 1000 * 5);
+
+            if (ConnectionEstablished != null)
+            {
+                ConnectionEstablished();
+            }
+        }
+
+        //连接中事件
+        public delegate void ConnectingHandler(ConnectingEventArgs e);
+        public static event ConnectingHandler Connecting;
+        protected static void OnConnecting(ConnectingEventArgs e)
+        {
+            if (Connecting != null)
+            {
+                Connecting(e);
+            }
+        }
+
+        //即时通讯服务器连接失败事件
+        public delegate void ConnectionSuspendedHandler();
+        public static event ConnectionSuspendedHandler ConnectionSuspended;
+        protected static void OnConnectionSuspended()
+        {
+            if (ConnectionSuspended != null)
+            {
+                ConnectionSuspended();
+            }
+        }
+
+        //即时通讯服务器连接手动结束事件
+        public delegate void ConnectionClosedHandler();
+        public static event ConnectionClosedHandler ConnectionClosed;
+        protected static void OnConnectionClose()
+        {
+            ////结束定时发送空消息
+            //if(timer != null)
+            //{
+            //    timer.Dispose();
+            //}
+
+            if (ConnectionClosed != null)
+            {
+                ConnectionClosed();
+            }
+        }
+
         //后台的处理收到数据的线程
         private static Thread threadRcv;
 
         public static bool Connected { get { return client == null ? false : client.Connected; } }
 
+
         //联系人和消息列表
         public static List<Msg> UnreadMsgs = new List<Msg>();
         public static List<Msg> ReadMsgs = new List<Msg>();
+        public static List<Msg> SentMsgs = new List<Msg>();
         public static Dictionary<string, HashSet<string>> Contacts = new Dictionary<string, HashSet<string>>();
 
         //默认的两个分组
         public const string FAMILIAR = "好友";
         public const string UNFAMILIAR = "陌生人";
 
+        public static string userCacheFolder = null;
+
         //缓存文件名
-        public static string unreadMsgsFileName = Environment.CurrentDirectory + "\\UnreadMsgs.json";
-        public static string readMsgsFileName = Environment.CurrentDirectory + "\\ReadMsgs.json";
-        public static string contactsFileName = Environment.CurrentDirectory + "\\Contacts.dat";
+        public static string UnreadMsgsFileName { get { return userCacheFolder + "UnreadMsgs.json"; } }
+        public static string ReadMsgsFileName { get { return userCacheFolder + "ReadMsgs.json"; } }
+        public static string SentMsgsFileName { get { return userCacheFolder + "SentMsgs.json"; } }
+        public static string ContactsFileName { get { return userCacheFolder + "Contacts.dat"; } }
 
         public static string Username { get; set; }
 
-        public static bool Connect()
+        private static CancellationTokenSource tokenSource = new CancellationTokenSource();
+
+        private static Task<bool> task;
+
+        public static bool IsConnecting { get { return task == null ? false : task.Status == TaskStatus.Running; } }
+        /// <summary>
+        /// 异步连接
+        /// </summary>
+        /// <param name="maxAttempts">最大尝试次数</param>
+        /// <returns></returns>
+        public static Task<bool> ConnectAsync(int maxAttempts = 10)
         {
-            if (Connected)
+            if (IsConnecting)
             {
-                return true;
+                return task;
             }
 
-            try
+            tokenSource = new CancellationTokenSource();
+            task = Task.Factory.StartNew(() =>
             {
-                IPEndPoint serverEP = new IPEndPoint(IPAddress.Parse(serverIP), serverPort);
-                client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                //client = new TcpClient();
-                client.Connect(serverEP);
-                client.LingerState = new LingerOption(false, 1);
-
-                //线程监听TCP连接是否有数据传来
-                threadRcv = new Thread(() =>
+                if (Connected)
                 {
-                    while (true)
+                    return true;
+                }
+
+                for (int j = 0; j < maxAttempts; j++)
+                {
+                    if (tokenSource.IsCancellationRequested)
                     {
-                        Thread.Sleep(200);
-                        try
+                        break;
+                    }
+
+                    try
+                    {
+                        //尝试连接
+                        OnConnecting(new ConnectingEventArgs() { CurTime = j + 1});
+
+                        //建立TCP连接
+                        IPEndPoint serverEP = new IPEndPoint(IPAddress.Parse(serverIP), serverPort);
+                        client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                        client.Connect(serverEP);
+                        client.LingerState = new LingerOption(false, 1);
+
+                        if (client.Connected)
                         {
-                            rcvCount = MyIMClient.client.Receive(buf, 0, buf.Length, SocketFlags.None);
-                            string rcvStr = Encoding.UTF8.GetString(buf, 0, rcvCount);
-                            //居然可能会两个同时发过来"{"count":.....}{"count":.....}"
-                            if (!string.IsNullOrEmpty(rcvStr))
+                            OnConnectionEstablished();
+                            //线程监听TCP连接是否有数据传来
+                            threadRcv = new Thread(() =>
                             {
-                                foreach (var json in SplitIllegalJson(rcvStr))
+                                while (true)
                                 {
-                                    JObject jObjRcv = JObject.Parse(json);
-                                    string state = (string)jObjRcv["state"];
-                                    if ("ok".Equals(state))
+                                    Thread.Sleep(200);
+                                    try
                                     {
-                                        int count = (int)jObjRcv["count"];
-                                        if (count != 0)
+                                        rcvCount = MyIMClient.client.Receive(buf, 0, buf.Length, SocketFlags.None);
+                                        string rcvStr = Encoding.UTF8.GetString(buf, 0, rcvCount);
+                                        //居然可能会两个同时发过来"{"count":.....}{"count":.....}"
+                                        if (!string.IsNullOrEmpty(rcvStr))
                                         {
-                                            JArray jMsgs = JArray.Parse(jObjRcv["content"].ToString());
-                                            List<Msg> newMsgs = new List<Msg>();
-                                            for (int i = 0; i < count; i++)
+                                            foreach (var json in SplitIllegalJson(rcvStr))
                                             {
-                                                Msg msg = JsonConvert.DeserializeObject<Msg>(jMsgs[i].ToString());
-                                                Contacts[UNFAMILIAR].Add(msg.From);
-                                                newMsgs.Add(msg);
+                                                JObject jObjRcv = JObject.Parse(json);
+                                                string state = (string)jObjRcv["state"];
+                                                if ("ok".Equals(state))
+                                                {
+                                                    int count = (int)jObjRcv["count"];
+                                                    if (count != 0)
+                                                    {
+                                                        JArray jMsgs = JArray.Parse(jObjRcv["content"].ToString());
+                                                        List<Msg> newMsgs = new List<Msg>();
+                                                        for (int i = 0; i < count; i++)
+                                                        {
+                                                            Msg msg = JsonConvert.DeserializeObject<Msg>(jMsgs[i].ToString());
+                                                            Contacts[UNFAMILIAR].Add(msg.From);
+                                                            newMsgs.Add(msg);
+                                                        }
+                                                        UnreadMsgs.AddRange(newMsgs);
+                                                        OnOfflineMsgsChanged(new OfflineMsgEventArgs() { NewMsgs = newMsgs, Reason = OfflineMsgEventArgs.EnumReason.MsgAdded });
+                                                    }
+                                                }
                                             }
-                                            UnreadMsgs.AddRange(newMsgs);
-                                            OnOfflineMsgsChanged(new OfflineMsgEventArgs() { NewMsgs = newMsgs, Reason = OfflineMsgEventArgs.EnumReason.MsgAdded });
                                         }
                                     }
-                                }
-                            }
-                        }
-                        catch (SocketException)
-                        {
-                            //MessageBox.Show("连接中断");
-                            // 10035 == WSAEWOULDBLOCK
-                            //if (a.NativeErrorCode.Equals(10035))
-                            //    Console.WriteLine("Still Connected, but the Send would block");
-                            //else
-                            //{
-                            //    Console.WriteLine("Disconnected: error code {0}!", a.NativeErrorCode);
-                            //}
-                            break;
-                        }
-                    }
-                });
-                threadRcv.Start();
+                                    catch (SocketException)
+                                    {
+                                        //MessageBox.Show("连接中断");
+                                        // 10035 == WSAEWOULDBLOCK
+                                        //if (a.NativeErrorCode.Equals(10035))
+                                        //    Console.WriteLine("Still Connected, but the Send would block");
+                                        //else
+                                        //{
+                                        //    Console.WriteLine("Disconnected: error code {0}!", a.NativeErrorCode);
+                                        //}
+                                        OnConnectionSuspended();
 
-                return true;
-            }
-            catch (Exception)
-            {
+                                        //尝试重连
+                                        ConnectAsync();
+                                        break;
+                                    }
+                                }
+                            });
+                            threadRcv.Start();
+                        }
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                        OnConnectionSuspended();
+                        continue;
+                    }
+                }
+                OnConnectionSuspended();
                 return false;
+            }, tokenSource.Token);
+            return task;
+        }
+
+        public static void LoadCache()
+        {
+            //缓存目录
+            userCacheFolder = Environment.CurrentDirectory + "\\Cache\\" + LoginStatus.UserInfo.Name + "\\";
+
+            //创建缓存目录
+            if (!Directory.Exists(userCacheFolder))
+            {
+                Directory.CreateDirectory(userCacheFolder);
             }
+
+            LoadContacts();
+            LoadMsgs();
         }
 
         /// <summary>
         /// 加载联系人
         /// </summary>
-        public static void LoadContacts()
+        private static void LoadContacts()
         {
             //先添加默认的两个
             if (!Contacts.ContainsKey(FAMILIAR))
@@ -156,9 +280,9 @@ namespace DoctorClient
             }
 
             //查看本地是否有联系人的缓存
-            if (File.Exists(contactsFileName))
+            if (File.Exists(ContactsFileName))
             {
-                var lines = File.ReadLines(contactsFileName);
+                var lines = File.ReadLines(ContactsFileName);
                 foreach (var line in lines)
                 {
                     string[] strs = line.Split(' ');
@@ -186,6 +310,7 @@ namespace DoctorClient
 
             byte[] buf = Encoding.UTF8.GetBytes(jObj.ToString());
             client.Send(buf, 0, buf.Length, SocketFlags.None);
+
         }
 
         public static bool SendMsg(Msg msg)
@@ -195,26 +320,53 @@ namespace DoctorClient
                 string msgJson = JsonConvert.SerializeObject(msg);
 
                 JObject jObj = new JObject();
-                jObj.Add("type", 1);
+                jObj.Add("type", "1");
                 jObj.Add("data", msgJson);
 
                 byte[] buf = Encoding.UTF8.GetBytes(jObj.ToString());
                 client.Send(buf, 0, buf.Length, SocketFlags.None);
 
+                SentMsgs.Add(msg);
+
                 return true;
             }
             catch (Exception)
             {
+                OnConnectionSuspended();
                 return false;
             }
         }
-
+        
+        /// <summary>
+        /// 关闭连接并保存
+        /// </summary>
         public static void Close()
         {
-            client.Shutdown(SocketShutdown.Both);
-            client.Close();
+            tokenSource.Cancel();
 
-            threadRcv.Abort();
+            if (Connected)
+            {
+                SaveContacts();
+                SaveMsgs();
+                ClearCache();
+                client.Shutdown(SocketShutdown.Both);
+                client.Close();
+                threadRcv.Abort();
+            }
+
+            OnConnectionClose();
+        }
+
+        private static void ClearCache()
+        {
+            foreach (var item in Contacts)
+            {
+                item.Value.Clear();
+            }
+
+            UnreadMsgs.Clear();
+            ReadMsgs.Clear();
+            SentMsgs.Clear();
         }
 
         /// <summary>
@@ -315,13 +467,13 @@ namespace DoctorClient
                     lines.Add(contacts.Key + " " + contact);
                 }
             }
-            File.WriteAllLines(MyIMClient.contactsFileName, lines);
+            File.WriteAllLines(MyIMClient.ContactsFileName, lines);
         }
 
         /// <summary>
         /// 缓存消息到本地
         /// </summary>
-        public static void SaveMsgs()
+        private static void SaveMsgs()
         {
             List<string> lines = new List<string>();
             //已读消息
@@ -329,7 +481,7 @@ namespace DoctorClient
             {
                 lines.Add(JsonConvert.SerializeObject(msg));
             }
-            File.WriteAllLines(readMsgsFileName, lines);
+            File.WriteAllLines(ReadMsgsFileName, lines);
 
             lines.Clear();
             //未读消息
@@ -337,26 +489,51 @@ namespace DoctorClient
             {
                 lines.Add(JsonConvert.SerializeObject(msg));
             }
-            File.WriteAllLines(unreadMsgsFileName, lines);
+            File.WriteAllLines(UnreadMsgsFileName, lines);
+
+            //发送消息
+            lines.Clear();
+            foreach (var msg in SentMsgs)
+            {
+                lines.Add(JsonConvert.SerializeObject(msg));
+            }
+            File.WriteAllLines(SentMsgsFileName, lines);
         }
 
         /// <summary>
         /// 加载消息到内存
         /// </summary>
-        public static void LoadMsgs()
+        private static void LoadMsgs()
         {
-            string[] lines = File.ReadAllLines(readMsgsFileName);
-            foreach(var line in lines)
+            string[] lines = null;
+            if (File.Exists(ReadMsgsFileName))
             {
-                Msg msg = JsonConvert.DeserializeObject<Msg>(line);
-                ReadMsgs.Add(msg);
+                lines = File.ReadAllLines(ReadMsgsFileName);
+                foreach(var line in lines)
+                {
+                    Msg msg = JsonConvert.DeserializeObject<Msg>(line);
+                    ReadMsgs.Add(msg);
+                }
             }
 
-            lines = File.ReadAllLines(unreadMsgsFileName);
-            foreach (var line in lines)
+            if (File.Exists(UnreadMsgsFileName))
             {
-                Msg msg = JsonConvert.DeserializeObject<Msg>(line);
-                UnreadMsgs.Add(msg);
+                lines = File.ReadAllLines(UnreadMsgsFileName);
+                foreach (var line in lines)
+                {
+                    Msg msg = JsonConvert.DeserializeObject<Msg>(line);
+                    UnreadMsgs.Add(msg);
+                }
+            }
+
+            if (File.Exists(SentMsgsFileName))
+            {
+                lines = File.ReadAllLines(SentMsgsFileName);
+                foreach (var line in lines)
+                {
+                    Msg msg = JsonConvert.DeserializeObject<Msg>(line);
+                    SentMsgs.Add(msg);
+                }
             }
         }
 
@@ -365,7 +542,7 @@ namespace DoctorClient
         /// </summary>
         /// <param name="username"></param>
         /// <param name="groupName"></param>
-        public static void AddContact(string username, string groupName)
+        public static void AddContact(string username, string groupName = UNFAMILIAR)
         {
             Contacts[groupName].Add(username);
             OnContactsChanged(new ContactsEventArgs() 
@@ -391,6 +568,12 @@ namespace DoctorClient
                 }
             }
             return false;
+        }
+
+        public static void SendEmptyMsg()
+        {
+            Msg msg = new Msg(Username, "", "");
+            SendMsg(msg);
         }
     }
 }

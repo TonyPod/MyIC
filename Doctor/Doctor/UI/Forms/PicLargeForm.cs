@@ -28,6 +28,9 @@ namespace Doctor.UI.Forms
         /// <param name="e"></param>
         private void PicLargeForm_Load(object sender, EventArgs e)
         {
+            //标题栏文字
+            this.Text = ResourceCulture.GetString("PicLargeForm_text");
+
             pictureBox1.Image = GeneralHelper.GetPhoto(fileName);
         }
     }

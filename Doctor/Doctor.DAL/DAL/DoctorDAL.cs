@@ -98,6 +98,25 @@ namespace Doctor.DAL
             }
         }
 
+        public static DoctorModel GetByName(System.String name)
+        {
+            DataTable table = SqlHelper.ExecuteDataTable(@"select * from Doctor where name = @name",
+                new SqlParameter("@name", name));
+            if (table.Rows.Count <= 0)
+            {
+                return null;
+            }
+            else if (table.Rows.Count > 1)
+            {
+                throw new Exception("Fatal Error: Duplicated Id in Table Doctor");
+            }
+            else
+            {
+                DataRow row = table.Rows[0];
+                return ToModel(row);
+            }
+        }
+
         public static DoctorModel[] GetAll()
         {
             DataTable table = SqlHelper.ExecuteDataTable("select * from Doctor");
@@ -125,14 +144,13 @@ namespace Doctor.DAL
         }
 
         /// <summary>
-        /// 检查用户名是否存在：要在User和Doctor两张表中查询
+        /// 检查用户名是否存在
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         public static bool CheckDoctorExist(string name)
         {
-            DataTable table = SqlHelper.ExecuteDataTable(@"select name from Doctor where name = @name union
-                                                        select name from [User] where name = @name",
+            DataTable table = SqlHelper.ExecuteDataTable(@"select name from Doctor where name = @name",
                 new SqlParameter("@name", name));
             if (table.Rows.Count <= 0)
             {
@@ -215,6 +233,48 @@ namespace Doctor.DAL
             else
             {
                 state = "password error";
+            }
+        }
+
+        /// <summary>
+        /// 查询一个医院的所有医生
+        /// </summary>
+        /// <param name="hospital_id"></param>
+        /// <returns></returns>
+        public static DoctorModel[] GetByHospitalId(long hospital_id)
+        {
+            List<DoctorModel> doctors = new List<DoctorModel>();
+            DataTable table = SqlHelper.ExecuteDataTable(@"select * from Doctor where hospital_id = @hospital_id",
+                new SqlParameter("@hospital_id", hospital_id));
+
+            foreach (DataRow row in table.Rows)
+            {
+                doctors.Add(ToModel(row));
+            }
+            return doctors.ToArray();
+        }
+
+        /// <summary>
+        /// 检查用户名是否存在（在医生和用户两张表中查询）
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public static bool CheckUsernameExist(string username)
+        {
+              DataTable table = SqlHelper.ExecuteDataTable(@"select name from Doctor where name = @name union
+                                                        select name from [User] where name = @name",
+                new SqlParameter("@name", username));
+            if (table.Rows.Count <= 0)
+            {
+                return false; 
+            }
+            else if (table.Rows.Count > 1)
+            {
+                throw new Exception("数据库异常：存在相同用户名的用户");
+            }
+            else
+            {
+                return true;
             }
         }
     }

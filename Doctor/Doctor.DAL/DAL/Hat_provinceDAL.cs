@@ -45,5 +45,20 @@ namespace Doctor.DAL
             hat_province.Province = (System.String)row["province"];
             return hat_province;
         }
+
+        public static Hat_provinceModel GetByName(string name)
+        {
+            DataTable table = SqlHelper.ExecuteDataTable(@"select * from hat_province where province = @name",
+                new SqlParameter("@name", name));
+            if (table.Rows.Count <= 0)
+            {
+                return null;
+            }
+            else
+            {
+                DataRow row = table.Rows[0];
+                return ToModel(row);
+            }
+        }
     }
 }

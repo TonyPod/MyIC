@@ -6,16 +6,34 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Doctor.UI.Forms
 {
     public partial class AddContactForm : Form
     {
+        private delegate void FlushClient();
         public AddContactForm()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// 初始化文字
+        /// </summary>
+        private void InitLanguage()
+        {
+            //标题栏文字
+            this.Text = ResourceCulture.GetString("AddContactForm_text");
+
+            btn_add.Text = ResourceCulture.GetString("btn_add");
+            btn_cancel.Text = ResourceCulture.GetString("btn_cancel");
+
+            lbl_group.Text = ResourceCulture.GetString("group");
+            lbl_username.Text = ResourceCulture.GetString("username");
         }
 
         /// <summary>
@@ -25,15 +43,12 @@ namespace Doctor.UI.Forms
         /// <param name="e"></param>
         private void AddContactForm_Load(object sender, EventArgs e)
         {
+            InitLanguage();
+
             cb_groups.Items.AddRange(MyIMClient.Contacts.Keys.ToArray());
         }
 
-        /// <summary>
-        /// 点击添加事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btn_add_Click(object sender, EventArgs e)
+        private void AddContact()
         {
             if (string.IsNullOrEmpty(tb_username.Text.Trim()))
             {
@@ -64,32 +79,61 @@ namespace Doctor.UI.Forms
                 return;
             }
 
-            //发送检查用户名重复的请求
-            JObject jObj = new JObject();
-            jObj.Add("username", username);
-            string result = HttpHelper.ConnectionForResult("CheckUsernameExistHandler.ashx", jObj.ToString());
-            if (string.IsNullOrEmpty(result))
+            //发送检查用户名存在的请求
+            new Thread(() =>
             {
-                MessageBox.Show("网络故障");
-                return;
-            }
+                JObject jObj = new JObject();
+                jObj.Add("username", username);
+                string result = HttpHelper.ConnectionForResult("CheckUsernameExistHandler.ashx", jObj.ToString());
+                this.Invoke(new FlushClient(() =>
+                {
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        MessageBox.Show("网络故障");
+                        return;
+                    }
 
-            //返回信息解析
-            JObject jObjRes = JObject.Parse(result);
-            string state = (string)jObjRes["state"];
-            if ("exist".Equals(state))
+                    //返回信息解析
+                    JObject jObjRes = JObject.Parse(result);
+                    string state = (string)jObjRes["state"];
+                    if ("not exist".Equals(state))
+                    {
+                        MessageBox.Show("用户名不存在");
+                        tb_username.Focus();
+                        return;
+                    }
+                    else
+                    {
+                        string groupName = cb_groups.SelectedItem.ToString();
+                        MyIMClient.AddContact(username, groupName);
+                        this.Close();
+                    }         
+                }));
+            }).Start();
+            
+        }
+
+        /// <summary>
+        /// 点击添加事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_add_Click(object sender, EventArgs e)
+        {
+            AddContact();
+        }
+
+        private void tb_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
             {
-                MessageBox.Show("用户名不存在");
-                tb_username.Focus();
-                return;
+                AddContact();
             }
-            else
-            {
-                string groupName = cb_groups.SelectedItem.ToString();
-                MyIMClient.AddContact(username, groupName);
-                MessageBox.Show("添加成功");
-                this.Close();
-            }
+        }
+
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
