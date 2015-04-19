@@ -31,10 +31,15 @@ namespace DoctorServer
 
             JObject jObjResponse = new JObject();
             jObjResponse.Add("state", state);
+            JObject jUser = new JObject();
             if (user != null)
             {
-                jObjResponse.Add("content", JsonConvert.SerializeObject(user));
+                jUser.Add("user_id", user.User_id);
+                jUser.Add("name", user.Name);
+                jUser.Add("date_of_birth", user.Date_of_birth);
+                jUser.Add("male", user.Male);
             }
+            jObjResponse.Add("content", jUser);
 
             byte[] buf = Encoding.UTF8.GetBytes(jObjResponse.ToString());
             context.Response.OutputStream.Write(buf, 0, buf.Length);

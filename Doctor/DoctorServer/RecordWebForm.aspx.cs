@@ -1,10 +1,14 @@
 ﻿using Doctor.DAL;
+using Doctor.DAL.DAL;
 using Doctor.Model;
+using Doctor.Model.Model;
+using Doctor.Util;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -42,6 +46,49 @@ namespace DoctorServer
 
                 dl_dstImgs.DataSource = dstUrls;
                 dl_dstImgs.DataBind();
+                
+                //取得该自检对应图片的所有处理结果
+                List<CVResultModel> results = new List<CVResultModel>();
+                foreach (var photo in photos)
+                {
+                    var result = CVResultDAL.GetById(photo.Path);
+                    if (result != null)
+                    {
+                        results.Add(result);
+                    }
+
+                }
+
+                //分析处理结果
+                float score = ScoreUtil.GetScore(results);
+
+                //结论
+                StringBuilder builder = new StringBuilder();
+                //builder.AppendFormat("系统分析得分：{0:f2}", score).AppendLine();
+                var group = Severity.Group(score);
+                switch (group)
+                {
+                    case Severity.SeverityEnum.Normal:
+                        builder.AppendLine("牙齿正常，请注意保持");
+                        break;
+                    case Severity.SeverityEnum.Light:
+                        builder.AppendLine("有少量龋齿或程度较轻");
+                        break;
+                    case Severity.SeverityEnum.Medium:
+                        builder.AppendLine("有一定龋齿或程度中等");
+                        break;
+                    case Severity.SeverityEnum.Severe:
+                        builder.AppendLine("有大量龋齿或龋坏严重");
+                        break;
+                    default:
+                        break;
+                }
+
+                if (group != Severity.SeverityEnum.Normal)
+                {
+                    builder.AppendLine("可能为色素沉着，牙石或牙垢，保持口腔清洁或前往正规医院洗牙可以让结果更准确");
+                }
+                lbl_conclusion.Text = builder.ToString().Replace(Environment.NewLine, "<br>");
 
                 //医生意见
                 DiagnosisModel[] diagnoses = DiagnosisDAL.GetAllByRecordId(record_id);

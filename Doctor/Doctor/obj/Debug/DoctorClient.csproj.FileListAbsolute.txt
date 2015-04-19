@@ -162,3 +162,4 @@ C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\Doctor.Resource.zh-C
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\en-US\Doctor.resources.dll
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\zh-CN\Doctor.resources.dll
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\Doctor.UI.Forms.NewRegisterForm.resources
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Debug\Doctor.UI.Forms.MyMessageBox.resources

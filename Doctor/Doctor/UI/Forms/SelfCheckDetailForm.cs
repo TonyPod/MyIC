@@ -18,11 +18,14 @@ namespace Doctor.Forms
     public partial class SelfCheckDetailForm : Form
     {
         private RecordModel record;
+        private long record_id;
         private delegate void SafeChangeCursorHandler(Cursor cursor);
         private delegate void SafeSetTextBoxHandler(TextBox textBox, string str);
         private delegate void SafeSetLinkLabelHandler(LinkLabel link, string str);
         private delegate void SafeChangeAccordingToIfAuthHandler();
         private delegate void FlushClient();
+
+        public long RecordId { get { return record == null ? record_id : record.Record_id; } }
 
         /// <summary>
         /// 构造函数
@@ -32,6 +35,12 @@ namespace Doctor.Forms
         {
             InitializeComponent();
             this.record = record;
+        }
+
+        public SelfCheckDetailForm(long record_id)
+        {
+            InitializeComponent();
+            this.record_id = record_id;
         }
 
         private void SafeChangeAccordingToIfAuth()
@@ -46,11 +55,13 @@ namespace Doctor.Forms
                 {
                     tb_comment.ReadOnly = false;
                     lbl_ifAuth.Visible = false;
+                    btn_submit.Enabled = true;
                 }
                 else
                 {
                     tb_comment.ReadOnly = true;
                     lbl_ifAuth.Visible = true;
+                    btn_submit.Enabled = false;
                 }
             }
         }
@@ -98,6 +109,11 @@ namespace Doctor.Forms
         /// <param name="e"></param>
         private void SelfCheckDetailForm_Load(object sender, EventArgs e)
         {
+            //国际化
+            InitLanguage();
+
+            ResourceCulture.LanguageChanged += ResourceCulture_LanguageChanged;
+
             //标题栏文字
             this.Text = ResourceCulture.GetString("SelfCheckDetailForm_text");
 
@@ -109,6 +125,22 @@ namespace Doctor.Forms
                 SafeChangeCursor(Cursors.WaitCursor);
 
                 SafeChangeAccordingToIfAuth();
+
+                //如果没有拿到自检记录则取自检记录
+                if (record == null)
+                {
+                    string recordResult = HttpHelper.ConnectionForResult("SelfCheckHandler.ashx",
+                        "Record_id: " + record_id);
+                    if (recordResult != null)
+                    {
+                        record = JsonConvert.DeserializeObject<RecordModel>(recordResult);
+                    }
+                    else
+                    {
+                        MyMessageBox.Show(ResourceCulture.GetString("network_error"));
+                        return;
+                    }
+                }
 
                 JObject jObjRcv = new JObject();
                 jObjRcv.Add("user_id", record.User_id);
@@ -146,7 +178,7 @@ namespace Doctor.Forms
                         if (!HttpHelper.DownloadFile("SelfCheckPhotoDownloadHandler.ashx", photoPath))
                         {
                             ////这里应该显示连接不上的图片
-                            //MessageBox.Show("获取图片失败");
+                            //MyMessageBox.Show("获取图片失败");
                         }
                         else
                         {
@@ -157,13 +189,20 @@ namespace Doctor.Forms
                                 {
                                     this.Invoke(new FlushClient(() =>
                                     {
-                                        PictureBox picBox = new PictureBox();
-                                        picBox.Image = Image.FromFile(Path.Combine(GeneralHelper.DownloadPicFolder,
-                                            photoPath));
-                                        picBox.SizeMode = PictureBoxSizeMode.Zoom;
-                                        picBox.Cursor = Cursors.Hand;
-                                        picBox.MouseClick += (obj, ev) => { new PicLargeForm(photoPath).ShowDialog(); };
-                                        flowLayoutPanel.Controls.Add(picBox);
+                                        try
+                                        {
+                                            PictureBox picBox = new PictureBox();
+                                            picBox.Image = Image.FromFile(Path.Combine(GeneralHelper.DownloadPicFolder,
+                                                photoPath));
+                                            picBox.SizeMode = PictureBoxSizeMode.Zoom;
+                                            picBox.Cursor = Cursors.Hand;
+                                            picBox.MouseClick += (obj, ev) => { new PicLargeForm(photoPath).ShowDialog(); };
+                                            flowLayoutPanel.Controls.Add(picBox);
+                                        }
+                                        catch (OutOfMemoryException)
+                                        {
+                                            MyMessageBox.Show(ResourceCulture.GetString("file_corrupted"));
+                                        }
                                     }));
                                 }
                                 catch (ObjectDisposedException)
@@ -203,6 +242,26 @@ namespace Doctor.Forms
             }).Start();
         }
 
+        void ResourceCulture_LanguageChanged(EventArgs e)
+        {
+            InitLanguage();
+        }
+
+        private void InitLanguage()
+        {
+            label1.Text = ResourceCulture.GetString("username");
+            label2.Text = ResourceCulture.GetString("illness_description");
+            label3.Text = ResourceCulture.GetString("self_check_photo");
+
+            groupBox1.Text = ResourceCulture.GetString("self_check_info");
+            groupBox2.Text = ResourceCulture.GetString("doc_opinion");
+
+            btn_submit.Text = ResourceCulture.GetString("btn_submit");
+            btn_cancel.Text = ResourceCulture.GetString("btn_cancel");
+
+            lbl_ifAuth.Text = ResourceCulture.GetString("not_auth_unable_to_comment");
+        }
+
         private void Submit()
         {
             if (!LoginStatus.UserInfo.IfAuth)
@@ -214,7 +273,7 @@ namespace Doctor.Forms
             string comment = tb_comment.Text;
             if (string.IsNullOrEmpty(comment))
             {
-                MessageBox.Show("请输入您的意见");
+                MyMessageBox.Show(ResourceCulture.GetString("please_input_your_comment"));
                 tb_comment.Focus();
                 return;
             }
@@ -232,7 +291,7 @@ namespace Doctor.Forms
             this.Cursor = Cursors.Default;
             if (null == result)
             {
-                MessageBox.Show("连接失败");
+                MyMessageBox.Show(ResourceCulture.GetString("network_error"));
                 return;
             }
 
@@ -240,11 +299,11 @@ namespace Doctor.Forms
             string state = (string)jObjResult.Property("state");
             if (state != "success")
             {
-                MessageBox.Show("提交失败！");
+                MyMessageBox.Show(ResourceCulture.GetString("submit_failed"));
             }
             else
             {
-                MessageBox.Show("提交成功！");
+                MyMessageBox.Show(ResourceCulture.GetString("submit_complete"));
                 this.Close();
             }
         }
@@ -282,6 +341,41 @@ namespace Doctor.Forms
             SelfCheckListForm form = new SelfCheckListForm(btn_username.Text);
             form.StartPosition = FormStartPosition.CenterParent;
             form.ShowDialog();
+        }
+
+        private Point mPoint = new Point();
+
+        private void Panel_MouseDown(object sender, MouseEventArgs e)
+        {
+            FlowLayoutPanel panel = sender as FlowLayoutPanel;
+
+            mPoint.X = e.X + panel.Left;
+            mPoint.Y = e.Y + panel.Top;
+        }
+
+        private void Panel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                Point newPoint = MousePosition;
+                newPoint.Offset(-mPoint.X, -mPoint.Y);
+                Location = newPoint;
+            }
+        }
+
+        private void picBox_minimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void picBox_close_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void SelfCheckDetailForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ResourceCulture.LanguageChanged -= ResourceCulture_LanguageChanged;
         }
     }
 }

@@ -243,4 +243,304 @@
   <data name="settings" xml:space="preserve">
     <value>设置</value>
   </data>
+  <data name="network_error" xml:space="preserve">
+    <value>网络异常</value>
+  </data>
+  <data name="auth_info" xml:space="preserve">
+    <value>认证信息</value>
+  </data>
+  <data name="basic_info" xml:space="preserve">
+    <value>基本信息</value>
+  </data>
+  <data name="cannot_add_yourself" xml:space="preserve">
+    <value>不能添加自己</value>
+  </data>
+  <data name="ctrl_enter_to_send" xml:space="preserve">
+    <value>Ctrl+Enter 发送消息</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="description" xml:space="preserve">
+    <value>描述</value>
+  </data>
+  <data name="doc_opinion" xml:space="preserve">
+    <value>医生意见</value>
+  </data>
+  <data name="enter_to_send" xml:space="preserve">
+    <value>Enter 发送消息</value>
+  </data>
+  <data name="friend" xml:space="preserve">
+    <value>好友</value>
+  </data>
+  <data name="have_auth" xml:space="preserve">
+    <value>已认证</value>
+  </data>
+  <data name="history_msg" xml:space="preserve">
+    <value>历史消息</value>
+  </data>
+  <data name="hospital_in" xml:space="preserve">
+    <value>所属医院</value>
+  </data>
+  <data name="illness_description" xml:space="preserve">
+    <value>症状描述</value>
+  </data>
+  <data name="insert_complete" xml:space="preserve">
+    <value>添加成功</value>
+  </data>
+  <data name="license_no" xml:space="preserve">
+    <value>执业医师证编号</value>
+  </data>
+  <data name="license_photo" xml:space="preserve">
+    <value>执业医师证照片</value>
+  </data>
+  <data name="location" xml:space="preserve">
+    <value>位置</value>
+  </data>
+  <data name="modify_password" xml:space="preserve">
+    <value>修改密码</value>
+  </data>
+  <data name="msg_too_long" xml:space="preserve">
+    <value>文本过长，请分条发送</value>
+  </data>
+  <data name="new_password" xml:space="preserve">
+    <value>新密码</value>
+  </data>
+  <data name="new_password_again" xml:space="preserve">
+    <value>再次输入</value>
+  </data>
+  <data name="not_auth" xml:space="preserve">
+    <value>未认证</value>
+  </data>
+  <data name="not_auth_unable_to_comment" xml:space="preserve">
+    <value>您没有通过认证，不能发布意见</value>
+  </data>
+  <data name="not_written" xml:space="preserve">
+    <value>未填写</value>
+  </data>
+  <data name="old_password" xml:space="preserve">
+    <value>旧密码</value>
+  </data>
+  <data name="password_do_not_match" xml:space="preserve">
+    <value>两次输入密码不相符</value>
+  </data>
+  <data name="password_error" xml:space="preserve">
+    <value>密码错误</value>
+  </data>
+  <data name="please_choose_group" xml:space="preserve">
+    <value>请选择分组</value>
+  </data>
+  <data name="please_input_username" xml:space="preserve">
+    <value>请输入用户名</value>
+  </data>
+  <data name="please_input_your_comment" xml:space="preserve">
+    <value>请输入您的意见</value>
+  </data>
+  <data name="please_login" xml:space="preserve">
+    <value>请登录</value>
+  </data>
+  <data name="please_select_data" xml:space="preserve">
+    <value>请选择数据后重试！</value>
+  </data>
+  <data name="real_name" xml:space="preserve">
+    <value>真实姓名</value>
+  </data>
+  <data name="score" xml:space="preserve">
+    <value>得分</value>
+  </data>
+  <data name="self_check_info" xml:space="preserve">
+    <value>自检信息</value>
+  </data>
+  <data name="self_check_photo" xml:space="preserve">
+    <value>自检图片</value>
+  </data>
+  <data name="self_photo" xml:space="preserve">
+    <value>个人照片</value>
+  </data>
+  <data name="send_failed" xml:space="preserve">
+    <value>发送失败</value>
+  </data>
+  <data name="stranger" xml:space="preserve">
+    <value>陌生人</value>
+  </data>
+  <data name="submit_complete" xml:space="preserve">
+    <value>提交成功</value>
+  </data>
+  <data name="submit_failed" xml:space="preserve">
+    <value>提交失败</value>
+  </data>
+  <data name="sure_to_connect_again" xml:space="preserve">
+    <value>即时通讯服务器未连接，是否需要重连</value>
+  </data>
+  <data name="sure_to_delete_contact" xml:space="preserve">
+    <value>是否要删除联系人</value>
+  </data>
+  <data name="sure_to_logout" xml:space="preserve">
+    <value>确定要注销吗？</value>
+  </data>
+  <data name="sure_to_quit" xml:space="preserve">
+    <value>确定要退出吗？</value>
+  </data>
+  <data name="unconnected" xml:space="preserve">
+    <value>未连接</value>
+  </data>
+  <data name="unread_msg_num" xml:space="preserve">
+    <value>未读信息条数</value>
+  </data>
+  <data name="upload_time" xml:space="preserve">
+    <value>上传时间</value>
+  </data>
+  <data name="username_not_exist" xml:space="preserve">
+    <value>用户名不存在</value>
+  </data>
+  <data name="user_already_added" xml:space="preserve">
+    <value>已添加该用户</value>
+  </data>
+  <data name="btn_select_pic" xml:space="preserve">
+    <value>选择图片(&amp;S)</value>
+  </data>
+  <data name="data_error" xml:space="preserve">
+    <value>服务器返回数据异常</value>
+  </data>
+  <data name="input_again" xml:space="preserve">
+    <value>再次输入</value>
+  </data>
+  <data name="no_pic_selected" xml:space="preserve">
+    <value>未选择图片</value>
+  </data>
+  <data name="please_input_password" xml:space="preserve">
+    <value>请输入密码</value>
+  </data>
+  <data name="please_input_password_again" xml:space="preserve">
+    <value>请再次输入密码</value>
+  </data>
+  <data name="select_hospital" xml:space="preserve">
+    <value>医院选择</value>
+  </data>
+  <data name="username_exist" xml:space="preserve">
+    <value>用户名已存在</value>
+  </data>
+  <data name="out_of_memory" xml:space="preserve">
+    <value>内存不足</value>
+  </data>
+  <data name="btn_confirm" xml:space="preserve">
+    <value>确认(&amp;O)</value>
+  </data>
+  <data name="degree" xml:space="preserve">
+    <value>程度</value>
+  </data>
+  <data name="connect_timeout" xml:space="preserve">
+    <value>连接超时</value>
+  </data>
+  <data name="unable_to_locate" xml:space="preserve">
+    <value>无法获取地理位置</value>
+  </data>
+  <data name="im_connection_failed" xml:space="preserve">
+    <value>即时通讯连接失败</value>
+  </data>
+  <data name="im_offline" xml:space="preserve">
+    <value>即时通讯未连接</value>
+  </data>
+  <data name="im_online" xml:space="preserve">
+    <value>即时通讯已连接</value>
+  </data>
+  <data name="login_again" xml:space="preserve">
+    <value>重新登录</value>
+  </data>
+  <data name="pushed_aside" xml:space="preserve">
+    <value>您的账号在其他地点登录被迫下线，重新登录？</value>
+  </data>
+  <data name="file_corrupted" xml:space="preserve">
+    <value>文件损坏</value>
+  </data>
+  <data name="light" xml:space="preserve">
+    <value>轻微</value>
+  </data>
+  <data name="medium" xml:space="preserve">
+    <value>中等</value>
+  </data>
+  <data name="normal" xml:space="preserve">
+    <value>正常</value>
+  </data>
+  <data name="severe" xml:space="preserve">
+    <value>严重</value>
+  </data>
+  <data name="unanalyzed" xml:space="preserve">
+    <value>未分析</value>
+  </data>
+  <data name="e_dentist" xml:space="preserve">
+    <value>eDentist是你口袋里的口腔诊断平台，用户采用手机相机或外部设备用一定的角度拍摄口腔图片，上传云端处理，云端结合上传图片和调查问卷分析是否存在口腔问题，并提出针对性的建议，同时会为用户推荐附近的口腔医院。所有注册并审核成功的医生也可看到用户的自检照片和描述，提供更中肯的建议</value>
+  </data>
+  <data name="btn_add_contact" xml:space="preserve">
+    <value>添加联系人(&amp;A)</value>
+  </data>
+  <data name="btn_delete" xml:space="preserve">
+    <value>删除(&amp;D)</value>
+  </data>
+  <data name="btn_friend" xml:space="preserve">
+    <value>好友(&amp;F)</value>
+  </data>
+  <data name="btn_move_to" xml:space="preserve">
+    <value>移动至(&amp;M)</value>
+  </data>
+  <data name="btn_no" xml:space="preserve">
+    <value>否(&amp;N)</value>
+  </data>
+  <data name="btn_stranger" xml:space="preserve">
+    <value>陌生人(&amp;S)</value>
+  </data>
+  <data name="btn_yes" xml:space="preserve">
+    <value>是(&amp;Y)</value>
+  </data>
+  <data name="connecting_please_wait" xml:space="preserve">
+    <value>连接中...请等待</value>
+  </data>
+  <data name="illegal_license_no" xml:space="preserve">
+    <value>执业医师证编码不合法，请重新输入</value>
+  </data>
+  <data name="illegal_pic_format" xml:space="preserve">
+    <value>文件不是正确的图片格式</value>
+  </data>
+  <data name="pic_no_more_than_1024x768" xml:space="preserve">
+    <value>图片大小不能超过1024x768</value>
+  </data>
+  <data name="pic_no_more_than_2m" xml:space="preserve">
+    <value>文件不能超过2M</value>
+  </data>
+  <data name="please_choose_license_photo" xml:space="preserve">
+    <value>请选择执业医师证图片</value>
+  </data>
+  <data name="please_choose_self_photo" xml:space="preserve">
+    <value>请选择个人照片</value>
+  </data>
+  <data name="please_input_license_no" xml:space="preserve">
+    <value>请输入执业医师证编码</value>
+  </data>
+  <data name="please_input_real_name" xml:space="preserve">
+    <value>请输入真实姓名</value>
+  </data>
+  <data name="please_select_area" xml:space="preserve">
+    <value>请选择地区</value>
+  </data>
+  <data name="please_select_city" xml:space="preserve">
+    <value>请选择市</value>
+  </data>
+  <data name="please_select_hospital" xml:space="preserve">
+    <value>请选择医院</value>
+  </data>
+  <data name="please_select_province" xml:space="preserve">
+    <value>请选择省</value>
+  </data>
+  <data name="register_failed" xml:space="preserve">
+    <value>注册失败，请重新尝试！</value>
+  </data>
+  <data name="register_success" xml:space="preserve">
+    <value>注册成功，审核成功会在第一时间予以通知！</value>
+  </data>
+  <data name="btn_view_history" xml:space="preserve">
+    <value>查看用户历史(&amp;V)</value>
+  </data>
+  <data name="unhandled_exception" xml:space="preserve">
+    <value>程序错误 请发送安装目录的错误日志到邮箱hc_pod711@163.com取得更多支持</value>
+  </data>
 </root>

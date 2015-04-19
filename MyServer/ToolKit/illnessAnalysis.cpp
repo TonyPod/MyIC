@@ -362,7 +362,7 @@ _declspec(dllexport) Illnesses _stdcall analyze(const char *fileName, const char
 	illnesses->illnesses = new int[nbTeeth];
 	for (int iTooth = 1; iTooth <= nbTeeth; iTooth++)
 	{
-		int result = detectIllness(img0, markers, iTooth);
+		int result = detectOuterIllness(img0, markers, iTooth);
 		illnesses->illnesses[iTooth - 1] = result;
 		vec.push_back(result);
 	}

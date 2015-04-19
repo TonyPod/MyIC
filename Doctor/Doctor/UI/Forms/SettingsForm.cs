@@ -30,7 +30,7 @@ namespace Doctor.UI.Forms
             InitLanguage();
 
             //加载语言设置
-            string region = ResourceCulture.GetCurrentCulture();
+            string region = ResourceCulture.GetCurrentCultureName();
 
             //初始化RadioButton的选择状态
             foreach (RadioButton item in groupBox1.Controls)
@@ -83,6 +83,36 @@ namespace Doctor.UI.Forms
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private Point mPoint = new Point();
+
+        private void Panel_MouseDown(object sender, MouseEventArgs e)
+        {
+            FlowLayoutPanel panel = sender as FlowLayoutPanel;
+
+            mPoint.X = e.X + panel.Left;
+            mPoint.Y = e.Y + panel.Top;
+        }
+
+        private void Panel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                Point newPoint = MousePosition;
+                newPoint.Offset(-mPoint.X, -mPoint.Y);
+                Location = newPoint;
+            }
+        }
+
+        private void picBox_minimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void picBox_close_Click(object sender, EventArgs e)
         {
             this.Close();
         }

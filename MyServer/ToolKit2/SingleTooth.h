@@ -3,6 +3,7 @@
 
 #include <opencv\cv.h>
 
-int detectIllness(IplImage *img, IplImage *markers, int toothIndex);
+int detectOuterIllness(IplImage *img, IplImage *markers, int toothIndex);
+int detectInnerIllness(IplImage *img, IplImage *markers, int toothIndex);
 
 #endif // __SINGLE_TOOTH_H__

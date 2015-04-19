@@ -37,7 +37,6 @@ void ExtFeatureMat(vector<char *> fileNames, Mat& inputsMat)
 	//存放灰度分布的数组
 	int bins[256];
 	float mean;
-	int nb20, nb50, nb80;
 
 	IplConvKernel *kernel = cvCreateStructuringElementEx(5, 5, 2, 2, CV_SHAPE_ELLIPSE, NULL);
 
@@ -58,7 +57,7 @@ void ExtFeatureMat(vector<char *> fileNames, Mat& inputsMat)
 
 		//1.灰度重心
 		mean = 0;
-		nb20 = nb50 = nb80 = 0;
+		int nb10_100[10] = { 0 };
 		memset(bins, 0, sizeof(bins));
 		for (int m = 0; m < gray->height; m++)
 		{
@@ -67,17 +66,9 @@ void ExtFeatureMat(vector<char *> fileNames, Mat& inputsMat)
 				uchar grayVal = CV_IMAGE_ELEM(gray, uchar, m, n);
 				bins[grayVal]++;
 				mean += grayVal;
-				if (grayVal < 20)
+				if (grayVal < 100)
 				{
-					nb20++;
-				}
-				else if (grayVal < 50)
-				{
-					nb50++;
-				}
-				else if (grayVal < 80)
-				{
-					nb80++;
+					nb10_100[grayVal / 10]++;
 				}
 			}
 		}
@@ -93,9 +84,6 @@ void ExtFeatureMat(vector<char *> fileNames, Mat& inputsMat)
 		printf("文件名：%s\n", fileName);
 		printf("灰度重心：%f\n", mean);
 		printf("灰度峰值：%d\n", max);
-		printf("低于20：%d\n", nb20);
-		printf("低于50：%d\n", nb50);
-		printf("低于80：%d\n", nb80);
 
 		//3.Hu不变矩
 		CvMoments moments;
@@ -113,9 +101,10 @@ void ExtFeatureMat(vector<char *> fileNames, Mat& inputsMat)
 		vector<double> vec;
 		vec.push_back(mean);
 		vec.push_back(max);
-		vec.push_back(nb20);
-		vec.push_back(nb50);
-		vec.push_back(nb80);
+		for (int i = 0; i < 10; i++)
+		{
+			vec.push_back(nb10_100[i]);
+		}
 		vec.push_back(hu_moments.hu1);
 		vec.push_back(hu_moments.hu2);
 		vec.push_back(hu_moments.hu3);
@@ -197,7 +186,7 @@ int main(void)
 
 	CvANN_MLP ann;
 	ann.load("params.xml");
-
+	ann.save("params2.xml");
 
 	Mat inputsMat;
 	ExtFeatureMat(fileNames, inputsMat);
@@ -206,13 +195,13 @@ int main(void)
 
 	ann.predict(inputsMat, outputsMat);
 
-	int maxIdx = 0;
 	//显示分类结果
 	for (int i = 0; i < fileNames.size(); i++)
 	{
+		int maxIdx = 0;
 		for (int j = 0; j < 4; j++)
 		{
-			if (outputsMat.at<double>(i, j) > outputsMat.at<double>(j, maxIdx))
+			if (outputsMat.at<double>(i, j) > outputsMat.at<double>(i, maxIdx))
 			{
 				maxIdx = j;
 			}

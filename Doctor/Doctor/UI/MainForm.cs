@@ -27,6 +27,8 @@ namespace Doctor
         private delegate void LogoutSafeHandler();
         private delegate void LoginSafeHandler();
         private delegate void FlushConnectingClient(ConnectingEventArgs e);
+        private delegate void FlushConnectionSuspendedClient(ConnectionSuspendedEventArgs e);
+
 
         public MainForm()
         {
@@ -63,6 +65,19 @@ namespace Doctor
             }
             else
             {
+                //字号
+                Font font = ResourceCulture.GetMainFormLabelFont();
+                lbl_logout.Font = font;
+                lbl_register.Font = font;
+                lbl_settings.Font = font;
+                lbl_quit.Font = font;
+
+                //“登录”的Label的位置
+                lbl_status.SizeChanged += lbl_status_SizeChanged;
+                lbl_selfCheck.SizeChanged += lbl_selfCheck_SizeChanged;
+                lbl_selfInfo.SizeChanged += lbl_selfInfo_SizeChanged;
+                lbl_contacts.SizeChanged += lbl_contacts_SizeChanged;
+
                 lbl_about.Text = ResourceCulture.GetString("about");
                 lbl_contacts.Text = ResourceCulture.GetString("contacts");
                 lbl_selfCheck.Text = ResourceCulture.GetString("self_check");
@@ -72,7 +87,36 @@ namespace Doctor
                 lbl_logout.Text = ResourceCulture.GetString("logout");
                 lbl_register.Text = ResourceCulture.GetString("register");
                 lbl_quit.Text = ResourceCulture.GetString("quit");
+
+                lbl_imStatus.Text = ResourceCulture.GetString("im_offline");
+                lbl_loc.Text = ResourceCulture.GetLocationString(LoginStatus.UserIP);
+
+                if (!LoginStatus.Login)
+                {
+                    lbl_status.Text = ResourceCulture.GetString("please_login");
+                }
+
             }
+        }
+
+        void lbl_contacts_SizeChanged(object sender, EventArgs e)
+        {
+            lbl_contacts.Left = picBox_message.Left + picBox_message.Width / 2 - lbl_contacts.Width / 2;
+        }
+
+        void lbl_selfInfo_SizeChanged(object sender, EventArgs e)
+        {
+            lbl_selfInfo.Left = picBox_selfInfo.Left + picBox_selfInfo.Width / 2 - lbl_selfInfo.Width / 2;
+        }
+
+        void lbl_selfCheck_SizeChanged(object sender, EventArgs e)
+        {
+            lbl_selfCheck.Left = picBox_check.Left + picBox_check.Width / 2 - lbl_selfCheck.Width / 2;
+        }
+
+        void lbl_status_SizeChanged(object sender, EventArgs e)
+        {
+            lbl_status.Left = panel1.Width / 2 - lbl_status.Width / 2;
         }
 
         /// <summary>
@@ -114,7 +158,7 @@ namespace Doctor
             timer.Tick += (a, b) => { LoginStatus.RefreshIP(); };
             timer.Start();
 
-            lbl_loc.Text = "无法获取地理位置";
+            lbl_loc.Text = ResourceCulture.GetString("unable_to_locate");
         }
 
         private void ResourceCulture_LanguageChanged(EventArgs e)
@@ -122,15 +166,25 @@ namespace Doctor
             InitLanguage();
         }
 
-        private void MyIMClient_ConnectionSuspended()
+        private void MyIMClient_ConnectionSuspended(ConnectionSuspendedEventArgs e)
         {
             if (lbl_imStatus.InvokeRequired)
             {
-                this.Invoke(new FlushClient(MyIMClient_ConnectionSuspended));
+                this.Invoke(new FlushConnectionSuspendedClient(MyIMClient_ConnectionSuspended), e);
             }
             else
             {
-                lbl_imStatus.Text = "即时通讯连接失败";
+                lbl_imStatus.Text = ResourceCulture.GetString("im_connection_failed");
+                if (e.IsPushedAside)
+                {
+                    if (MyMessageBox.Show(ResourceCulture.GetString("pushed_aside"), ResourceCulture.GetString("login_again"), 
+                        MyMessageBox.MyMessageBoxButtons.YesNo) 
+                                            == DialogResult.Yes)
+                    {
+                        //尝试重连
+                        MyIMClient.ConnectAsync();
+                    }
+                }
             }
         }
 
@@ -142,7 +196,7 @@ namespace Doctor
             }
             else
             {
-                lbl_imStatus.Text = "即时通讯正常";
+                lbl_imStatus.Text = ResourceCulture.GetString("im_online");
             }
         }
 
@@ -164,14 +218,7 @@ namespace Doctor
             }
             else
             {
-                if (LoginStatus.UserIP != null)
-                {
-                    lbl_loc.Text = LoginStatus.UserIP.ToString() + "的用户";
-                }
-                else
-                {
-                    lbl_loc.Text = "无法获取地理位置";
-                }
+                lbl_loc.Text = ResourceCulture.GetLocationString(LoginStatus.UserIP);
             }
         }
 
@@ -226,7 +273,7 @@ namespace Doctor
             }
             else
             {
-                lbl_imStatus.Text = "即时通讯未连接";
+                lbl_imStatus.Text = ResourceCulture.GetString("im_offline");
             }
         }
 
@@ -238,7 +285,7 @@ namespace Doctor
             }
             else
             {
-                lbl_imStatus.Text = string.Format("即时通讯连接失败，尝试第{0}次重连", e.CurTime);
+                lbl_imStatus.Text = ResourceCulture.GetConnectingString(e.CurTime);
             }
         }
 
@@ -253,7 +300,7 @@ namespace Doctor
             else
             {
                 //状态栏显示
-                lbl_status.Text = "请登录";
+                lbl_status.Text = ResourceCulture.GetString("please_login");
 
                 //左侧按钮禁用
                 panel_selfCheck.Enabled = false;
@@ -344,7 +391,9 @@ namespace Doctor
         /// <param name="e"></param>
         private void picBox_logout_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("确定要注销吗？", "注销", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+            if (MyMessageBox.Show(ResourceCulture.GetString("sure_to_logout"), ResourceCulture.GetString("logout"), 
+                MyMessageBox.MyMessageBoxButtons.YesNo) 
+                == System.Windows.Forms.DialogResult.Yes)
             {
                 //清除保存的登录状态
                 LoginStatus.Clear();
@@ -481,7 +530,9 @@ namespace Doctor
         /// <param name="e"></param>
         private void picBox_exit_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("确定要退出吗？", "退出", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+            if (MyMessageBox.Show(ResourceCulture.GetString("sure_to_quit"), ResourceCulture.GetString("quit"), 
+                MyMessageBox.MyMessageBoxButtons.YesNo) 
+                == System.Windows.Forms.DialogResult.Yes)
             {
                 Application.Exit();
             }

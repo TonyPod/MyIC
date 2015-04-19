@@ -1,5 +1,6 @@
 ﻿using Doctor.Model;
 using Doctor.Properties;
+using Doctor.UI.Forms;
 using Doctor.Util;
 using DoctorClient;
 using Newtonsoft.Json;
@@ -83,6 +84,9 @@ namespace Doctor.Forms
             Login();
         }
 
+        //正在连接
+        private Task<string> task;
+
         private void Login()
         {
             JObject jObj = new JObject();
@@ -93,15 +97,21 @@ namespace Doctor.Forms
             //检查输入是否为空
             if (string.IsNullOrEmpty(username))
             {
-                MessageBox.Show("请输入用户名");
+                MyMessageBox.Show(ResourceCulture.GetString("please_input_username"));
                 tb_username.Focus();
                 return;
             }
 
             if (string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("请输入密码");
+                MyMessageBox.Show(ResourceCulture.GetString("please_input_password"));
                 tb_password.Focus();
+                return;
+            }
+
+            //检查是否正在连接
+            if (task != null && task.Status == TaskStatus.Running)
+            {
                 return;
             }
 
@@ -114,21 +124,22 @@ namespace Doctor.Forms
             FlushCursor(Cursors.WaitCursor);
 
             //将用户名和密码放入JSON字符串中并发送HTTP请求，取得返回结果并分析（异步）
-            var task = HttpHelper.ConnectionForResultAsync(urlStr, jObj.ToString());
+            task = HttpHelper.ConnectionForResultAsync(urlStr, jObj.ToString());
+
             task.ContinueWith((curTask) =>
             {
+                //光标切换回正常
+                FlushCursor(Cursors.Default);
+
                 //取得Task的返回结果
                 string result = curTask.Result;
 
                 //没有任何响应：连接失败
                 if (string.IsNullOrEmpty(result))
                 {
-                    MessageBox.Show("连接失败");
+                    MyMessageBox.Show(ResourceCulture.GetString("connect_timeout"));
                     return;
                 }
-
-                //光标切换回正常
-                FlushCursor(Cursors.Default);
 
                 //连接成功，分析状态码
                 JObject jObjResult = JObject.Parse(result);
@@ -136,7 +147,7 @@ namespace Doctor.Forms
                 switch (state)
                 {
                     case "username not exist":
-                        MessageBox.Show("用户名不存在");
+                        MyMessageBox.Show(ResourceCulture.GetString("username_not_exist"));
                         break;
                     case "success":
                         //得到医生信息
@@ -149,10 +160,10 @@ namespace Doctor.Forms
 
                         break;
                     case "password error":
-                        MessageBox.Show("密码不正确");
+                        MyMessageBox.Show(ResourceCulture.GetString("password_error"));
                         break;
                     default:
-                        MessageBox.Show("服务器返回数据异常");
+                        MyMessageBox.Show(ResourceCulture.GetString("data_error"));
                         return;
                 } 
             });
@@ -192,6 +203,36 @@ namespace Doctor.Forms
             {
                 Login();
             }
+        }
+
+        private Point mPoint = new Point();
+
+        private void Panel_MouseDown(object sender, MouseEventArgs e)
+        {
+            FlowLayoutPanel panel = sender as FlowLayoutPanel;
+
+            mPoint.X = e.X + panel.Left;
+            mPoint.Y = e.Y + panel.Top;
+        }
+
+        private void Panel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                Point newPoint = MousePosition;
+                newPoint.Offset(-mPoint.X, -mPoint.Y);
+                Location = newPoint;
+            }
+        }
+
+        private void picBox_minimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void picBox_close_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

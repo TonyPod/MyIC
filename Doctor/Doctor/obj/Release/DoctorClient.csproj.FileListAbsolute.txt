@@ -32,3 +32,4 @@ C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Release\zh-CN\Doctor.resou
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Release\en-US\Doctor.resources.dll
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Release\Doctor.exe
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Release\Doctor.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor\obj\Release\Doctor.UI.Forms.MyMessageBox.resources

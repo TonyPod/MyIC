@@ -26,6 +26,7 @@ namespace Doctor.Panels
             InitializeComponent();
         }
 
+        private delegate void FlushClient();
         private delegate void FlushImageHandler(PictureBox picBox, string photoPath);
         private delegate void FlushFormCursorHandler(Cursor cursor);
         private delegate void FlushLabelHandler(Label label, string text);
@@ -55,6 +56,10 @@ namespace Doctor.Panels
             {
                 label.Text = text;
                 label.ForeColor = color;
+                if (!label.Visible)
+                {
+                    label.Visible = true;
+                }
             }
         }
 
@@ -99,27 +104,19 @@ namespace Doctor.Panels
             form.ShowDialog();
         }
 
-        public static Image KiResizeImage(Image img, int newW, int newH)
-        {
-            try
-            {
-                Bitmap bmp = new Bitmap(newW, newH);
-                Graphics g = Graphics.FromImage(img);
-
-                // 插值算法的质量
-                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                g.DrawImage(bmp, new Rectangle(0, 0, newW, newH), new Rectangle(0, 0, img.Width, img.Height), GraphicsUnit.Pixel);
-                g.Dispose();
-
-                return bmp;
-            }
-            catch
-            {
-                return null;
-            }
-        }
         private void SelfInfoForm_Load(object sender, EventArgs e)
         {
+            //国际化
+            InitLanguage();
+
+            //清空显示的数据
+            lbl_hospital.Text = "";
+            lbl_username.Text = "";
+            lbl_realname.Text = "";
+            lbl_license.Text = "";
+
+            ResourceCulture.LanguageChanged += ResourceCulture_LanguageChanged;
+
             new Thread(() =>
             {
                 FlushFormCursor(Cursors.WaitCursor);
@@ -160,7 +157,7 @@ namespace Doctor.Panels
 
                     if (userInfo.Hospital_id == null)
                     {
-                        FlushLabel(lbl_hospital, "未填写");
+                        this.Invoke(new FlushClient(() => { lbl_hospital.Text = ResourceCulture.GetString("not_written"); }));
                     }
                     else
                     {
@@ -176,22 +173,55 @@ namespace Doctor.Panels
                         }
                     }
 
-                    FlushLabel(lbl_license, (userInfo.LicenseNo == null ? "未填写" : userInfo.LicenseNo));
-                    FlushLabel(lbl_realname, (userInfo.RealName == null ? "未填写" : userInfo.RealName));
+                    FlushLabel(lbl_license, (userInfo.LicenseNo == null ? ResourceCulture.GetString("not_written") : userInfo.LicenseNo));
+                    FlushLabel(lbl_realname, (userInfo.RealName == null ? ResourceCulture.GetString("not_written") : userInfo.RealName));
 
                     //认证与否
-                    if (userInfo.IfAuth)
+                    if (!this.IsDisposed)
                     {
-                        FlushLabelAndColor(lbl_ifAuth, "已认证", Color.Black);
-                    }
-                    else
-                    {
-                        FlushLabelAndColor(lbl_ifAuth, "未认证", Color.Red);
+                        this.Invoke(new FlushClient(() => 
+                        {
+                            if (userInfo.IfAuth)
+                            {
+                                lbl_ifAuth.Text = ResourceCulture.GetString("have_auth");
+                                lbl_ifAuth.ForeColor = Color.FromArgb(245, 252, 255);
+                            }
+                            else
+                            {
+                                lbl_ifAuth.Text = ResourceCulture.GetString("not_auth");
+                                lbl_ifAuth.ForeColor = Color.FromArgb(232, 161, 123);
+                            }
+                        }));
                     }
                 }
 
                 FlushFormCursor(Cursors.Default);
             }).Start();
+        }
+
+        void ResourceCulture_LanguageChanged(EventArgs e)
+        {
+            InitLanguage();
+        }
+
+        private void InitLanguage()
+        {
+            groupBox1.Text = ResourceCulture.GetString("basic_info");
+            groupBox2.Text = ResourceCulture.GetString("auth_info");
+
+            link_modifyPassword.Text = ResourceCulture.GetString("modify_password");
+            label4.Text = ResourceCulture.GetString("real_name");
+            label3.Text = ResourceCulture.GetString("hospital_in");
+            label2.Text = ResourceCulture.GetString("license_no");
+            label6.Text = ResourceCulture.GetString("license_photo");
+
+            lbl_photo.Text = ResourceCulture.GetString("self_photo");
+            lbl_ifAuth.Text = ResourceCulture.GetString("not_auth");
+        }
+
+        private void SelfInfoForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ResourceCulture.LanguageChanged -= ResourceCulture_LanguageChanged;
         }
     }
 }

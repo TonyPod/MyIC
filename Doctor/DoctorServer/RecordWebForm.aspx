@@ -86,9 +86,7 @@
         <div class="my-style-div2">
 			<span class="my-style2">Conclusion</span>
             <hr class="my-style-hr"/>
-			<span>
-                可能为色素沉着，牙石或牙垢，保持口腔清洁或前往正规医院洗牙可以让结果更准确
-			</span>
+            <asp:Label ID="lbl_conclusion" runat="server" />
         </div>
 
         <div class="my-style-div">

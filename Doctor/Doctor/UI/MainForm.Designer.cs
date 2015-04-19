@@ -32,6 +32,12 @@
             this.lbl_status = new System.Windows.Forms.Label();
             this.picBox_login = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.panel_register = new System.Windows.Forms.Panel();
+            this.lbl_register = new System.Windows.Forms.Label();
+            this.picBox_register = new System.Windows.Forms.PictureBox();
+            this.panel_logout = new System.Windows.Forms.Panel();
+            this.lbl_logout = new System.Windows.Forms.Label();
+            this.picBox_logout = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.lbl_quit = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -41,8 +47,6 @@
             this.panel_settings = new System.Windows.Forms.Panel();
             this.picBox_settings = new System.Windows.Forms.PictureBox();
             this.lbl_settings = new System.Windows.Forms.Label();
-            this.lbl_logout = new System.Windows.Forms.Label();
-            this.lbl_register = new System.Windows.Forms.Label();
             this.lbl_selfCheck = new System.Windows.Forms.Label();
             this.lbl_contacts = new System.Windows.Forms.Label();
             this.lbl_selfInfo = new System.Windows.Forms.Label();
@@ -53,16 +57,16 @@
             this.panel_selfInfo = new System.Windows.Forms.Panel();
             this.picBox_selfInfo = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.panel_register = new System.Windows.Forms.Panel();
-            this.picBox_register = new System.Windows.Forms.PictureBox();
-            this.panel_logout = new System.Windows.Forms.Panel();
-            this.picBox_logout = new System.Windows.Forms.PictureBox();
             this.lbl_loc = new System.Windows.Forms.Label();
             this.lbl_imStatus = new System.Windows.Forms.Label();
             this.panel = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBox_login)).BeginInit();
             this.panel2.SuspendLayout();
+            this.panel_register.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_register)).BeginInit();
+            this.panel_logout.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_logout)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel_about.SuspendLayout();
@@ -76,10 +80,6 @@
             this.panel_selfInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBox_selfInfo)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
-            this.panel_register.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picBox_register)).BeginInit();
-            this.panel_logout.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picBox_logout)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -96,6 +96,7 @@
             // 
             // lbl_status
             // 
+            this.lbl_status.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lbl_status.AutoEllipsis = true;
             this.lbl_status.AutoSize = true;
             this.lbl_status.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -131,6 +132,78 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(119, 463);
             this.panel2.TabIndex = 1;
+            // 
+            // panel_register
+            // 
+            this.panel_register.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(97)))), ((int)(((byte)(94)))));
+            this.panel_register.Controls.Add(this.lbl_register);
+            this.panel_register.Controls.Add(this.picBox_register);
+            this.panel_register.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.panel_register.Location = new System.Drawing.Point(0, 68);
+            this.panel_register.Name = "panel_register";
+            this.panel_register.Size = new System.Drawing.Size(119, 59);
+            this.panel_register.TabIndex = 0;
+            this.panel_register.Click += new System.EventHandler(this.picBox_register_Click);
+            // 
+            // lbl_register
+            // 
+            this.lbl_register.AutoSize = true;
+            this.lbl_register.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_register.Location = new System.Drawing.Point(55, 22);
+            this.lbl_register.Name = "lbl_register";
+            this.lbl_register.Size = new System.Drawing.Size(40, 16);
+            this.lbl_register.TabIndex = 1;
+            this.lbl_register.Text = "注册";
+            this.lbl_register.Click += new System.EventHandler(this.picBox_register_Click);
+            // 
+            // picBox_register
+            // 
+            this.picBox_register.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picBox_register.Image = global::Doctor.Properties.Resources.注册2;
+            this.picBox_register.Location = new System.Drawing.Point(15, 13);
+            this.picBox_register.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
+            this.picBox_register.Name = "picBox_register";
+            this.picBox_register.Size = new System.Drawing.Size(34, 34);
+            this.picBox_register.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBox_register.TabIndex = 0;
+            this.picBox_register.TabStop = false;
+            this.picBox_register.Click += new System.EventHandler(this.picBox_register_Click);
+            // 
+            // panel_logout
+            // 
+            this.panel_logout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(97)))), ((int)(((byte)(94)))));
+            this.panel_logout.Controls.Add(this.lbl_logout);
+            this.panel_logout.Controls.Add(this.picBox_logout);
+            this.panel_logout.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.panel_logout.Location = new System.Drawing.Point(0, 3);
+            this.panel_logout.Name = "panel_logout";
+            this.panel_logout.Size = new System.Drawing.Size(119, 59);
+            this.panel_logout.TabIndex = 3;
+            this.panel_logout.Click += new System.EventHandler(this.picBox_logout_Click);
+            // 
+            // lbl_logout
+            // 
+            this.lbl_logout.AutoSize = true;
+            this.lbl_logout.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbl_logout.Location = new System.Drawing.Point(55, 21);
+            this.lbl_logout.Name = "lbl_logout";
+            this.lbl_logout.Size = new System.Drawing.Size(40, 16);
+            this.lbl_logout.TabIndex = 1;
+            this.lbl_logout.Text = "注销";
+            this.lbl_logout.Click += new System.EventHandler(this.picBox_logout_Click);
+            // 
+            // picBox_logout
+            // 
+            this.picBox_logout.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picBox_logout.Image = global::Doctor.Properties.Resources.注销1;
+            this.picBox_logout.Location = new System.Drawing.Point(15, 12);
+            this.picBox_logout.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
+            this.picBox_logout.Name = "picBox_logout";
+            this.picBox_logout.Size = new System.Drawing.Size(34, 34);
+            this.picBox_logout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBox_logout.TabIndex = 0;
+            this.picBox_logout.TabStop = false;
+            this.picBox_logout.Click += new System.EventHandler(this.picBox_logout_Click);
             // 
             // panel3
             // 
@@ -239,28 +312,6 @@
             this.lbl_settings.TabIndex = 1;
             this.lbl_settings.Text = "设置";
             this.lbl_settings.Click += new System.EventHandler(this.picBox_settings_Click);
-            // 
-            // lbl_logout
-            // 
-            this.lbl_logout.AutoSize = true;
-            this.lbl_logout.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_logout.Location = new System.Drawing.Point(55, 21);
-            this.lbl_logout.Name = "lbl_logout";
-            this.lbl_logout.Size = new System.Drawing.Size(40, 16);
-            this.lbl_logout.TabIndex = 1;
-            this.lbl_logout.Text = "注销";
-            this.lbl_logout.Click += new System.EventHandler(this.picBox_logout_Click);
-            // 
-            // lbl_register
-            // 
-            this.lbl_register.AutoSize = true;
-            this.lbl_register.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lbl_register.Location = new System.Drawing.Point(55, 22);
-            this.lbl_register.Name = "lbl_register";
-            this.lbl_register.Size = new System.Drawing.Size(40, 16);
-            this.lbl_register.TabIndex = 1;
-            this.lbl_register.Text = "注册";
-            this.lbl_register.Click += new System.EventHandler(this.picBox_register_Click);
             // 
             // lbl_selfCheck
             // 
@@ -384,56 +435,6 @@
             this.flowLayoutPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Panel_MouseDown);
             this.flowLayoutPanel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Panel_MouseMove);
             // 
-            // panel_register
-            // 
-            this.panel_register.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(97)))), ((int)(((byte)(94)))));
-            this.panel_register.Controls.Add(this.lbl_register);
-            this.panel_register.Controls.Add(this.picBox_register);
-            this.panel_register.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.panel_register.Location = new System.Drawing.Point(0, 68);
-            this.panel_register.Name = "panel_register";
-            this.panel_register.Size = new System.Drawing.Size(119, 59);
-            this.panel_register.TabIndex = 0;
-            this.panel_register.Click += new System.EventHandler(this.picBox_register_Click);
-            // 
-            // picBox_register
-            // 
-            this.picBox_register.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picBox_register.Image = global::Doctor.Properties.Resources.注册2;
-            this.picBox_register.Location = new System.Drawing.Point(15, 13);
-            this.picBox_register.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
-            this.picBox_register.Name = "picBox_register";
-            this.picBox_register.Size = new System.Drawing.Size(34, 34);
-            this.picBox_register.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBox_register.TabIndex = 0;
-            this.picBox_register.TabStop = false;
-            this.picBox_register.Click += new System.EventHandler(this.picBox_register_Click);
-            // 
-            // panel_logout
-            // 
-            this.panel_logout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(97)))), ((int)(((byte)(94)))));
-            this.panel_logout.Controls.Add(this.lbl_logout);
-            this.panel_logout.Controls.Add(this.picBox_logout);
-            this.panel_logout.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.panel_logout.Location = new System.Drawing.Point(0, 3);
-            this.panel_logout.Name = "panel_logout";
-            this.panel_logout.Size = new System.Drawing.Size(119, 59);
-            this.panel_logout.TabIndex = 3;
-            this.panel_logout.Click += new System.EventHandler(this.picBox_logout_Click);
-            // 
-            // picBox_logout
-            // 
-            this.picBox_logout.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picBox_logout.Image = global::Doctor.Properties.Resources.注销1;
-            this.picBox_logout.Location = new System.Drawing.Point(15, 12);
-            this.picBox_logout.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
-            this.picBox_logout.Name = "picBox_logout";
-            this.picBox_logout.Size = new System.Drawing.Size(34, 34);
-            this.picBox_logout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBox_logout.TabIndex = 0;
-            this.picBox_logout.TabStop = false;
-            this.picBox_logout.Click += new System.EventHandler(this.picBox_logout_Click);
-            // 
             // lbl_loc
             // 
             this.lbl_loc.AutoSize = true;
@@ -445,13 +446,13 @@
             // 
             // lbl_imStatus
             // 
-            this.lbl_imStatus.AutoSize = true;
-            this.lbl_imStatus.Location = new System.Drawing.Point(836, 563);
+            this.lbl_imStatus.Location = new System.Drawing.Point(631, 563);
             this.lbl_imStatus.Name = "lbl_imStatus";
-            this.lbl_imStatus.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.lbl_imStatus.Size = new System.Drawing.Size(89, 12);
+            this.lbl_imStatus.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.lbl_imStatus.Size = new System.Drawing.Size(294, 12);
             this.lbl_imStatus.TabIndex = 0;
             this.lbl_imStatus.Text = "即时通讯未连接";
+            this.lbl_imStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panel
             // 
@@ -484,6 +485,12 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBox_login)).EndInit();
             this.panel2.ResumeLayout(false);
+            this.panel_register.ResumeLayout(false);
+            this.panel_register.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_register)).EndInit();
+            this.panel_logout.ResumeLayout(false);
+            this.panel_logout.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_logout)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -503,12 +510,6 @@
             this.panel_selfInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBox_selfInfo)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
-            this.panel_register.ResumeLayout(false);
-            this.panel_register.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picBox_register)).EndInit();
-            this.panel_logout.ResumeLayout(false);
-            this.panel_logout.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picBox_logout)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

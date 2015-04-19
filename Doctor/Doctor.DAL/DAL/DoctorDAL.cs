@@ -14,8 +14,8 @@ namespace Doctor.DAL
         {
             try
             {
-                SqlHelper.ExecuteNonQuery(@"insert into Doctor(hospital_id, password, name, photoPath, licenseNo, licensePath, ifAuth, realname)
-				values(@hospital_id, @password, @name, @photoPath, @licenseNo, @licensePath, @ifAuth, @realname)",
+                SqlHelper.ExecuteNonQuery(@"insert into Doctor(hospital_id, password, name, photoPath, licenseNo, licensePath, ifAuth, realname, introduction)
+				values(@hospital_id, @password, @name, @photoPath, @licenseNo, @licensePath, @ifAuth, @realname, @introduction)",
                     new SqlParameter("@hospital_id", SqlHelper.ToDBValue(doctor.Hospital_id)),
                     new SqlParameter("@password", doctor.Password),
                     new SqlParameter("@name", doctor.Name),
@@ -23,7 +23,8 @@ namespace Doctor.DAL
                     new SqlParameter("@licenseNo", SqlHelper.ToDBValue(doctor.LicenseNo)),
                     new SqlParameter("@licensePath", SqlHelper.ToDBValue(doctor.LicensePath)),
                     new SqlParameter("@ifAuth", doctor.IfAuth),
-                    new SqlParameter("@realname", SqlHelper.ToDBValue(doctor.RealName))
+                    new SqlParameter("@realname", SqlHelper.ToDBValue(doctor.RealName)),
+                    new SqlParameter("@introduction", SqlHelper.ToDBValue(doctor.Introduction))
                 );
                 return true;
             }
@@ -59,7 +60,8 @@ namespace Doctor.DAL
 				licenseNo = @licenseNo,
 				licensePath = @licensePath,
 				ifAuth = @ifAuth,
-                realname = @realname
+                realname = @realname,
+                introduction = @introduction
 				where doc_id = @doc_id",
                     new SqlParameter("@hospital_id", SqlHelper.ToDBValue(doctor.Hospital_id)),
                     new SqlParameter("@password", doctor.Password),
@@ -69,6 +71,7 @@ namespace Doctor.DAL
                     new SqlParameter("@licensePath", SqlHelper.ToDBValue(doctor.LicensePath)),
                     new SqlParameter("@ifAuth", doctor.IfAuth),
                     new SqlParameter("@realname", doctor.RealName),
+                    new SqlParameter("@introduction", SqlHelper.ToDBValue(doctor.Introduction)),
                     new SqlParameter("@doc_id", doctor.Doc_id)
                 );
                 return true;
@@ -140,6 +143,7 @@ namespace Doctor.DAL
             doctor.LicensePath = (System.String)SqlHelper.FromDBValue(row["licensePath"]);
             doctor.IfAuth = (System.Boolean)row["ifAuth"];
             doctor.RealName = (System.String)SqlHelper.FromDBValue(row["realname"]);
+            doctor.Introduction = (System.String)SqlHelper.FromDBValue(row["introduction"]);
             return doctor;
         }
 

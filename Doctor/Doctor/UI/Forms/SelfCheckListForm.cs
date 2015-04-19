@@ -89,6 +89,9 @@ namespace Doctor.UI.Forms
         /// <param name="e"></param>
         private void SelfCheckListForm_Load(object sender, EventArgs e)
         {
+            //国际化
+            InitLanguage();
+
             //显示用户名
             lbl_username.Text = patientName;
 
@@ -112,7 +115,14 @@ namespace Doctor.UI.Forms
                     {
                         TimeSpan timeSpan = DateTime.Now - (DateTime)patient.Date_of_birth;
                         int age = timeSpan.Days / 365;
-                        ChangeAgeLabel(age + "岁");
+                        if (ResourceCulture.GetCurrentCultureName().Equals("zh-CN"))
+                        {
+                            ChangeAgeLabel(age + "岁");
+                        }
+                        else
+                        {
+                            ChangeAgeLabel(age.ToString());
+                        }
                     }
                     else
                     {
@@ -144,12 +154,22 @@ namespace Doctor.UI.Forms
                     }
                     else
                     {
-                        MessageBox.Show("网络异常");
+                        MyMessageBox.Show(ResourceCulture.GetString("network_error"));
                     }
                 }
 
                 ChangeFormCursor(Cursors.Default);
             }).Start();
+        }
+
+        private void InitLanguage()
+        {
+            groupBox1.Text = ResourceCulture.GetString("self_info");
+
+            link_addContact.Text = ResourceCulture.GetString("add_contact");
+
+            dataGridView1.Columns["Time"].HeaderText = ResourceCulture.GetString("upload_time");
+            dataGridView1.Columns["Description"].HeaderText = ResourceCulture.GetString("description");
         }
 
         private class ExRecordModel : RecordModel
@@ -161,7 +181,7 @@ namespace Doctor.UI.Forms
                 this.Time = record.Time;
                 this.User_id = record.User_id;
                 this.Citycode = record.Citycode;
-                this.Area = GeneralHelper.GetAreaName(this.Citycode);
+                this.Area = GeneralHelper.GetAreaName(this.Citycode, ResourceCulture.GetCurrentCultureName());
             }
 
             public string Area { get; set; }
@@ -189,7 +209,7 @@ namespace Doctor.UI.Forms
             }
             else
             {
-                MessageBox.Show("请选择数据后重试！");
+                MyMessageBox.Show(ResourceCulture.GetString("please_select_data"));
             }
         }
 
@@ -201,7 +221,87 @@ namespace Doctor.UI.Forms
         private void link_addContact_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             MyIMClient.AddContact(patientName);
-            MessageBox.Show("添加成功");
+            MyMessageBox.Show(ResourceCulture.GetString("insert_complete"));
+        }
+
+        /// <summary>
+        /// 列标题点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            var col = dataGridView1.Columns[e.ColumnIndex];
+
+            if (!col.DataPropertyName.Equals("Time"))
+            {
+                return;
+            }
+
+            List<ExRecordModel> list = dataGridView1.DataSource as List<ExRecordModel>;
+            if (col.HeaderCell.SortGlyphDirection == SortOrder.Ascending || col.HeaderCell.SortGlyphDirection == SortOrder.None)
+            {
+                list.Sort(TimeDecComparison);
+                col.HeaderCell.SortGlyphDirection = SortOrder.Descending;
+            }
+            else
+            {
+                list.Sort(TimeAscComparison);
+                col.HeaderCell.SortGlyphDirection = SortOrder.Ascending;
+            }
+            dataGridView1.Refresh();
+        }
+
+        /// <summary>
+        /// 自检时间按倒序排列
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        private static int TimeDecComparison(ExRecordModel x, ExRecordModel y)
+        {
+            return -x.Time.CompareTo(y.Time);
+        }
+
+        /// <summary>
+        /// 自检时间按顺序排列
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        private static int TimeAscComparison(ExRecordModel x, ExRecordModel y)
+        {
+            return x.Time.CompareTo(y.Time);
+        }
+
+        private Point mPoint = new Point();
+
+        private void Panel_MouseDown(object sender, MouseEventArgs e)
+        {
+            FlowLayoutPanel panel = sender as FlowLayoutPanel;
+
+            mPoint.X = e.X + panel.Left;
+            mPoint.Y = e.Y + panel.Top;
+        }
+
+        private void Panel_MouseMove(object sender, MouseEventArgs e)
+        {
+           if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                Point newPoint = MousePosition;
+                newPoint.Offset(-mPoint.X, -mPoint.Y);
+                Location = newPoint;
+            }
+        }
+
+        private void picBox_minimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void picBox_close_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

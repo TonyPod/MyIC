@@ -52,14 +52,14 @@ namespace Doctor.UI.Forms
         {
             if (string.IsNullOrEmpty(tb_username.Text.Trim()))
             {
-                MessageBox.Show("请输入用户名");
+                MyMessageBox.Show(ResourceCulture.GetString("please_input_username"));
                 cb_groups.Focus();
                 return;
             }
 
             if (cb_groups.SelectedIndex == -1)
             {
-                MessageBox.Show("请选择分组");
+                MyMessageBox.Show(ResourceCulture.GetString("please_choose_group"));
                 cb_groups.Focus();
                 return;
             }
@@ -68,14 +68,14 @@ namespace Doctor.UI.Forms
             string username = tb_username.Text.Trim();
             if (username.Equals(LoginStatus.UserInfo.Name))
             {
-                MessageBox.Show("不能添加自己");
+                MyMessageBox.Show(ResourceCulture.GetString("cannot_add_yourself"));
                 return;
             }
 
             //检查是否已经添加
             if (MyIMClient.HasContact(username))
             {
-                MessageBox.Show("已添加该用户");
+                MyMessageBox.Show(ResourceCulture.GetString("user_already_added"));
                 return;
             }
 
@@ -89,7 +89,7 @@ namespace Doctor.UI.Forms
                 {
                     if (string.IsNullOrEmpty(result))
                     {
-                        MessageBox.Show("网络故障");
+                        MyMessageBox.Show(ResourceCulture.GetString("network_error"));
                         return;
                     }
 
@@ -98,7 +98,7 @@ namespace Doctor.UI.Forms
                     string state = (string)jObjRes["state"];
                     if ("not exist".Equals(state))
                     {
-                        MessageBox.Show("用户名不存在");
+                        MyMessageBox.Show(ResourceCulture.GetString("username_not_exist"));
                         tb_username.Focus();
                         return;
                     }
@@ -132,6 +132,36 @@ namespace Doctor.UI.Forms
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private Point mPoint = new Point();
+
+        private void Panel_MouseDown(object sender, MouseEventArgs e)
+        {
+            FlowLayoutPanel panel = sender as FlowLayoutPanel;
+
+            mPoint.X = e.X + panel.Left;
+            mPoint.Y = e.Y + panel.Top;
+        }
+
+        private void Panel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                Point newPoint = MousePosition;
+                newPoint.Offset(-mPoint.X, -mPoint.Y);
+                Location = newPoint;
+            }
+        }
+
+        private void picBox_minimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void picBox_close_Click(object sender, EventArgs e)
         {
             this.Close();
         }

@@ -13,6 +13,7 @@ namespace Doctor.Model
         public System.String Description { get; set; }
         public System.DateTime Time { get; set; }
         public System.String Citycode { get; set; }
+        public System.Double? Score { get; set; }
     }
 
 }

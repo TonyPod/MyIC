@@ -2,7 +2,7 @@
 #include "illnessAnalysis.h"
 #include <opencv\highgui.h>
 
-int detectIllness(IplImage *img, IplImage *markers, int toothIndex)
+int detectOuterIllness(IplImage *img, IplImage *markers, int toothIndex)
 {
 	int result = 0;
 

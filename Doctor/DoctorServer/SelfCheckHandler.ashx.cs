@@ -27,6 +27,7 @@ namespace DoctorServer
                 this.Time = record.Time;
                 this.User_id = record.User_id;
                 this.Username = UserDAL.GetById(record.User_id).Name;
+                this.Score = record.Score;
             }
             public string Username { get; set; }
         }
@@ -96,6 +97,20 @@ namespace DoctorServer
 
                 byte[] bytes = Encoding.UTF8.GetBytes(jObj.ToString());
                 context.Response.OutputStream.Write(bytes, 0, bytes.Length);
+            }
+            else if (requestStr.StartsWith("Record_id: "))
+            {
+                //返回指定编号的自检信息
+                long record_id;
+                if (long.TryParse(requestStr.Substring("Record_id: ".Length), out record_id))
+                {
+                    var record = RecordDAL.GetById(record_id);
+
+                    string json = JsonConvert.SerializeObject(record);
+
+                    byte[] bytes = Encoding.UTF8.GetBytes(json);
+                    context.Response.OutputStream.Write(bytes, 0, bytes.Length);
+                }
             }
             else
             {

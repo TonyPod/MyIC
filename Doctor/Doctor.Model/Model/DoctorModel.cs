@@ -17,6 +17,7 @@ namespace Doctor.Model
         public System.String LicensePath { get; set; }
         public System.Boolean IfAuth { get; set; }
         public System.String RealName { get; set; }
+        public System.String Introduction { get; set; }
     }
 
 }

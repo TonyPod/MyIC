@@ -16,32 +16,55 @@ namespace DoctorServer
     /// </summary>
     public class UserRegisterHandler : IHttpHandler
     {
-
         public void ProcessRequest(HttpContext context)
         {
             StreamReader reader = new StreamReader(context.Request.InputStream, Encoding.UTF8);
             string requestStr = reader.ReadToEnd();
 
-            UserModel userModel = JsonConvert.DeserializeObject<UserModel>(requestStr);
-            JObject jObj = new JObject();
+            UserModel userModel = new UserModel();
+            JObject jObj = JObject.Parse(requestStr);
+            userModel.Name = jObj["name"].ToString();
+            userModel.Password = jObj["password"].ToString();
+
+            if (jObj["male"] == null || string.IsNullOrEmpty(jObj["male"].ToString()))
+            {
+                userModel.Male = null;
+            }
+            else
+            {
+                userModel.Male = bool.Parse(jObj["male"].ToString());
+            }
+
+            if (jObj["date_of_birth"] == null ||
+                string.IsNullOrEmpty(jObj["date_of_birth"].ToString()))
+            {
+                userModel.Date_of_birth = null;
+            }
+            else
+            {
+                userModel.Date_of_birth = DateTime.Parse(jObj["date_of_birth"].ToString());
+            }
+
+            JObject jResponse = new JObject();
 
             //检查用户名是否存在
             if (DoctorDAL.CheckUsernameExist(userModel.Name))
             {
-                jObj.Add("state", "username exist");
+                jResponse.Add("state", "username exist");
             }
             else
             {
                 if (UserDAL.Insert(userModel))
                 {
-                    jObj.Add("state", "success");
+                    jResponse.Add("state", "success");
                 }
                 else
                 {
-                    jObj.Add("state", "failed");
+                    jResponse.Add("state", "failed");
                 }
             }
-            byte[] buf = Encoding.UTF8.GetBytes(jObj.ToString());
+
+            byte[] buf = Encoding.UTF8.GetBytes(jResponse.ToString());
             context.Response.OutputStream.Write(buf, 0, buf.Length);
         }
 

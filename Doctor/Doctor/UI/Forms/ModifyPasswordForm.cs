@@ -1,4 +1,5 @@
-﻿using Doctor.Util;
+﻿using Doctor.UI.Forms;
+using Doctor.Util;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,6 @@ namespace Doctor.Forms
             string oldPwd = tb_oldPassword.Text;
             if (string.IsNullOrEmpty(oldPwd))
             {
-                MessageBox.Show("请输入旧密码");
                 tb_oldPassword.Focus();
                 return;
             }
@@ -36,7 +36,6 @@ namespace Doctor.Forms
             string newPwd = tb_newPassword.Text;
             if (string.IsNullOrEmpty(newPwd))
             {
-                MessageBox.Show("请输入新密码");
                 tb_newPassword.Focus();
                 return;
             }
@@ -45,7 +44,7 @@ namespace Doctor.Forms
             string newPwdAgain = tb_newPasswordAgain.Text;
             if (!newPwdAgain.Equals(newPwd))
             {
-                MessageBox.Show("两次输入密码不相符");
+                MyMessageBox.Show(ResourceCulture.GetString("password_do_not_match"));
                 tb_newPasswordAgain.Focus();
                 return;
             }
@@ -67,7 +66,7 @@ namespace Doctor.Forms
                     //连接失败
                     if (null == result)
                     {
-                        MessageBox.Show("连接失败");
+                        MyMessageBox.Show(ResourceCulture.GetString("network_error"));
                         return;
                     }
 
@@ -77,15 +76,15 @@ namespace Doctor.Forms
                     switch (state)
                     {
                         case "success":
-                            MessageBox.Show("修改成功");
+                            MyMessageBox.Show(ResourceCulture.GetString("modify_complete"));
                             this.Close();
                             break;
                         case "password error":
-                            MessageBox.Show("密码错误");
+                            MyMessageBox.Show(ResourceCulture.GetString("password_error"));
                             tb_oldPassword.Focus();
                             break;
                         case "failed":
-                            MessageBox.Show("修改密码失败");
+                            MyMessageBox.Show(ResourceCulture.GetString("modify_failed"));
                             break;
                         default:
                             break;
@@ -126,6 +125,48 @@ namespace Doctor.Forms
         {
             //标题栏文字
             this.Text = ResourceCulture.GetString("ModifyPasswordForm_text");
+
+            InitLanguage();
+        }
+
+        private void InitLanguage()
+        {
+            btn_confirm.Text = ResourceCulture.GetString("btn_confirm");
+            btn_cancel.Text = ResourceCulture.GetString("btn_cancel");
+
+            label1.Text = ResourceCulture.GetString("old_password");
+            label2.Text = ResourceCulture.GetString("new_password");
+            label3.Text = ResourceCulture.GetString("new_password_again");
+        }
+
+        private Point mPoint = new Point();
+
+        private void Panel_MouseDown(object sender, MouseEventArgs e)
+        {
+            FlowLayoutPanel panel = sender as FlowLayoutPanel;
+
+            mPoint.X = e.X + panel.Left;
+            mPoint.Y = e.Y + panel.Top;
+        }
+
+        private void Panel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                Point newPoint = MousePosition;
+                newPoint.Offset(-mPoint.X, -mPoint.Y);
+                Location = newPoint;
+            }
+        }
+
+        private void picBox_minimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void picBox_close_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

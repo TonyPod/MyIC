@@ -40,6 +40,7 @@ namespace Doctor.UI.Forms
         public const int MAX_HEIGHT = 768;
         public const int MAX_WIDTH = 1024;
 
+        private Color myForeColor = Color.FromArgb(245, 252, 255); 
 
         private void ChangeUsernameExistVisibility(bool visibility)
         {
@@ -112,6 +113,44 @@ namespace Doctor.UI.Forms
         {
             //窗口标题栏
             this.Text = ResourceCulture.GetString("RegisterForm_text");
+
+            tabControl1.Controls[0].Text = ResourceCulture.GetString("basic_info");
+            tabControl1.Controls[1].Text = ResourceCulture.GetString("auth_info");
+
+            lbl_username.Text = ResourceCulture.GetString("username");
+            lbl_password.Text = ResourceCulture.GetString("password");
+            lbl_passwordAgain.Text = ResourceCulture.GetString("input_again");
+            label4.Text = ResourceCulture.GetString("self_photo");
+            lbl_usernameExist.Text = ResourceCulture.GetString("username_exist");
+            lbl_realname.Text = ResourceCulture.GetString("real_name");
+            lbl_licenseNo.Text = ResourceCulture.GetString("license_no");
+            lbl_hospital.Text = ResourceCulture.GetString("select_hospital");
+            lbl_licensePhoto.Text = ResourceCulture.GetString("license_photo");
+            lbl_license.Text = ResourceCulture.GetString("no_pic_selected");
+            lbl_photo.Text = ResourceCulture.GetString("no_pic_selected");
+
+            btn_confirm.Text = ResourceCulture.GetString("btn_confirm");
+            btn_cancel.Text = ResourceCulture.GetString("btn_cancel");
+            btn_selectLicense.Text = ResourceCulture.GetString("btn_select_pic");
+            btn_selectPhoto.Text = ResourceCulture.GetString("btn_select_pic");
+            btn_selectLicense.Text = ResourceCulture.GetString("btn_select_pic");
+
+            //省市县根据语言显示
+            switch (ResourceCulture.GetCurrentCultureName())
+            {
+                case "zh-CN":
+                    cb_province.DisplayMember = "Province";
+                    cb_city.DisplayMember = "City";
+                    cb_area.DisplayMember = "Area";
+                    break;
+                case "en-US":
+                    cb_province.DisplayMember = "EN_US";
+                    cb_city.DisplayMember = "EN_US";
+                    cb_area.DisplayMember = "EN_US";
+                    break;
+                default:
+                    break;
+            }
         }
 
         /// <summary>     
@@ -130,7 +169,6 @@ namespace Doctor.UI.Forms
             GeneralHelper.LoadLocationData();
 
             cb_province.DataSource = GeneralHelper.Provinces;
-            cb_province.DisplayMember = "province";
 
             lbl_usernameExist.Visible = false;
 
@@ -176,7 +214,8 @@ namespace Doctor.UI.Forms
             string username = tb_username.Text.Trim();
             if (string.IsNullOrEmpty(username))
             {
-                MessageBox.Show("请输入用户名");
+                tabControl1.SelectedTab = tabControl1.TabPages[0];
+                MyMessageBox.Show(ResourceCulture.GetString("please_input_username"));
                 tb_username.Focus();
                 return;
             }
@@ -185,7 +224,8 @@ namespace Doctor.UI.Forms
             string password = tb_password.Text;
             if (string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("请输入密码");
+                tabControl1.SelectedTab = tabControl1.TabPages[0];
+                MyMessageBox.Show(ResourceCulture.GetString("please_input_password"));
                 tb_password.Focus();
                 return;
             }
@@ -194,13 +234,15 @@ namespace Doctor.UI.Forms
             string passwordAgain = tb_passwordAgain.Text;
             if (string.IsNullOrEmpty(passwordAgain))
             {
-                MessageBox.Show("请再次输入密码");
+                tabControl1.SelectedTab = tabControl1.TabPages[0];
+                MyMessageBox.Show(ResourceCulture.GetString("please_input_password_again"));
                 tb_passwordAgain.Focus();
                 return;
             }
             if (!password.Equals(passwordAgain))
             {
-                MessageBox.Show("两次输入密码不一致");
+                tabControl1.SelectedTab = tabControl1.TabPages[0];
+                MyMessageBox.Show(ResourceCulture.GetString("password_do_not_match"));
                 tb_passwordAgain.Focus();
                 return;
             }
@@ -208,7 +250,8 @@ namespace Doctor.UI.Forms
             //4.个人照片
             if (string.IsNullOrEmpty(photoPath))
             {
-                MessageBox.Show("请选择个人照片");
+                tabControl1.SelectedTab = tabControl1.TabPages[0];
+                MyMessageBox.Show(ResourceCulture.GetString("please_choose_self_photo"));
                 return;
             }
 
@@ -217,7 +260,8 @@ namespace Doctor.UI.Forms
             string realName = tb_realname.Text.Trim();
             if (string.IsNullOrEmpty(realName))
             {
-                MessageBox.Show("请输入真实姓名");
+                tabControl1.SelectedTab = tabControl1.TabPages[1];
+                MyMessageBox.Show(ResourceCulture.GetString("please_input_real_name"));
                 tb_realname.Focus();
                 return;
             }
@@ -225,28 +269,32 @@ namespace Doctor.UI.Forms
             //2.省市县医院选择
             if (cb_province.SelectedIndex < 0)
             {
-                MessageBox.Show("请选择省份");
+                tabControl1.SelectedTab = tabControl1.TabPages[1];
+                MyMessageBox.Show(ResourceCulture.GetString("please_select_province"));
                 cb_province.Focus();
                 return;
             }
 
             if (cb_city.SelectedIndex < 0)
             {
-                MessageBox.Show("请选择城市");
+                tabControl1.SelectedTab = tabControl1.TabPages[1];
+                MyMessageBox.Show(ResourceCulture.GetString("please_select_city"));
                 cb_city.Focus();
                 return;
             }
 
             if (cb_area.SelectedIndex < 0)
             {
-                MessageBox.Show("请选择区域");
+                tabControl1.SelectedTab = tabControl1.TabPages[1];
+                MyMessageBox.Show(ResourceCulture.GetString("please_select_area"));
                 cb_area.Focus();
                 return;
             }
 
             if (cb_hospital.SelectedIndex < 0)
             {
-                MessageBox.Show("请选择医院");
+                tabControl1.SelectedTab = tabControl1.TabPages[1];
+                MyMessageBox.Show(ResourceCulture.GetString("please_select_hospital"));
                 cb_hospital.Focus();
                 return;
             }
@@ -255,20 +303,23 @@ namespace Doctor.UI.Forms
             string licenseNo = tb_license.Text.Trim();
             if (string.IsNullOrEmpty(licenseNo))
             {
-                MessageBox.Show("请输入执业医师证编码");
+                tabControl1.SelectedTab = tabControl1.TabPages[1];
+                MyMessageBox.Show(ResourceCulture.GetString("please_input_license_no"));
                 tb_license.Focus();
                 return;
             }
             if (licenseNo.Length != 24 && licenseNo.Length != 27)
             {
-                MessageBox.Show("执业医师证编码不合法，请重新输入");
+                tabControl1.SelectedTab = tabControl1.TabPages[1];
+                MyMessageBox.Show(ResourceCulture.GetString("illegal_license_no"));
                 tb_license.Focus();
                 return;
             }
 
             if (string.IsNullOrEmpty(licensePath))
             {
-                MessageBox.Show("请选择执业医师证图片");
+                tabControl1.SelectedTab = tabControl1.TabPages[1];
+                MyMessageBox.Show(ResourceCulture.GetString("please_choose_license_photo"));
                 return;
             }
 
@@ -346,7 +397,7 @@ namespace Doctor.UI.Forms
                 SafeChangeCursor(Cursors.Default);
                 if (string.IsNullOrEmpty(result))
                 {
-                    MessageBox.Show("网络异常");
+                    MyMessageBox.Show(ResourceCulture.GetString("network_error"));
                 }
                 else
                 {
@@ -354,15 +405,15 @@ namespace Doctor.UI.Forms
                     string state = (string)jObj["state"];
                     if ("username exist".Equals(state))
                     {
-                        MessageBox.Show("用户名已存在");
+                        MyMessageBox.Show(ResourceCulture.GetString("username_exist"));
                     }
                     else if ("failed".Equals(state))
                     {
-                        MessageBox.Show("注册失败，请重新尝试！");
+                        MyMessageBox.Show(ResourceCulture.GetString("register_failed"));
                     }
                     else if ("success".Equals(state))
                     {
-                        MessageBox.Show("注册成功，审核成功会在第一时间予以通知！");
+                        MyMessageBox.Show(ResourceCulture.GetString("register_success"));
                         SafeClose();
                     }
                 }
@@ -408,23 +459,31 @@ namespace Doctor.UI.Forms
                 FileInfo fileInfo = new FileInfo(photoPath);
                 if (fileInfo.Length > 2 * 1024 * 1024)
                 {
-                    MessageBox.Show("文件不能超过2M");
+                    MyMessageBox.Show(ResourceCulture.GetString("pic_no_more_than_2m"));
                     return;
                 }
 
                 //图片是否低于1024*768
-                using (Image image = Image.FromFile(photoPath))
+                try
                 {
-                    if (image.Width > MAX_WIDTH || image.Height > MAX_HEIGHT)
+                    using (Image image = Image.FromFile(photoPath))
                     {
-                        MessageBox.Show("图片大小不能超过1024x768");
-                        return;
+                        if (image.Width > MAX_WIDTH || image.Height > MAX_HEIGHT)
+                        {
+                            MyMessageBox.Show(ResourceCulture.GetString("pic_no_more_than_1024x768"));
+                            return;
+                        }
                     }
+                }
+                catch (OutOfMemoryException)
+                {
+                    MyMessageBox.Show(ResourceCulture.GetString("illegal_pic_format"));
+                    return; 
                 }
                 
                 picBox_photo.Image = Image.FromFile(photoPath);
                 lbl_photo.Text = Path.GetFileName(photoPath);
-                lbl_photo.ForeColor = Color.Black;
+                lbl_photo.ForeColor = myForeColor;
             }
         }
 
@@ -441,24 +500,32 @@ namespace Doctor.UI.Forms
                 FileInfo fileInfo = new FileInfo(licensePath);
                 if (fileInfo.Length > 2 * 1024 * 1024)
                 {
-                    MessageBox.Show("文件不能超过2M");
+                    MyMessageBox.Show(ResourceCulture.GetString("pic_no_more_than_2m"));
                     return;
                 }
 
                 //图片是否低于1024*768
-                using (Image image = Image.FromFile(licensePath))
+                try
                 {
-                    if (image.Width > MAX_WIDTH || image.Height > MAX_HEIGHT)
+                    using (Image image = Image.FromFile(licensePath))
                     {
-                        MessageBox.Show("图片大小不能超过1024x768");
-                        return;
+                        if (image.Width > MAX_WIDTH || image.Height > MAX_HEIGHT)
+                        {
+                            MyMessageBox.Show(ResourceCulture.GetString("pic_no_more_than_1024x768"));
+                            return;
+                        }
                     }
+                }
+                catch (OutOfMemoryException)
+                {
+                    MyMessageBox.Show(ResourceCulture.GetString("illegal_pic_format"));
+                    return; 
                 }
 
                 picBox_license.Image = Image.FromFile(licensePath);
 
-                lbl_license.Text = licensePath;
-                lbl_license.ForeColor = Color.Black;
+                lbl_license.Text = Path.GetFileName(licensePath);
+                lbl_license.ForeColor = myForeColor;
             }
         }
 
@@ -471,7 +538,6 @@ namespace Doctor.UI.Forms
         {
             Hat_provinceModel province = (Hat_provinceModel)cb_province.SelectedItem;
             cb_city.DataSource = GeneralHelper.GetCitiesByProvince(province);
-            cb_city.DisplayMember = "city";
         }
 
         /// <summary>
@@ -483,7 +549,6 @@ namespace Doctor.UI.Forms
         {
             Hat_cityModel city = (Hat_cityModel)cb_city.SelectedItem;
             cb_area.DataSource = GeneralHelper.GetAreasByCity(city); 
-            cb_area.DisplayMember = "area";
         }
 
         private class Hospital 
@@ -534,6 +599,36 @@ namespace Doctor.UI.Forms
             {
                 Confirm();
             }
+        }
+
+        private Point mPoint = new Point();
+
+        private void Panel_MouseDown(object sender, MouseEventArgs e)
+        {
+            FlowLayoutPanel panel = sender as FlowLayoutPanel;
+
+            mPoint.X = e.X + panel.Left;
+            mPoint.Y = e.Y + panel.Top;
+        }
+
+        private void Panel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                Point newPoint = MousePosition;
+                newPoint.Offset(-mPoint.X, -mPoint.Y);
+                Location = newPoint;
+            }
+        }
+
+        private void picBox_minimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void picBox_close_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

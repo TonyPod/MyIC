@@ -91,7 +91,6 @@ void GetLabelsMat(vector<char *> fileNames, Mat& mat)
 	}
 }
 
-
 void ExtFeatureMat(vector<char *> fileNames, Mat& inputsMat)
 {
 	int nbSamples = fileNames.size();
@@ -99,12 +98,10 @@ void ExtFeatureMat(vector<char *> fileNames, Mat& inputsMat)
 	//存放灰度分布的数组
 	int bins[256];
 	float mean;
-	int nb20, nb50, nb80;
-
+	int nb10_100[10];
 	IplConvKernel *kernel = cvCreateStructuringElementEx(5, 5, 2, 2, CV_SHAPE_ELLIPSE, NULL);
 
 	//1.提取特征向量
-
 	for (int i = 0; i < nbSamples; i++)
 	{
 		char *fileName = fileNames.at(i);
@@ -115,12 +112,19 @@ void ExtFeatureMat(vector<char *> fileNames, Mat& inputsMat)
 		cvCvtColor(oriImg, gray, CV_BGR2GRAY);
 
 		//0.预处理
-		//利用开操作去除亮斑
+		//0.1 直方图均衡
+		cvEqualizeHist(gray, gray);
+
+		//0.2 利用开操作去除亮斑
 		cvMorphologyEx(gray, gray, NULL, kernel, CV_MOP_OPEN, 1);
+
+		for (int j = 0; j < 10; j++)
+		{
+			nb10_100[j] = 0;
+		}
 
 		//1.灰度重心
 		mean = 0;
-		nb20 = nb50 = nb80 = 0;
 		memset(bins, 0, sizeof(bins));
 		for (int m = 0; m < gray->height; m++)
 		{
@@ -129,17 +133,9 @@ void ExtFeatureMat(vector<char *> fileNames, Mat& inputsMat)
 				uchar grayVal = CV_IMAGE_ELEM(gray, uchar, m, n);
 				bins[grayVal]++;
 				mean += grayVal;
-				if (grayVal < 20)
+				if (grayVal < 100)
 				{
-					nb20++;
-				}
-				else if (grayVal < 50)
-				{
-					nb50++;
-				}
-				else if (grayVal < 80)
-				{
-					nb80++;
+					nb10_100[grayVal / 10]++;
 				}
 			}
 		}
@@ -147,17 +143,20 @@ void ExtFeatureMat(vector<char *> fileNames, Mat& inputsMat)
 
 		//2.灰度峰值
 		int max = 0;
-		int j = 0;
-		while (bins[j++] == 0);
-		max = j;
+		int j = 1;
+		while (j < 256)
+		{
+			if (bins[j] > bins[max])
+			{
+				max = j;
+			}
+			++j;
+		}
 
 		//输出结果
 		printf("文件名：%s\n", fileName);
 		printf("灰度重心：%f\n", mean);
 		printf("灰度峰值：%d\n", max);
-		printf("低于20：%d\n", nb20);
-		printf("低于50：%d\n", nb50);
-		printf("低于80：%d\n", nb80);
 
 		//3.Hu不变矩
 		CvMoments moments;
@@ -175,9 +174,12 @@ void ExtFeatureMat(vector<char *> fileNames, Mat& inputsMat)
 		vector<double> vec;
 		vec.push_back(mean);
 		vec.push_back(max);
-		vec.push_back(nb20);
-		vec.push_back(nb50);
-		vec.push_back(nb80);
+
+		for (int j = 0; j < 10; j++)
+		{
+			vec.push_back(nb10_100[j]);
+		}
+
 		vec.push_back(hu_moments.hu1);
 		vec.push_back(hu_moments.hu2);
 		vec.push_back(hu_moments.hu3);
@@ -226,11 +228,13 @@ int main(void)
 	ann.train(inputsMat, outputsMat, Mat(), Mat(), params);
 	ann.save("params.xml");
 
-	Mat inputsMat2 = inputsMat.clone();
-	Mat outputsMat2 = Mat(outputsMat.rows, outputsMat.cols, CV_64FC1);
-
 	CvANN_MLP ann2;
 	ann2.load("params.xml");
+	//Mat inputsMat2 = Mat(1, inputsMat.cols, CV_64FC1);
+	//Mat outputsMat2 = Mat(1, nbKind, CV_64FC1);
+	
+	Mat inputsMat2 = inputsMat.clone();
+	Mat outputsMat2 = Mat(outputsMat.rows, outputsMat.cols, CV_64FC1);
 	ann2.predict(inputsMat2, outputsMat2);
 
 	int nbCorrect = 0;

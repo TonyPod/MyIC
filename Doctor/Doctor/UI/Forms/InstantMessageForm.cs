@@ -1,6 +1,7 @@
 ﻿using Doctor.Model;
 using Doctor.Properties;
 using Doctor.UI.Forms;
+using Doctor.Util;
 using DoctorClient;
 using Newtonsoft.Json;
 using System;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -18,9 +20,19 @@ namespace Doctor.Forms
 {
     public partial class InstantMessageForm : Form
     {
+        private static Font MsgContentFont = new Font("宋体", 9);
+        private static Font MsgRcvFont = new Font("宋体", 9);
+        private static Font MsgSendFont = new Font("宋体", 9);
+
+        private static Color MsgContentColor = Color.FromArgb(255, 255, 255);
+        private static Color MsgRcvColor = Color.FromArgb(203, 203, 203);
+        private static Color MsgSendColor = Color.FromArgb(245, 185, 153);
+
         private const int MAXLEN_MSG = 250;
         public string PatientName { get { return patientName; } }
         private string patientName;
+
+        private RTFDoc rtf = new RTFDoc();
 
         public InstantMessageForm(string patientName)
         {
@@ -41,10 +53,18 @@ namespace Doctor.Forms
 
         private void ShowMsg(Msg msg)
         {
-            tb_history.AppendText(string.Format("{0} {1}", msg.Time, msg.From) + Environment.NewLine);
-            tb_history.AppendText(msg.Content + Environment.NewLine);
-            tb_history.AppendText(Environment.NewLine);
+            //InsertMsg(msg);
+            if (msg.To.Equals(patientName))
+            {
+                rtf.InsertMsg(msg, RTFDoc.MsgTypeEnum.Send);
+            }
+            else
+            {
+                rtf.InsertMsg(msg, RTFDoc.MsgTypeEnum.Rcv);
+            }
+            tb_history.Rtf = rtf.ToString();
 
+            tb_history.SelectionStart = tb_history.TextLength;
             tb_history.ScrollToCaret();
         }
 
@@ -58,7 +78,7 @@ namespace Doctor.Forms
 
             if (content.Length > MAXLEN_MSG)
             {
-                MessageBox.Show("文本过长，请分条发送");
+                MyMessageBox.Show(ResourceCulture.GetString("msg_too_long"));
                 tb_input.Focus();
                 tb_input.SelectAll();
                 return;
@@ -74,7 +94,7 @@ namespace Doctor.Forms
             }
             else
             {
-                MessageBox.Show("发送失败");
+                MyMessageBox.Show(ResourceCulture.GetString("send_failed"));
             }
         }
 
@@ -106,19 +126,30 @@ namespace Doctor.Forms
                                                where msg.To.Equals(patientName)
                                                select msg).OrderBy(c => c.Time);
 
-            StringBuilder builder = new StringBuilder();
+            //StringBuilder builder = new StringBuilder();
             foreach (var msg in msgs)
             {
-                builder.AppendFormat("{0} {1}", msg.Time.ToLocalTime().ToString(), msg.From).AppendLine();
-                builder.AppendLine(msg.Content);
-                builder.AppendLine();
+                if (msg.To.Equals(patientName))
+                {
+                    rtf.InsertMsg(msg, RTFDoc.MsgTypeEnum.Send);
+                }
+                else
+                {
+                    rtf.InsertMsg(msg, RTFDoc.MsgTypeEnum.Rcv);
+                }
+
+                //InsertMsg(msg);
+
+                //builder.AppendFormat("{0} {1}", msg.Time.ToLocalTime().ToString(), msg.From).AppendLine();
+                //builder.AppendLine(msg.Content);
+                //builder.AppendLine();
             }
 
             if (msgs.Count() > 0)
             {
-                builder.AppendLine();
-                builder.AppendLine("----------历史消息----------");
-                builder.AppendLine();
+                tb_history.AppendLine();
+                tb_history.AppendLine("----------" + ResourceCulture.GetString("history_msg") + "----------");
+                tb_history.AppendLine();
             }
 
             var unreadMsgs = from msg in MyIMClient.UnreadMsgs
@@ -127,12 +158,14 @@ namespace Doctor.Forms
 
             foreach (var msg in unreadMsgs)
             {
-                builder.AppendFormat("{0} {1}", msg.Time.ToLocalTime().ToString(), msg.From).AppendLine();
-                builder.AppendLine(msg.Content);
-                builder.AppendLine();
+                rtf.InsertMsg(msg, RTFDoc.MsgTypeEnum.Rcv);
+                //InsertMsg(msg);
             }
 
-            tb_history.AppendText(builder.ToString());
+            tb_history.Rtf = rtf.ToString();
+
+            //滚动到最后
+            tb_history.SelectionStart = tb_history.TextLength;
             tb_history.ScrollToCaret();
 
             //移出离线消息
@@ -141,8 +174,52 @@ namespace Doctor.Forms
             //离线信息改变则刷新
             MyIMClient.OfflineMsgChanged += MyIMClient_OfflineMsgChanged;
 
+            //点击超链接事件
+            tb_history.LinkClicked += tb_history_LinkClicked;
+
+            //界面语言改变事件
+            ResourceCulture.LanguageChanged += ResourceCulture_LanguageChanged;
+
             tb_input.Focus();
         }
+
+        void ResourceCulture_LanguageChanged(EventArgs e)
+        {
+            InitLanguage();
+        }
+
+        void tb_history_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            long record_id;
+            string recordStr = e.LinkText.Substring(e.LinkText.LastIndexOf('/') + 1);
+            if (long.TryParse(recordStr, out record_id))
+            {
+                SelfCheckDetailForm form = new SelfCheckDetailForm(record_id);
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.Show();
+            }
+        }
+
+        //private void InsertMsg(Msg msg)
+        //{
+        //    if (msg.From.Equals(LoginStatus.UserInfo.Name))
+        //    {
+        //        //收到信息
+        //        tb_history.AppendLine(string.Format("{0} {1}", msg.Time.ToLocalTime().ToString(), msg.From),
+        //            MsgRcvFont, MsgRcvColor, HorizontalAlignment.Left);
+        //        tb_history.AppendLine(msg.Content, MsgContentFont, MsgContentColor, HorizontalAlignment.Left);
+        //    }
+        //    else
+        //    {
+        //        //发送信息
+        //        tb_history.AppendLine(string.Format("{0} {1}", msg.Time.ToLocalTime().ToString(), msg.From),
+        //            MsgSendFont, MsgSendColor, HorizontalAlignment.Left);
+        //        tb_history.AppendLine(msg.Content, MsgContentFont, MsgContentColor, HorizontalAlignment.Left);
+
+        //    }
+
+        //    tb_history.AppendLine();
+        //}
 
         private void MyIMClient_OfflineMsgChanged(OfflineMsgEventArgs e)
         {
@@ -224,6 +301,8 @@ namespace Doctor.Forms
         private void InstantMessageForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             MyIMClient.OfflineMsgChanged -= MyIMClient_OfflineMsgChanged;
+
+            ResourceCulture.LanguageChanged -= ResourceCulture_LanguageChanged;
         }
 
         /// <summary>
@@ -238,6 +317,11 @@ namespace Doctor.Forms
             form.ShowDialog();
         }
 
+        private void picBox_close_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
         ///// <summary>
         ///// 退出窗口时删除所有与该用户通讯的离线信息
         ///// </summary>
@@ -248,5 +332,30 @@ namespace Doctor.Forms
         //    //移出离线消息
         //    MyIMClient.RemoveAllMsgs(patientName);
         //}
+
+        private Point mPoint = new Point();
+
+        private void Panel_MouseDown(object sender, MouseEventArgs e)
+        {
+            FlowLayoutPanel panel = sender as FlowLayoutPanel;
+
+            mPoint.X = e.X + panel.Left;
+            mPoint.Y = e.Y + panel.Top;
+        }
+
+        private void Panel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                Point newPoint = MousePosition;
+                newPoint.Offset(-mPoint.X, -mPoint.Y);
+                Location = newPoint;
+            }
+        }
+
+        private void picBox_minimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
     }
 }

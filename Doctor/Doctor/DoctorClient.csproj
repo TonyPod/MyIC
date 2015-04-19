@@ -66,14 +66,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClassEx.cs" />
-    <Compile Include="ConnectingEventArgs.cs" />
-    <Compile Include="ContactsEventArgs.cs" />
-    <Compile Include="GeneralHelper.cs" />
-    <Compile Include="HttpHelper.cs" />
+    <Compile Include="UI\Forms\MyMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\MyMessageBox.Designer.cs">
+      <DependentUpon>MyMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ClassEx.cs" />
+    <Compile Include="EventArgs\ConnectingEventArgs.cs" />
+    <Compile Include="EventArgs\ConnectionSuspendedEventArgs.cs" />
+    <Compile Include="EventArgs\ContactsEventArgs.cs" />
+    <Compile Include="Util\GeneralHelper.cs" />
+    <Compile Include="Util\HttpHelper.cs" />
     <Compile Include="LoginStatus.cs" />
-    <Compile Include="MyIMClient.cs" />
-    <Compile Include="OfflineMsgEventArgs.cs" />
+    <Compile Include="Util\MyIMClient.cs" />
+    <Compile Include="EventArgs\OfflineMsgEventArgs.cs" />
     <Compile Include="Resource.zh-CN.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -199,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\ModifyPasswordForm.resx">
       <DependentUpon>ModifyPasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\MyMessageBox.resx">
+      <DependentUpon>MyMessageBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\NewRegisterForm.resx">
       <DependentUpon>NewRegisterForm.cs</DependentUpon>
@@ -332,6 +342,21 @@
     <None Include="Resources\注销1.png" />
     <None Include="Resources\背景2.png" />
     <None Include="Resources\close.png" />
+    <None Include="Resources\close1.png" />
+    <None Include="Resources\close2.png" />
+    <None Include="Resources\minimize.png" />
+    <None Include="Resources\背景%28灰%29.png" />
+    <None Include="Resources\医生.png" />
+    <None Include="Resources\医生2.png" />
+    <None Include="Resources\医生%28灰%29.png" />
+    <None Include="Resources\Logo.png" />
+    <None Include="Resources\Logo2.png" />
+    <None Include="Resources\light.png" />
+    <None Include="Resources\medium.png" />
+    <None Include="Resources\normal.png" />
+    <None Include="Resources\severe.png" />
+    <None Include="Resources\unanalyzed.png" />
+    <None Include="Resources\license.png" />
     <Content Include="项目1.ico" />
   </ItemGroup>
   <ItemGroup>

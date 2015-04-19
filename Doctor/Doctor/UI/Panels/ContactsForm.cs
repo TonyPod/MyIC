@@ -25,6 +25,8 @@ namespace Doctor.Panels
     {
         //子聊天窗体
         private Dictionary<string, InstantMessageForm> imForms = new Dictionary<string,InstantMessageForm>();
+        private static Color MyRed = Color.FromArgb(245, 185, 153);
+        private static Color MyBlack = Color.FromArgb(245, 252, 255);
 
         public ContactsForm()
         {
@@ -40,17 +42,30 @@ namespace Doctor.Panels
         {
             if (!MyIMClient.Connected)
             {
-                if (MessageBox.Show("即时通讯服务器未连接，是否需要重连", "未连接", MessageBoxButtons.YesNo) 
-                    == System.Windows.Forms.DialogResult.Yes)
+                if (MyIMClient.IsConnecting)
                 {
-                    ConnectIMServerAsync();
+                    MyMessageBox.Show(ResourceCulture.GetString("connecting_please_wait"));
+                }
+                else
+                {
+                    if (MyMessageBox.Show(ResourceCulture.GetString("sure_to_connect_again"), ResourceCulture.GetString("unconnected"),
+                        MyMessageBox.MyMessageBoxButtons.YesNo)
+                        == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        ConnectIMServerAsync();
+                    }
                 }
                 return;
             }
 
+            if (lastIdx == -1)
+            {
+                return;
+            }
+
             ListView listView = sender as ListView;
-            System.Windows.Forms.ListView.SelectedListViewItemCollection collection = listView.SelectedItems;
-            string patientName = collection[0].Text;
+            var selectedItem = listView.Items[lastIdx];
+            string patientName = selectedItem.Text;
 
             if (imForms.ContainsKey(patientName))
             {
@@ -84,6 +99,12 @@ namespace Doctor.Panels
             //初始化通讯录列表显示
             InitListView();
 
+            //初始化语言
+            InitLanguage();
+
+            //语言更改的事件
+            ResourceCulture.LanguageChanged += ResourceCulture_LanguageChanged;
+
             //连接成功则注册事件
             MyIMClient.ConnectionEstablished += MyIMClient_ConnectionEstablished;
             
@@ -92,6 +113,26 @@ namespace Doctor.Panels
 
             //尝试连接
             ConnectIMServerAsync();
+        }
+
+        void ResourceCulture_LanguageChanged(EventArgs e)
+        {
+            InitLanguage();
+        }
+
+        private void InitLanguage()
+        {
+            lv_contacts.Groups["stranger"].Header = ResourceCulture.GetString("stranger");
+            lv_contacts.Groups["friend"].Header = ResourceCulture.GetString("friend");
+
+            lv_contacts.Columns[0].Text = ResourceCulture.GetString("username");
+            lv_contacts.Columns[1].Text = ResourceCulture.GetString("unread_msg_num");
+
+            menuItem_addContact.Text = ResourceCulture.GetString("btn_add_contact");
+            menuItem_del.Text = ResourceCulture.GetString("btn_delete");
+            menuItem_friend.Text = ResourceCulture.GetString("btn_friend");
+            menuItem_stranger.Text = ResourceCulture.GetString("btn_stranger");
+            dropDown_groups.Text = ResourceCulture.GetString("btn_move_to");
         }
 
         void MyIMClient_ConnectionClosed()
@@ -222,11 +263,11 @@ namespace Doctor.Panels
                 lv_contacts.Items[i].SubItems[1].Text = num.ToString();
                 if (num > 0)
                 {
-                    lv_contacts.Items[i].ForeColor = Color.Red;
+                    lv_contacts.Items[i].ForeColor = MyRed;
                 }
                 else
                 {
-                    lv_contacts.Items[i].ForeColor = Color.Black;
+                    lv_contacts.Items[i].ForeColor = MyBlack;
                 }
             }
             else
@@ -237,11 +278,11 @@ namespace Doctor.Panels
                 item.SubItems.Add(num.ToString());
                 if (num > 0)
                 {
-                    item.ForeColor = Color.Red;
+                    item.ForeColor = MyRed;
                 }
                 else
                 {
-                    item.ForeColor = Color.Black;
+                    item.ForeColor = MyBlack;
                 }
                 lv_contacts.Items.Add(item);
             } 
@@ -308,51 +349,27 @@ namespace Doctor.Panels
 
         private void DeleteSelectedItem()
         {
-            if (lv_contacts.SelectedItems.Count == 0)
+            if (lastIdx == -1)
             {
                 return;
             }
 
-            ListViewItem selectedItem = lv_contacts.SelectedItems[0];
+            ListViewItem selectedItem = lv_contacts.Items[lastIdx];
             string username = selectedItem.Text;
-            if (MessageBox.Show("是否要删除联系人" + username, "删除", MessageBoxButtons.YesNo)
+            if (MyMessageBox.Show(ResourceCulture.GetString("sure_to_delete_contact") + " " + username, 
+                ResourceCulture.GetString("delete"), MyMessageBox.MyMessageBoxButtons.YesNo)
                 == System.Windows.Forms.DialogResult.Yes)
             {
                 MyIMClient.RemoveContact(username);
             }
-        }
-        
-        /// <summary>
-        /// 点击鼠标右键显示菜单
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void lv_contacts_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
-            {
-                if (lv_contacts.SelectedItems.Count == 1)
-                {
-                    ListViewItem selectedItem = lv_contacts.SelectedItems[0];
-                    string username = selectedItem.Text;
 
-                    foreach (ToolStripMenuItem item in dropDown_groups.DropDownItems)
-                    {
-                        item.Checked = item.Text.Equals(selectedItem.Group.Header);
-                    }
-                    itemContextMenuStrip.Show(lv_contacts, e.Location);
-                }
-                else
-                {
-                    lvContextMenuStrip.Show(lv_contacts, e.Location);
-                }
-            }
+            lastIdx = -1;
         }
 
         void item_Click(object sender, EventArgs e)
         {
             ToolStripMenuItem item = sender as ToolStripMenuItem;
-            ChangeSelectedItemToGroup(item.Text);
+            ChangeSelectedItemToGroup(item.Name.Substring("menuItem".Length + 1));
         }
 
         /// <summary>
@@ -378,12 +395,12 @@ namespace Doctor.Panels
         /// <param name="groupName">指定组名称</param>
         private void ChangeSelectedItemToGroup(string groupName)
         {
-            if (lv_contacts.SelectedItems.Count == 0)
+            if (lastIdx == -1)
             {
                 return;
             }
 
-            ListViewItem selectedItem = lv_contacts.SelectedItems[0];
+            ListViewItem selectedItem = lv_contacts.Items[lastIdx];
             string username = selectedItem.Text;
 
             MyIMClient.ChangeGroup(username, groupName);
@@ -420,11 +437,90 @@ namespace Doctor.Panels
 
             MyIMClient.OfflineMsgChanged -= MyIMClient_OfflineMsgChanged;
 
+            ResourceCulture.LanguageChanged -= ResourceCulture_LanguageChanged;
+
             //关闭所有的子聊天窗体
             var forms = imForms.Values.ToArray();
             for (int i = forms.Length - 1; i >= 0; i--)
             {
                 forms[i].Close();
+            }
+        }
+
+        //之所以用lastIdx保存选中的联系人只是希望改变选中后的背景颜色（蓝色（默认）->黑色）
+        private int lastIdx = -1;
+        private bool indexChanged = false;
+
+        private void lv_contacts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lv_contacts.SelectedIndices.Count == 0)
+            {
+                return;
+            }
+
+            int idx = lv_contacts.SelectedIndices[0];
+            if (idx >= 0)
+            {
+                lv_contacts.Items[idx].Selected = false;
+                lv_contacts.Items[idx].BackColor = Color.Black;
+            }
+            if (lastIdx >= 0 && idx != lastIdx)
+            {
+                //上一次选中的颜色恢复
+                lv_contacts.Items[lastIdx].BackColor = lv_contacts.BackColor;
+            }
+            lastIdx = idx;
+            indexChanged = true;
+        }
+
+        /// <summary>
+        /// 点击鼠标右键显示菜单
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lv_contacts_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (!MyIMClient.Connected)
+            {
+                return;
+            }
+
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                if (indexChanged)
+                {
+                    ListViewItem selectedItem = lv_contacts.Items[lastIdx];
+                    string username = selectedItem.Text;
+
+                    foreach (ToolStripMenuItem item in dropDown_groups.DropDownItems)
+                    {
+                        item.Checked = item.Text.Equals(selectedItem.Group.Header);
+                    }
+                    itemContextMenuStrip.Show(lv_contacts, e.Location);
+
+                    indexChanged = false;
+                }
+                else
+                {
+                    lvContextMenuStrip.Show(lv_contacts, e.Location);
+                }
+            }
+        }
+
+        private void lv_contacts_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != System.Windows.Forms.MouseButtons.Left)
+            {
+                return;
+            }
+
+            if (lv_contacts.SelectedItems.Count == 0 && lastIdx != -1)
+            {
+                if (lv_contacts.Items[lastIdx].BackColor != Color.Black)
+                {
+                    lv_contacts.Items[lastIdx].BackColor = lv_contacts.BackColor;
+                    lastIdx = -1;
+                }
             }
         }
     }

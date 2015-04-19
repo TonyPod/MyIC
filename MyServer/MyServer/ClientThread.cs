@@ -171,6 +171,13 @@ namespace MyServer
                 //将图片发送给即时通讯服务器
                 Msg msg = new Msg("PhotoAnalyzer", username, fileName);
                 Util.SendMsgAsync(msg);
+                
+                //保存分析结果到数据库
+                CVResultModel result = new CVResultModel();
+                result.Path = fileName;
+                result.Teeth_illnesses = string.Join("_", ints.Select(i => i.ToString()).ToArray());
+                result.Teeth_num = nbTeeth;
+                CVResultDAL.Insert(result);
             }
             catch (Exception e)
             {

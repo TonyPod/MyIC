@@ -15,13 +15,14 @@ namespace Doctor.DAL
             try
             {
                 //这里的result居然是decimal类型
-                decimal result = (decimal)SqlHelper.ExecuteScalar(@"insert into Record(user_id, description, answers, time, citycode)
-				values(@user_id, @description, @answers, @time, @citycode) select @@identity",
+                decimal result = (decimal)SqlHelper.ExecuteScalar(@"insert into Record(user_id, description, answers, time, citycode, score)
+				values(@user_id, @description, @answers, @time, @citycode, @score) select @@identity",
                     new SqlParameter("@user_id", record.User_id),
                     new SqlParameter("@description", SqlHelper.ToDBValue(record.Description)),
                     new SqlParameter("@answers", SqlHelper.ToDBValue(record.Answers)),
                     new SqlParameter("@time", record.Time),
-                    new SqlParameter("@citycode", SqlHelper.ToDBValue(record.Citycode))
+                    new SqlParameter("@citycode", SqlHelper.ToDBValue(record.Citycode)),
+                    new SqlParameter("@score", SqlHelper.ToDBValue(record.Score))
                 );
                 
                 return decimal.ToInt64(result);
@@ -55,13 +56,15 @@ namespace Doctor.DAL
 				description = @description,
                 answers = @answers
 				time = @time,
-                citycode = @citycode
+                citycode = @citycode,
+                score = @score
 				where record_id = @record_id",
                     new SqlParameter("@user_id", record.User_id),
                     new SqlParameter("@description", SqlHelper.ToDBValue(record.Description)),
                     new SqlParameter("@answers", SqlHelper.ToDBValue(record.Answers)),
                     new SqlParameter("@time", record.Time),
                     new SqlParameter("@citycode", SqlHelper.ToDBValue(record.Citycode)),
+                    new SqlParameter("@score", SqlHelper.ToDBValue(record.Score)),
                     new SqlParameter("@record_id", record.Record_id)
                 );
                 return true;
@@ -111,6 +114,7 @@ namespace Doctor.DAL
             record.Answers = (System.String)SqlHelper.FromDBValue(row["answers"]);
             record.Time = (System.DateTime)row["time"];
             record.Citycode = (System.String)SqlHelper.FromDBValue(row["citycode"]);
+            record.Score = (System.Double?)SqlHelper.FromDBValue(row["score"]);
             return record;
         }
 
@@ -202,6 +206,28 @@ namespace Doctor.DAL
                 records[i] = ToModel(table.Rows[i]);
             }
             return records;
+        }
+
+        /// <summary>
+        /// 更新分数
+        /// </summary>
+        /// <param name="score"></param>
+        public static bool UpdateScore(float score, long record_id)
+        {
+            try
+            {
+                SqlHelper.ExecuteNonQuery(@"update Record set
+                    score = @score
+				    where record_id = @record_id",
+                    new SqlParameter("@score", SqlHelper.ToDBValue(score)),
+                    new SqlParameter("@record_id", record_id)
+                );
+                return true;
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
         }
     }
 

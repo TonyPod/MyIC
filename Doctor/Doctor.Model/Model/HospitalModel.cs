@@ -12,8 +12,8 @@ namespace Doctor.Model
         public System.String Address { get; set; }
         public System.Double Latitude { get; set; }
         public System.Double Longitude { get; set; }
-
         public System.Int32 Area_id { get; set; }
+        public System.String Introduction { get; set; }
     }
 
 }

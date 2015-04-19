@@ -6,7 +6,7 @@
       <Value Profile="(Default)">10000</Value>
     </Setting>
     <Setting Name="serverIP" Type="System.String" Scope="User">
-      <Value Profile="(Default)">127.0.0.1</Value>
+      <Value Profile="(Default)">121.42.136.178</Value>
     </Setting>
   </Settings>
 </SettingsFile>

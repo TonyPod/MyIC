@@ -135,3 +135,20 @@
    在 System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
    在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 132
 
+发生时间：2015/4/6 14:20:55
+错误原因：即时通讯服务器未启动
+
+发生时间：2015/4/6 14:24:23
+错误原因：即时通讯服务器未启动
+
+发生时间：2015/4/6 14:25:11
+错误原因：即时通讯服务器未启动
+
+发生时间：2015/4/11 14:24:57
+错误原因：System.IO.IOException: 无法将数据写入传输连接: 远程主机强迫关闭了一个现有的连接。。 ---> System.Net.Sockets.SocketException: 远程主机强迫关闭了一个现有的连接。
+   在 System.Net.Sockets.Socket.Send(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 System.Net.Sockets.NetworkStream.Write(Byte[] buffer, Int32 offset, Int32 size)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Net.Sockets.NetworkStream.Write(Byte[] buffer, Int32 offset, Int32 size)
+   在 MyServer.ClientThread.StartReceive() 位置 c:\Users\Tony\Documents\GitHub\MyIC\MyServer\MyServer\ClientThread.cs:行号 168
+

@@ -21,5 +21,6 @@ namespace Doctor.Model
         public string To { get; set; }
         public string Content { get; set; }
         public DateTime Time { get; set; }
+        public long? Record_id { get; set; }
     }
 }

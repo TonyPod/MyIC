@@ -44,10 +44,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChineseHelper.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="ImageUtil.cs" />
     <Compile Include="MD5.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RTFDoc.cs" />
+    <Compile Include="ScoreUtil.cs" />
+    <Compile Include="Severity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Doctor.Model\Doctor.Model.csproj">
+      <Project>{d6025d65-5ac6-41fd-bbd5-8f1a0cec000f}</Project>
+      <Name>Doctor.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

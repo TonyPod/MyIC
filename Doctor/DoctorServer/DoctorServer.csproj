@@ -77,6 +77,9 @@
     <Compile Include="DiagnosisHandler.ashx.cs">
       <DependentUpon>DiagnosisHandler.ashx</DependentUpon>
     </Compile>
+    <Compile Include="DoctorInfoHandler.ashx.cs">
+      <DependentUpon>DoctorInfoHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="DoctorInfoWebForm.aspx.cs">
       <DependentUpon>DoctorInfoWebForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -160,13 +163,14 @@
     <Content Include="PatientInfoHandler.ashx" />
     <Content Include="SelfCheckPhotosHandler.ashx" />
     <Content Include="SelfCheckPhotoDownloadHandler.ashx" />
-    <Content Include="HospitalInfoHandler.ashx" />
     <Content Include="CheckUsernameExistHandler.ashx" />
     <Content Include="DoctorListHandler.ashx" />
     <Content Include="UserLoginHandler.ashx" />
     <Content Include="UserRegisterHandler.ashx" />
     <Content Include="RecordHandler.ashx" />
     <Content Include="FindDocHandler.ashx" />
+    <Content Include="HospitalInfoHandler.ashx" />
+    <Content Include="DoctorInfoHandler.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

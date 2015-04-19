@@ -243,4 +243,310 @@
   <data name="settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="network_error" xml:space="preserve">
+    <value>Network Error</value>
+  </data>
+  <data name="auth_info" xml:space="preserve">
+    <value>Authentication Info</value>
+  </data>
+  <data name="basic_info" xml:space="preserve">
+    <value>Basic Info</value>
+  </data>
+  <data name="cannot_add_yourself" xml:space="preserve">
+    <value>Cannot Add Yourself</value>
+  </data>
+  <data name="ctrl_enter_to_send" xml:space="preserve">
+    <value>Press Ctrl+Enter to Send</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="doc_opinion" xml:space="preserve">
+    <value>Doctors' Comment</value>
+  </data>
+  <data name="enter_to_send" xml:space="preserve">
+    <value>Press Enter to Send</value>
+  </data>
+  <data name="friend" xml:space="preserve">
+    <value>Friend</value>
+  </data>
+  <data name="have_auth" xml:space="preserve">
+    <value>Authenticated</value>
+  </data>
+  <data name="history_msg" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="hospital_in" xml:space="preserve">
+    <value>Hospital</value>
+  </data>
+  <data name="illness_description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="insert_complete" xml:space="preserve">
+    <value>Insert Completed</value>
+  </data>
+  <data name="license_no" xml:space="preserve">
+    <value>License No</value>
+  </data>
+  <data name="license_photo" xml:space="preserve">
+    <value>License Photo</value>
+  </data>
+  <data name="location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="modify_complete" xml:space="preserve">
+    <value>Modify Completed</value>
+  </data>
+  <data name="modify_failed" xml:space="preserve">
+    <value>Modify Failed</value>
+  </data>
+  <data name="modify_password" xml:space="preserve">
+    <value>Modify Password</value>
+  </data>
+  <data name="msg_too_long" xml:space="preserve">
+    <value>Message Too Long</value>
+  </data>
+  <data name="new_password" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="new_password_again" xml:space="preserve">
+    <value>Input Again</value>
+  </data>
+  <data name="not_auth" xml:space="preserve">
+    <value>Not Authenticated</value>
+  </data>
+  <data name="not_auth_unable_to_comment" xml:space="preserve">
+    <value>Not Authenticated. Unable to Add Comments.</value>
+  </data>
+  <data name="not_written" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="old_password" xml:space="preserve">
+    <value>Old Password</value>
+  </data>
+  <data name="password_do_not_match" xml:space="preserve">
+    <value>Password Do not Match</value>
+  </data>
+  <data name="password_error" xml:space="preserve">
+    <value>Password Error</value>
+  </data>
+  <data name="please_choose_group" xml:space="preserve">
+    <value>Please Choose Group</value>
+  </data>
+  <data name="please_input_username" xml:space="preserve">
+    <value>Please Input Username</value>
+  </data>
+  <data name="please_input_your_comment" xml:space="preserve">
+    <value>Please Input Your Comment</value>
+  </data>
+  <data name="please_login" xml:space="preserve">
+    <value>Please Login</value>
+  </data>
+  <data name="please_select_data" xml:space="preserve">
+    <value>Please Select a Row</value>
+  </data>
+  <data name="real_name" xml:space="preserve">
+    <value>Real Name</value>
+  </data>
+  <data name="score" xml:space="preserve">
+    <value>Score</value>
+  </data>
+  <data name="self_check_info" xml:space="preserve">
+    <value>Self-check Record</value>
+  </data>
+  <data name="self_check_photo" xml:space="preserve">
+    <value>Photos</value>
+  </data>
+  <data name="self_photo" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="send_failed" xml:space="preserve">
+    <value>Send Failed</value>
+  </data>
+  <data name="stranger" xml:space="preserve">
+    <value>Stranger</value>
+  </data>
+  <data name="submit_complete" xml:space="preserve">
+    <value>Submit Completed</value>
+  </data>
+  <data name="submit_failed" xml:space="preserve">
+    <value>Submit Failed</value>
+  </data>
+  <data name="sure_to_connect_again" xml:space="preserve">
+    <value>Connect Again?</value>
+  </data>
+  <data name="sure_to_delete_contact" xml:space="preserve">
+    <value>Sure to Delete</value>
+  </data>
+  <data name="sure_to_logout" xml:space="preserve">
+    <value>Sure to Logout?</value>
+  </data>
+  <data name="sure_to_quit" xml:space="preserve">
+    <value>Sure to Quit?</value>
+  </data>
+  <data name="unconnected" xml:space="preserve">
+    <value>Unconnected</value>
+  </data>
+  <data name="unread_msg_num" xml:space="preserve">
+    <value>Unread Messages</value>
+  </data>
+  <data name="upload_time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="username_not_exist" xml:space="preserve">
+    <value>Username not Exist</value>
+  </data>
+  <data name="user_already_added" xml:space="preserve">
+    <value>User Already in Your Contacts</value>
+  </data>
+  <data name="btn_select_pic" xml:space="preserve">
+    <value>Select(&amp;S)</value>
+  </data>
+  <data name="data_error" xml:space="preserve">
+    <value>Data Error</value>
+  </data>
+  <data name="input_again" xml:space="preserve">
+    <value>Input Again</value>
+  </data>
+  <data name="no_pic_selected" xml:space="preserve">
+    <value>No Picture Selected</value>
+  </data>
+  <data name="please_input_password" xml:space="preserve">
+    <value>Please Input Password</value>
+  </data>
+  <data name="please_input_password_again" xml:space="preserve">
+    <value>Please Input Password Again</value>
+  </data>
+  <data name="select_hospital" xml:space="preserve">
+    <value>Hospital</value>
+  </data>
+  <data name="username_exist" xml:space="preserve">
+    <value>Username Exists</value>
+  </data>
+  <data name="out_of_memory" xml:space="preserve">
+    <value>Out of Memory</value>
+  </data>
+  <data name="btn_confirm" xml:space="preserve">
+    <value>Confirm(&amp;O)</value>
+  </data>
+  <data name="degree" xml:space="preserve">
+    <value>Degree</value>
+  </data>
+  <data name="connect_timeout" xml:space="preserve">
+    <value>Timeout</value>
+  </data>
+  <data name="im_connection_failed" xml:space="preserve">
+    <value>Connection Failed</value>
+  </data>
+  <data name="im_offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="im_online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="login_again" xml:space="preserve">
+    <value>Login again</value>
+  </data>
+  <data name="pushed_aside" xml:space="preserve">
+    <value>Your account was login in other place. Login again?</value>
+  </data>
+  <data name="unable_to_locate" xml:space="preserve">
+    <value>Unable to Locate</value>
+  </data>
+  <data name="btn_add_contact" xml:space="preserve">
+    <value>Add Contact(&amp;A)</value>
+  </data>
+  <data name="btn_delete" xml:space="preserve">
+    <value>Delete(&amp;D)</value>
+  </data>
+  <data name="btn_friend" xml:space="preserve">
+    <value>Friend(&amp;F)</value>
+  </data>
+  <data name="btn_move_to" xml:space="preserve">
+    <value>Move to(&amp;M)</value>
+  </data>
+  <data name="btn_stranger" xml:space="preserve">
+    <value>Stranger(&amp;S)</value>
+  </data>
+  <data name="file_corrupted" xml:space="preserve">
+    <value>File Corrupted</value>
+  </data>
+  <data name="light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="medium" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="severe" xml:space="preserve">
+    <value>Severe</value>
+  </data>
+  <data name="unanalyzed" xml:space="preserve">
+    <value>Unanalyzed</value>
+  </data>
+  <data name="e_dentist" xml:space="preserve">
+    <value>eDentist is a portable dental diagnosis platform. Users take photos of their teeth using smartphones or special device. After uploading to the cloud, our server analyze them, give certain advice and recommend dental clinics nearby. All the verified dentists can view those photos and description, and give them more useful advice</value>
+  </data>
+  <data name="btn_no" xml:space="preserve">
+    <value>No(&amp;N)</value>
+  </data>
+  <data name="btn_yes" xml:space="preserve">
+    <value>Yes(&amp;Y)</value>
+  </data>
+  <data name="connecting_please_wait" xml:space="preserve">
+    <value>Connecting... Please wait</value>
+  </data>
+  <data name="illegal_license_no" xml:space="preserve">
+    <value>Illegal License No</value>
+  </data>
+  <data name="illegal_pic_format" xml:space="preserve">
+    <value>Illegal Picture Format</value>
+  </data>
+  <data name="pic_no_more_than_1024x768" xml:space="preserve">
+    <value>Photo No More Than 1024x768</value>
+  </data>
+  <data name="pic_no_more_than_2m" xml:space="preserve">
+    <value>Photo No More Than 2M</value>
+  </data>
+  <data name="please_choose_license_photo" xml:space="preserve">
+    <value>Please Choose Your License Photo</value>
+  </data>
+  <data name="please_choose_self_photo" xml:space="preserve">
+    <value>Please Choose Your Photo</value>
+  </data>
+  <data name="please_input_license_no" xml:space="preserve">
+    <value>Please Input Your License No</value>
+  </data>
+  <data name="please_input_real_name" xml:space="preserve">
+    <value>Please Input Your Real Name</value>
+  </data>
+  <data name="please_select_area" xml:space="preserve">
+    <value>Please Select Area</value>
+  </data>
+  <data name="please_select_city" xml:space="preserve">
+    <value>Please Select City</value>
+  </data>
+  <data name="please_select_hospital" xml:space="preserve">
+    <value>Please Select Hospital</value>
+  </data>
+  <data name="please_select_province" xml:space="preserve">
+    <value>Please Select Province</value>
+  </data>
+  <data name="register_failed" xml:space="preserve">
+    <value>Register Failed</value>
+  </data>
+  <data name="register_success" xml:space="preserve">
+    <value>Register Success</value>
+  </data>
+  <data name="btn_view_history" xml:space="preserve">
+    <value>View History(&amp;V)</value>
+  </data>
+  <data name="unhandled_exception" xml:space="preserve">
+    <value>Application Error. Please send the error log in the installation path to our hc_pod711@outlook.com for support.</value>
+  </data>
 </root>

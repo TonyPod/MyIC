@@ -26,9 +26,14 @@ typedef struct _Illnesses
 const int UPPERGINGIVA = 20;
 const int LOWERGINGIVA = 21;
 
+void saveIllnessInPic(IplImage *markers, vector<int> vec, const char *fileName);
 _declspec(dllexport) Illnesses _stdcall analyze(const char *fileName, const char *outputFileName);
 int getSeeds(CvSeq **seeds, IplImage *img, CvMemStorage *storages[]);
-void saveIllnessInPic(IplImage *markers, vector<int> vec, const char *fileName);
+
+//获取二值图像的最大连通域
+IplImage *getMaxRegion(IplImage *bw);
+
+IplImage *markers2Colors(IplImage *img0, IplImage *markers, int nbTeeth);
 
 const int ILLNESS_DECAY_MASK = 7;
 //疾病类型

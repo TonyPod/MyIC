@@ -1,11 +1,11 @@
-﻿生成启动时间为 2015/3/28 17:04:01。
+﻿生成启动时间为 2015/4/8 15:59:53。
      1>项目“C:\Users\Tony\Documents\GitHub\MyIC\MyServer\ANN_Train\ANN_Train.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
          main.cpp
      1>c:\users\tony\documents\github\myic\myserver\ann_train\main.cpp(76): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\users\tony\documents\github\myic\myserver\ann_train\main.cpp(189): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\users\tony\documents\github\myic\myserver\ann_train\main.cpp(240): warning C4018: “<”: 有符号/无符号不匹配
+     1>c:\users\tony\documents\github\myic\myserver\ann_train\main.cpp(191): warning C4018: “<”: 有符号/无符号不匹配
+     1>c:\users\tony\documents\github\myic\myserver\ann_train\main.cpp(244): warning C4018: “<”: 有符号/无符号不匹配
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Tony\Documents\GitHub\MyIC\MyServer\Debug\ANN_Train.exe" /INCREMENTAL /NOLOGO opencv_core249d.lib opencv_imgproc249d.lib opencv_highgui249d.lib opencv_objdetect249d.lib opencv_ml249d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Tony\Documents\GitHub\MyIC\MyServer\Debug\ANN_Train.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Tony\Documents\GitHub\MyIC\MyServer\Debug\ANN_Train.lib" /MACHINE:X86 Debug\main.obj
          ANN_Train.vcxproj -> C:\Users\Tony\Documents\GitHub\MyIC\MyServer\Debug\ANN_Train.exe
@@ -13,4 +13,4 @@
 
 生成成功。
 
-已用时间 00:00:05.84
+已用时间 00:00:03.02

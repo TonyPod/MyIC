@@ -1,4 +1,5 @@
 
+using Newtonsoft.Json;
 namespace Doctor.Model
 {
     public class Hat_areaModel
@@ -7,5 +8,7 @@ namespace Doctor.Model
         public System.String AreaID { get; set; }
         public System.String Area { get; set; }
         public System.String Father { get; set; }
+        [JsonProperty("en-US")]
+        public System.String EN_US { get; set; }
     }
 }

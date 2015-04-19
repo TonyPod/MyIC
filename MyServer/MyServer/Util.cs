@@ -48,18 +48,30 @@ namespace MyServer
         {
             new Thread(() =>
             {
-                IPEndPoint imEP = new IPEndPoint(IPAddress.Parse(serverIP), IMPort);
-                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                try
+                {
+                    IPEndPoint imEP = new IPEndPoint(IPAddress.Parse(serverIP), IMPort);
+                    Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-                socket.Connect(imEP);
-                socket.LingerState = new LingerOption(false, 1);
+                    socket.Connect(imEP);
+                    socket.LingerState = new LingerOption(false, 1);
 
-                JObject jObj = new JObject();
-                jObj.Add("type", "1");
-                jObj.Add("data", JsonConvert.SerializeObject(msg));
+                    JObject jObj = new JObject();
+                    jObj.Add("type", "1");
+                    jObj.Add("data", JsonConvert.SerializeObject(msg));
 
-                byte[] buf = Encoding.UTF8.GetBytes(jObj.ToString());
-                socket.Send(buf, 0, buf.Length, SocketFlags.None);
+                    byte[] buf = Encoding.UTF8.GetBytes(jObj.ToString());
+                    socket.Send(buf, 0, buf.Length, SocketFlags.None);
+
+                }
+                catch (Exception)
+                {
+                    StringBuilder builder = new StringBuilder();
+                    builder.AppendFormat("发生时间：{0}", DateTime.Now.ToString()).AppendLine();
+                    builder.AppendLine("错误原因：即时通讯服务器未启动");
+                    builder.AppendLine();
+                    Util.WriteToLog(builder.ToString());
+                }
 
             }).Start();
         }

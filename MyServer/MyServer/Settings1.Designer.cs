@@ -94,5 +94,14 @@ namespace MyServer {
                 this["AnalyzedFolder"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=121.42.136.178;Initial Catalog=Geek;uid=tony;pwd=040471;")]
+        public string ConnStr {
+            get {
+                return ((string)(this["ConnStr"]));
+            }
+        }
     }
 }

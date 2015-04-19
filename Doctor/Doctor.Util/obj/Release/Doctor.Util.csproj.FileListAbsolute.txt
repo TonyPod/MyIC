@@ -3,3 +3,6 @@ C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Util\bin\Release\Doctor.Util.p
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Util\bin\Release\Newtonsoft.Json.dll
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Util\obj\Release\Doctor.Util.dll
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Util\obj\Release\Doctor.Util.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Util\bin\Release\Doctor.Model.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Util\bin\Release\Doctor.Model.pdb
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Util\obj\Release\Doctor.Util.csprojResolveAssemblyReference.cache

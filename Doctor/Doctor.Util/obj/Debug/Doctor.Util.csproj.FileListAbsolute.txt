@@ -34,3 +34,5 @@ C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Util\bin\Debug\Newtonsoft.Json
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Util\obj\Debug\Doctor.Util.dll
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Util\obj\Debug\Doctor.Util.pdb
 C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Util\obj\Debug\Doctor.Util.csprojResolveAssemblyReference.cache
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Util\bin\Debug\Doctor.Model.dll
+C:\Users\Tony\Documents\GitHub\MyIC\Doctor\Doctor.Util\bin\Debug\Doctor.Model.pdb

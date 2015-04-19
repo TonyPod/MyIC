@@ -14,6 +14,7 @@ namespace Doctor
 
         public static event LoginStatusChangedEventHandler LoginStatusChanged;
 
+        public static bool Login { get { return userInfo != null; } }
         private static void OnLoginStatusChanged(EventArgs e)
         {
             if (LoginStatusChanged != null)

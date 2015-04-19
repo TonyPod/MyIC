@@ -14,8 +14,19 @@ namespace DoctorServer
 
         public void ProcessRequest(HttpContext context)
         {
-            StreamReader reader = new StreamReader(context.Request.InputStream);
-            string fileName = reader.ReadToEnd();
+            string fileName = null;
+            switch (context.Request.HttpMethod)
+            {
+                case "POST":
+                    StreamReader reader = new StreamReader(context.Request.InputStream);
+                    fileName = reader.ReadToEnd();
+                    break;
+                case "GET":
+                    fileName = context.Request.Params["fileName"];
+                    break;
+                default:
+                    break;
+            }
 
             context.Response.WriteFile(Path.Combine(context.Server.MapPath("~/UploadFiles/"), fileName));
         }

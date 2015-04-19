@@ -1,12 +1,16 @@
 ﻿using Doctor.DAL;
 using Doctor.DAL.DAL;
 using Doctor.Model;
+using Doctor.Model.Model;
+using Doctor.Util;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace DoctorServer
@@ -72,6 +76,32 @@ namespace DoctorServer
 
             byte[] buf = Encoding.UTF8.GetBytes(jObjSend.ToString());
             context.Response.OutputStream.Write(buf, 0, buf.Length);
+
+            Thread thread = new Thread(() =>
+            {
+                List<CVResultModel> results = new List<CVResultModel>();
+
+                //检查图片是否分析完成(是否Insert到CVResult中)
+                const int WAIT_TIME = 240;   //等待时间(如果240秒某张图片都没有传输成功且分析完成，则放弃)
+                foreach (string picName in picNames)
+                {
+                    //轮询
+                    for (int i = 0; i < WAIT_TIME; i++)
+                    {
+                        if (null != CVResultDAL.GetById(picName))
+                        {
+                            results.Add(CVResultDAL.GetById(picName));
+                            break;
+                        }
+                        Thread.Sleep(1000);
+                    }
+                }
+
+                //计算分数并保存
+                float score = ScoreUtil.GetScore(results);
+                RecordDAL.UpdateScore(score, record_id);
+            });
+            thread.Start();
         }
 
         public bool IsReusable

@@ -15,13 +15,14 @@ namespace Doctor.DAL
         {
             try
             {
-                SqlHelper.ExecuteNonQuery(@"insert into Hospital(name, address, latitude, longitude, area_id)
-				values(@name, @address, @latitude, @longitude, @area_id)",
+                SqlHelper.ExecuteNonQuery(@"insert into Hospital(name, address, latitude, longitude, area_id, introduction)
+				values(@name, @address, @latitude, @longitude, @area_id, @introduction)",
                     new SqlParameter("@name", hospital.Name),
                     new SqlParameter("@address", hospital.Address),
                     new SqlParameter("@latitude", hospital.Latitude),
                     new SqlParameter("@longitude", hospital.Longitude),
-                    new SqlParameter("@area_id", hospital.Area_id)
+                    new SqlParameter("@area_id", hospital.Area_id),
+                    new SqlParameter("@introduction", SqlHelper.ToDBValue(hospital.Introduction))
                 );
                 return true;
             }
@@ -54,13 +55,15 @@ namespace Doctor.DAL
 				address = @address,
 				latitude = @latitude,
 				longitude = @longitude,
-				area_id = @area_id
+				area_id = @area_id,
+                introduction = @introduction
 				where hospital_id = @hospital_id",
                     new SqlParameter("@name", hospital.Name),
                     new SqlParameter("@address", hospital.Address),
                     new SqlParameter("@latitude", hospital.Latitude),
                     new SqlParameter("@longitude", hospital.Longitude),
                     new SqlParameter("@area_id", hospital.Area_id),
+                    new SqlParameter("@introduction", SqlHelper.ToDBValue(hospital.Introduction)),
                     new SqlParameter("@hospital_id", hospital.Hospital_id)
                 );
                 return true;
@@ -110,6 +113,7 @@ namespace Doctor.DAL
             hospital.Latitude = (System.Double)row["latitude"];
             hospital.Longitude = (System.Double)row["longitude"];
             hospital.Area_id = (System.Int32)row["area_id"];
+            hospital.Introduction = (System.String)SqlHelper.FromDBValue(row["introduction"]);
             return hospital;
         }
 
